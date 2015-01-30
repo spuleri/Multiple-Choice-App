@@ -8,9 +8,12 @@
 		<br>
 		<br>
 		<div class="row">
-			<p>
-				Sign in or Create an Account in the nav bar
+			<p data-ng-hide="authentication.user">
+				Sign in or Create an Account in the nav bar.
 			</p>
+            <p data-ng-show="authentication.user">
+                Welcome, <span data-ng-bind="authentication.user.displayName"></span>.
+            </p>
 		</div>
 	</div>
 </section>
