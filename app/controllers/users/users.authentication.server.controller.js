@@ -14,7 +14,11 @@ var _ = require('lodash'),
  */
 exports.signup = function(req, res) {
 	// For security measurement we remove the roles from the req.body object
-	delete req.body.roles;
+
+	//Why did they remove rolse? We want to be able to assign roles upon signup ^^^^^^
+	//so comment out below line
+	
+	//delete req.body.roles;
 
 	// Init Variables
 	var user = new User(req.body);

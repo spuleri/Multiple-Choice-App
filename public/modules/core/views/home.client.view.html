@@ -13,6 +13,8 @@
 			</p>
             <p data-ng-show="authentication.user">
                 Welcome, <span data-ng-bind="authentication.user.displayName"></span>.
+                <!-Ternary expression to display if user's role is 'user' or 'admin'-->
+                You are a <strong>{{ authentication.user.roles == 'user' ? 'Student' : 'Professor'}}</strong>
             </p>
 		</div>
 	</div>
