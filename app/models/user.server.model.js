@@ -73,7 +73,6 @@ var UserSchema = new Schema({
 			type: String,
 			enum: ['user', 'admin']
 		}],
-		//had to remove 'default' to get data-ng-model to bind when admin -> NOPE
 		default: ['user']
 	},
 	updated: {
