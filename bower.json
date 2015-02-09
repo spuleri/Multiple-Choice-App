@@ -4,6 +4,8 @@
 	"description": "CEN3031 Project",
 	"dependencies": {
 		"bootstrap": "~3",
+		//added bootflat
+		"Bootflat": "~3",
 		"angular": "~1.2",
 		"angular-resource": "~1.2",
 		"angular-mocks": "~1.2",
