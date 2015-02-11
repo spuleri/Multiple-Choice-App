@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://kevin:kevin@ds043329.mongolab.com:43329/kevindb',
+    db: 'mongodb://kevin:kevin@ds043329.mongolab.com:43329/kevindb',
 	app: {
 		title: 'Multiple-Choice-App - Development Environment'
 	},

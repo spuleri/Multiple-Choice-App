@@ -13,18 +13,10 @@ var mongoose = require('mongoose'),
  * Create a Course
  */
 exports.create = function(req, res) {
-	console.log(req.user.displayName);
-	console.log(typeof req.user.roles);
-	console.log(req.user.roles);
-	//need to use single != bcs not the same type.
-	//cant use single != bcs using strict. roles is of type object^
-	//needs fixing
+
 	if(req.user.roles.toString() === 'admin') {
-
-		console.log('past the if statement');
-
 		var course = new Course(req.body);
-		course.user = req.user;
+		course.owner = req.user._id;
 
 		course.save(function(err) {
 			if (err) {
@@ -88,7 +80,7 @@ exports.delete = function(req, res) {
  * List of Courses
  */
 exports.list = function(req, res) { 
-	Course.find().sort('-created').populate('user', 'displayName').exec(function(err, courses) {
+	Course.find().sort('-created').populate('owner', 'displayName').exec(function(err, courses) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -103,7 +95,7 @@ exports.list = function(req, res) {
  * Course middleware
  */
 exports.courseByID = function(req, res, next, id) { 
-	Course.findById(id).populate('user', 'displayName').exec(function(err, course) {
+	Course.findById(id).populate('owner', 'displayName').exec(function(err, course) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));
 		req.course = course ;
@@ -115,7 +107,7 @@ exports.courseByID = function(req, res, next, id) {
  * Course authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.course.user.id !== req.user.id) {
+	if (req.course.owner.id !== req.user.id) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();

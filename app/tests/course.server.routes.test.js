@@ -11,7 +11,7 @@ var should = require('should'),
 /**
  * Globals
  */
-var credentials, user, course;
+var credentials, user_s, user_p, course;
 
 /**
  * Course routes tests
@@ -25,27 +25,43 @@ describe('Course CRUD tests', function() {
 		};
 
 		// Create a new user
-		user = new User({
+		user_s = new User({
 			firstName: 'Full',
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
+            ufid: '88888888',
+            gatorlink: 'crazyman',
 			username: credentials.username,
 			password: credentials.password,
 			provider: 'local'
 		});
 
+        user_p = new User({
+            firstName: 'Full',
+            lastName: 'Name',
+            displayName: 'Full Name',
+            email: 'test@test.com',
+            ufid: '88888888',
+            gatorlink: 'crazyman',
+            roles: 'admin',
+            username: credentials.username,
+            password: credentials.password,
+            provider: 'local'
+        });
+
 		// Save a user to the test db and create new Course
-		user.save(function() {
+		user_p.save(function() {
 			course = {
-				name: 'Course Name'
+				name: 'Course Name',
+                owner: user_p._id
 			};
 
 			done();
 		});
 	});
 
-	it('should be able to save Course instance if logged in', function(done) {
+	it('should be able to save Course instance if logged in as admin', function(done) {
 		agent.post('/auth/signin')
 			.send(credentials)
 			.expect(200)
@@ -54,7 +70,7 @@ describe('Course CRUD tests', function() {
 				if (signinErr) done(signinErr);
 
 				// Get the userId
-				var userId = user.id;
+				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -74,7 +90,7 @@ describe('Course CRUD tests', function() {
 								var courses = coursesGetRes.body;
 
 								// Set assertions
-								(courses[0].user._id).should.equal(userId);
+								(courses[0].owner._id).should.equal(userId);
 								(courses[0].name).should.match('Course Name');
 
 								// Call the assertion callback
@@ -106,7 +122,7 @@ describe('Course CRUD tests', function() {
 				if (signinErr) done(signinErr);
 
 				// Get the userId
-				var userId = user.id;
+				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -122,7 +138,7 @@ describe('Course CRUD tests', function() {
 			});
 	});
 
-	it('should be able to update Course instance if signed in', function(done) {
+	it('should be able to update Course instance if signed in as admin', function(done) {
 		agent.post('/auth/signin')
 			.send(credentials)
 			.expect(200)
@@ -131,7 +147,7 @@ describe('Course CRUD tests', function() {
 				if (signinErr) done(signinErr);
 
 				// Get the userId
-				var userId = user.id;
+				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -152,6 +168,7 @@ describe('Course CRUD tests', function() {
 								// Handle Course update error
 								if (courseUpdateErr) done(courseUpdateErr);
 
+
 								// Set assertions
 								(courseUpdateRes.body._id).should.equal(courseSaveRes.body._id);
 								(courseUpdateRes.body.name).should.match('WHY YOU GOTTA BE SO MEAN?');
@@ -162,6 +179,8 @@ describe('Course CRUD tests', function() {
 					});
 			});
 	});
+
+
 
 	it('should be able to get a list of Courses if not signed in', function(done) {
 		// Create new Course model instance
@@ -200,7 +219,7 @@ describe('Course CRUD tests', function() {
 		});
 	});
 
-	it('should be able to delete Course instance if signed in', function(done) {
+	it('should be able to delete Course instance if signed in as admin', function(done) {
 		agent.post('/auth/signin')
 			.send(credentials)
 			.expect(200)
@@ -209,7 +228,7 @@ describe('Course CRUD tests', function() {
 				if (signinErr) done(signinErr);
 
 				// Get the userId
-				var userId = user.id;
+				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -239,7 +258,7 @@ describe('Course CRUD tests', function() {
 
 	it('should not be able to delete Course instance if not signed in', function(done) {
 		// Set Course user 
-		course.user = user;
+		course.owner = user_p._id;
 
 		// Create new Course model instance
 		var courseObj = new Course(course);

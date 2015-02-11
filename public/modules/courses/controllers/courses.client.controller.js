@@ -58,7 +58,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 		// Find existing Course
 		$scope.findOne = function() {
-			$scope.course = Courses.get({ 
+			$scope.course = Courses.get({
 				courseId: $stateParams.courseId
 			});
 		};
