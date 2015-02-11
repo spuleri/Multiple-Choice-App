@@ -19,9 +19,9 @@ exports.create = function(req, res) {
 	//need to use single != bcs not the same type.
 	//cant use single != bcs using strict. roles is of type object^
 	//needs fixing
-	if(req.user.roles !== 'user') {
+	if(req.user.roles.toString() === 'admin') {
 
-		console.log('past the if statment');
+		console.log('past the if statement');
 
 		var course = new Course(req.body);
 		course.user = req.user;
