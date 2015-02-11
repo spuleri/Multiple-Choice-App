@@ -13,8 +13,8 @@ var mongoose = require('mongoose'),
  * Create a Course
  */
 exports.create = function(req, res) {
+	if(req.user.roles[0] === 'admin') {
 
-	if(req.user.roles.toString() === 'admin') {
 		var course = new Course(req.body);
 		course.owner = req.user._id;
 
@@ -44,36 +44,45 @@ exports.read = function(req, res) {
  * Update a Course
  */
 exports.update = function(req, res) {
-	var course = req.course ;
 
-	course = _.extend(course , req.body);
+	if(req.user.roles[0] === 'admin') {
+		var course = req.course ;
 
-	course.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(course);
-		}
-	});
+		course = _.extend(course , req.body);
+
+		course.save(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(course);
+			}
+		});
+	}
+	else {console.log('You are not an admin and cannot update a course');}
 };
 
 /**
  * Delete an Course
  */
 exports.delete = function(req, res) {
-	var course = req.course ;
 
-	course.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(course);
-		}
-	});
+	if(req.user.roles[0] === 'admin') {
+		var course = req.course ;
+
+		course.remove(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(course);
+			}
+		});
+	}
+	else {console.log('You are not an admin and cannot delete a course');}
+
 };
 
 /**

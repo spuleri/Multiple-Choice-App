@@ -16,6 +16,13 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
+/**
+ * A Validation function for local strategy properties
+ */
+ 
+var validateLocalStrategyProperty = function(property) {
+	return ((this.provider !== 'local' && !this.updated) || property.length);
+};
 
 /**
  * Potential Answer Schema
@@ -75,13 +82,17 @@ var CourseSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	courseCode: {
+		type: String,
+		trim: true,
+		default: '',
+		validate: [validateLocalStrategyProperty, 'Please fill in the course code']
+	},
 	owner: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-    quizzes: {
-
-    }
+    quizzes: [quizSchema]
 });
 
 mongoose.model('Course', CourseSchema);
