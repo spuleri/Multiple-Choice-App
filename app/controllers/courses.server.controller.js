@@ -14,9 +14,12 @@ var mongoose = require('mongoose'),
  */
 exports.create = function(req, res) {
 	console.log(req.user.displayName);
+	console.log(typeof req.user.roles);
 	console.log(req.user.roles);
 	//need to use single != bcs not the same type.
-	if(req.user.roles != 'user') {
+	//cant use single != bcs using strict. roles is of type object^
+	//needs fixing
+	if(req.user.roles !== 'user') {
 
 		console.log('past the if statment');
 
