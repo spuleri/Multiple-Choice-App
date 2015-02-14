@@ -24,6 +24,8 @@ var validateLocalStrategyPassword = function(password) {
 /**
  * User Schema
  */
+
+var CourseSchema = mongoose.model('Course');
 var UserSchema = new Schema({
 	firstName: {
 		type: String,
@@ -82,13 +84,28 @@ var UserSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	ufid: {
+		type: String,
+		trim: true,
+		default: '',
+		validate: [validateLocalStrategyProperty, 'Please fill in your UFID (without the -)'],
+		match: [/^[0-9]{8}/, 'UFID should have 8 numbers (no -)']
+	},
+	gatorlink: {
+		type: String,
+		trim: true,
+		default: '',
+		validate: [validateLocalStrategyProperty, 'Please fill in your Gatorlink (not UFL email)']
+	},
 	/* For reset password */
 	resetPasswordToken: {
 		type: String
 	},
 	resetPasswordExpires: {
 		type: Date
-	}
+	},
+    ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
+    joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}]
 });
 
 /**

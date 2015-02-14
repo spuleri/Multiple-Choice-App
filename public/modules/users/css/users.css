@@ -12,3 +12,21 @@
 	right: 10px;
 	position: absolute;
 }
+
+.login-form-bg{
+	background-color: white;
+	border: 15px solid #ccc;
+	border-radius: 10px;
+	border-color: white;
+	margin-top: 50px;
+}
+
+
+/*
+.workflow-box {
+background-color: white;
+border: 1px solid #ccc;
+border-radius: 5px;
+
+}
+*/

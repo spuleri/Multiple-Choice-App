@@ -20,46 +20,102 @@
 			<img src="/modules/users/img/buttons/github.png">
 		</a>
 	</div> -->
-	<h1 class="col-md-12 text-center">Sign up with your with your email</h1>
-	<div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
+	<div class="col-xs-offset-1 col-xs-10 col-md-offset-4 col-md-4 login-form-bg">
+		<h1>Sign up</h1>
+		<hr>
 		<form name="userForm" data-ng-submit="signup()" class="signin form-horizontal" novalidate autocomplete="off">
 			<fieldset>
+
 				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name">
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name">
-				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
-				</div>
-				<div class="form-group">
-					<label for="username">Username</label>
-					<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
-				</div>
-				
-				<!--Testing to see if can make "admin" role-->
-				<div class="form-group">
-					<label for="roles">Professor?</label>
-					<input type="checkbox" id="roles" name="roles" class="form-control" data-ng-model="credentials.roles"
-					 data-ng-true-value="admin" data-ng-false-value="user" aria-label="...">
+					<div data-ng-show="error" class="text-center text-danger">
+						<div class="alert alert-danger" role="alert">
+							<strong data-ng-bind="error"></strong>
+						</div>
+					</div>
 				</div>
 
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="basic-addon1">
+								<i  class="text-muted glyphicon glyphicon-star"></i>
+							</span>
+						<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+							<span class="input-group-addon" id="basic-addon1">
+								<i  class="text-muted glyphicon glyphicon-star"></i>
+							</span>
+							<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name">
+					</div>
+				</div>
+				<div class="form-group">
+						<div class="input-group input-group-lg">
+							<span class="input-group-addon" id="basic-addon1">
+								<i  class="text-muted glyphicon glyphicon-envelope"></i>
+							</span>
+							<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+						</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="basic-addon1">
+							<i  class="text-muted glyphicon glyphicon-user"></i>
+						</span>
+						<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="basic-addon1">
+							<i  class="text-muted glyphicon glyphicon-asterisk"></i>
+						</span>
+						<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+					</div>
+				</div>
+
+				<!--UFID and gatorlink input fields-->
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="basic-addon1">
+							<i  class="text-muted glyphicon glyphicon-cog"></i>
+						</span>
+						<input type="text" id="ufid" name="ufid" class="form-control" data-ng-model="credentials.ufid" placeholder="UFID">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="basic-addon1">
+							<i class="text-muted  glyphicon glyphicon-heart"></i>
+						</span>						
+						<input type="text" id="gatorlink" name="gatorlink" class="form-control" data-ng-model="credentials.gatorlink" placeholder="Gatorlink" required>
+					</div>
+				</div>
+				
+				<!--Admin role-->
+				<div class="form-group">
+					<h4 class="text-center">Are you a Professor?</h4>
+					<div class="text-center">
+						<label  class="toggle" for="roles"> 
+							<input type="checkbox" id="roles" name="roles"  data-ng-model="credentials.roles"
+							 data-ng-true-value="admin" data-ng-false-value="user"  aria-label="...">
+							 <span class="handle"></span>
+						 </label>
+					</div>
+				</div>
+
+
 				<div class="text-center form-group">
-					<button type="submit" class="btn btn-large btn-primary">Sign up</button>&nbsp; or&nbsp;
-					<a href="/#!/signin" class="show-signup">Sign in</a>
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
 				</div>
-				<div data-ng-show="error" class="text-center text-danger">
-					<strong data-ng-bind="error"></strong>
+				<div class="forgot-password text-center form-group">
+					Or
+
+					<a href="/#!/signin">Sign in</a>
 				</div>
+
 			</fieldset>
-		</form>
+		</form>		
 	</div>
 </section>

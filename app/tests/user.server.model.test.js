@@ -22,6 +22,8 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
+            ufid: '88888888',
+            gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
 			provider: 'local'
@@ -31,6 +33,8 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
+            ufid: '88888888',
+            gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
 			provider: 'local'
