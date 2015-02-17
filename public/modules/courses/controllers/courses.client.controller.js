@@ -40,21 +40,24 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Create new Course
 		$scope.create = function() {
 			// Create new Course object
-			var course = new Courses ({
-				name: this.name,
-				courseCode: this.courseCode,
-				owner: $scope.authentication.user._id
-			});
+			if ($scope.authentication.user.roles[0] === 'admin'){
 
-				// Redirect after save
-				course.$save(function(response) {
-					$location.path('courses/' + response._id);
-
-					// Clear form fields
-					$scope.name = '';
-				}, function(errorResponse) {
-					$scope.error = errorResponse.data.message;
+				var course = new Courses ({
+					name: this.name,
+					courseCode: this.courseCode,
+					owner: $scope.authentication.user._id
 				});
+
+					// Redirect after save
+					course.$save(function(response) {
+						$location.path('courses/' + response._id);
+
+						// Clear form fields
+						$scope.name = '';
+					}, function(errorResponse) {
+						$scope.error = errorResponse.data.message;
+					});
+				}
 			};
 
 
