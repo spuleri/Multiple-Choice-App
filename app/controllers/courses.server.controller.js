@@ -41,6 +41,13 @@ exports.read = function(req, res) {
 };
 
 /**
+ * Show course's quizzes
+ */
+exports.readQuizzes = function(req, res) {
+    res.jsonp(req.course.quizzes);
+};
+
+/**
  * Update a Course
  */
 exports.update = function(req, res) {
@@ -103,7 +110,7 @@ exports.list = function(req, res) {
 /**
  * Course middleware
  */
-exports.courseByID = function(req, res, next, id) { 
+exports.courseByID = function(req, res, next, id) {
 	Course.findById(id).populate('owner', 'displayName').exec(function(err, course) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));

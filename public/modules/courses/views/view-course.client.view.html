@@ -2,7 +2,7 @@
 	<div class="page-header">
 		<h1 data-ng-bind="course.name"></h1>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == course.owner._id))">
+	<div class="pull-right">
 		<a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>
 		</a>
@@ -12,10 +12,25 @@
 	</div>
 	<small>
 		<em class="text-muted">
-			Posted on
+			Created on
 			<span data-ng-bind="course.created | date:'mediumDate'"></span>
 			by
 			<span data-ng-bind="course.owner.displayName"></span>
 		</em>
 	</small>
+    <div>
+        <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work-->
+        <div class="header">
+            <h1>Quizzes</h1>
+            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create">Add a Quiz</a>
+        </div>
+        <div class="list-group col-md-4">
+            <a data-ng-repeat="quiz in course.quizzes" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
+                <small class="list-group-item-text">
+                    Created on <span data-ng-bind="quiz.created | date:'medium'"></span>
+                </small>
+                <h4 class="list-group-item-heading" data-ng-bind="quiz.name"></h4>
+            </a>
+        </div>
+    </div>
 </section>
