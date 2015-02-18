@@ -27,13 +27,16 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
 				//bootflat js
-				'public/lib/Bootflat/bootflat/js/icheck.min.js',
-				'public/lib/Bootflat/bootflat/js/jquery.fs.selector.min.js',
-				'public/lib/Bootflat/bootflat/js/jquery.fs.stepper.min.js'
+				// 'public/lib/Bootflat/bootflat/js/icheck.min.js',
+				// 'public/lib/Bootflat/bootflat/js/jquery.fs.selector.min.js',
+				// 'public/lib/Bootflat/bootflat/js/jquery.fs.stepper.min.js'
 			]
 		},
+		html: [
+			'public/modules/**/views/*.html'
+		],
 		css: [
 			'public/modules/**/css/*.css'
 		],
