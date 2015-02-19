@@ -7,6 +7,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Course = mongoose.model('Course'),
+	User = mongoose.model('User'),
 	_ = require('lodash');
 
 /**
@@ -120,4 +121,45 @@ exports.hasAuthorization = function(req, res, next) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();
+};
+
+
+
+
+/**
+ * Update user details after joining Course
+ */
+exports.updateUser = function(req, res) {
+	// Init Variables
+	var user = req.user;
+	var message = null;
+
+	// For security measurement we remove the roles from the req.body object
+	delete req.body.roles;
+
+	if (user) {
+		// Merge existing user
+		user = _.extend(user, req.body);
+		user.updated = Date.now();  // Join date??
+
+		user.save(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				req.login(user, function(err) {
+					if (err) {
+						res.status(400).send(err);
+					} else {
+						res.json(user);
+					}
+				});
+			}
+		});
+	} else {
+		res.status(400).send({
+			message: 'User is not signed in'
+		});
+	}
 };

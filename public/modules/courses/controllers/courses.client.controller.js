@@ -113,7 +113,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.update = function() {
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
-
 				course.$update(function () {
 					$location.path('courses/' + course._id);
 				}, function (errorResponse) {
@@ -152,6 +151,31 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				if (!flag) {
 					user.joinedCourses.push(course._id);
 				}
+
+/*
+				course.$update(function () {
+					$location.path('courses/' + course._id);
+				}, function (errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
+*/
+/*
+				course.$updateUser(function(response) {
+					$scope.success = true;
+					Authentication.user = response;
+				}, function(response) {
+					$scope.error = response.data.message;
+				});
+*/
+
+/*
+				user.$update(function(response) {
+					$scope.success = true;
+					Authentication.user = response;
+				}, function(response) {
+					$scope.error = response.data.message;
+				});
+*/
 			}
 
 

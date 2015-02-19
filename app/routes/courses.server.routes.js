@@ -12,6 +12,8 @@ module.exports = function(app) {
 	app.route('/courses/:courseId')
 		.get(courses.read)
 		.put(users.requiresLogin, courses.hasAuthorization, courses.update)
+		.post(users.requiresLogin, users.update)
+		.post(users.requiresLogin, courses.updateUser)
 		.delete(users.requiresLogin, courses.hasAuthorization, courses.delete);
 
 	// Finish by binding the Course middleware
