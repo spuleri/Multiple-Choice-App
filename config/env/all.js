@@ -34,9 +34,6 @@ module.exports = {
 				// 'public/lib/Bootflat/bootflat/js/jquery.fs.stepper.min.js'
 			]
 		},
-		html: [
-			'public/modules/**/views/*.html'
-		],
 		css: [
 			'public/modules/**/css/*.css'
 		],
