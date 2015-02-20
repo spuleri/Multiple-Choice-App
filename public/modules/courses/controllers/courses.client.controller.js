@@ -1,8 +1,8 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log) {
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users) {
 		$scope.authentication = Authentication;
 
 		// Blocking non admins from creating/editing/deleting courses..
@@ -76,7 +76,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 					courseCode: this.courseCode,
 					owner: $scope.authentication.user._id
 				});
-
 					// Redirect after save
 					course.$save(function(response) {
 						$location.path('courses/' + response._id);
@@ -135,50 +134,34 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 		// Join a Course
 		$scope.joinCourse = function() {
-			/* Add save function
-			*  Add checks (see notes)
-			*  View course name?
-			*/ 
+
 			var course = $scope.course;
-			var user = $scope.authentication.user; 
+			$scope.user = Authentication.user;
 			var flag = false;
+			if ($scope.user._id === course.owner) {
+				$scope.user.ownedCourses.push(course._id);
+			}
 			if ($scope.insertedCCode === course.courseCode) {
-				for (var i in user.joinedCourses) {
-					if (user.joinedCourses[i] === course._id) {
+				for (var i in $scope.user.joinedCourses) {
+					if ($scope.user.joinedCourses[i] === course._id) {
 						flag = true;  // Already joined the course
 					}
 				}
 				if (!flag) {
-					user.joinedCourses.push(course._id);
+					$scope.user.joinedCourses.push(course._id);
 				}
 
-/*
-				course.$update(function () {
-					$location.path('courses/' + course._id);
-				}, function (errorResponse) {
-					$scope.error = errorResponse.data.message;
-				});
-*/
-/*
-				course.$updateUser(function(response) {
-					$scope.success = true;
-					Authentication.user = response;
-				}, function(response) {
-					$scope.error = response.data.message;
-				});
-*/
-
-/*
+				$scope.success = $scope.error = null;
+				var user = new Users($scope.user);
 				user.$update(function(response) {
 					$scope.success = true;
 					Authentication.user = response;
 				}, function(response) {
 					$scope.error = response.data.message;
 				});
-*/
+
+
 			}
-
-
 
 		};
 
