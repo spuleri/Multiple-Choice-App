@@ -36,7 +36,9 @@
 		// This allows us to inject a service but then attach it to a variable
 		// with the same name as the service.
 		beforeEach(inject(function($controller, $rootScope, _$location_, _$stateParams_, _$httpBackend_,$injector,$templateCache) {
+			//need to cache both pages for tests to work
             $templateCache.put('modules/core/views/home.client.view.html', '.<template-goes-here />');
+            $templateCache.put('modules/courses/views/view-course.client.view.html', '.<template-goes-here />');
 			// Set a new global scope
 			scope = $rootScope.$new();
 
@@ -91,7 +93,14 @@
 			expect(scope.course).toEqualData(sampleCourse);
 		}));
 
-		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
+		it('should expose the authentication service', function() {
+			scope.authentication.user = 'Foo';
+			scope.authentication.user.firstName = 'bar';
+			scope.authentication.user.roles = 'admin';
+			expect(scope.authentication).toBeTruthy();
+		});
+
+		it('$scope.create() with valid form data and a User role as admin should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
 			var sampleCoursePostData = new Courses({
 				name: 'New Course'
@@ -105,6 +114,15 @@
 
 			// Fixture mock form input values
 			scope.name = 'New Course';
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['admin']
+	        };
 
 			// Set POST response
 			$httpBackend.expectPOST('courses', sampleCoursePostData).respond(sampleCourseResponse);
@@ -120,7 +138,45 @@
 			expect($location.path()).toBe('/courses/' + sampleCourseResponse._id);
 		}));
 
-		it('$scope.update() should update a valid Course', inject(function(Courses) {
+		it('$scope.create() with valid form data and a User role as user should NOT send a POST request with the form input values and then NOT locate to new object URL', inject(function(Courses) {
+			// Create a sample Course object
+			var sampleCoursePostData = new Courses({
+				name: 'New Course'
+			});
+
+			// Create a sample Course response
+			var sampleCourseResponse = new Courses({
+				_id: '525cf20451979dea2c000001',
+				name: 'New Course'
+			});
+
+			// Fixture mock form input values
+			scope.name = 'New Course';
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['student']
+	        };
+
+			// Set not ? POST response
+			//$httpBackend.expectPOST('courses', sampleCoursePostData).respond(sampleCourseResponse);
+
+			// Run controller functionality
+			scope.create();
+			//$httpBackend.flush();
+
+			// Test form inputs are not reset
+			expect(scope.name).toEqual('New Course');
+
+			// Test URL redirection after the Course wasnt created
+			expect($location.path()).toBe('');
+		}));
+
+		it('$scope.update() should update a valid Course with a User role as admin', inject(function(Courses) {
 			// Define a sample Course put data
 			var sampleCoursePutData = new Courses({
 				_id: '525cf20451979dea2c000001',
@@ -129,6 +185,16 @@
 
 			// Mock Course in scope
 			scope.course = sampleCoursePutData;
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['admin']
+	        };
+
 
 			// Set PUT response
 			$httpBackend.expectPUT(/courses\/([0-9a-fA-F]{24})$/).respond();
@@ -141,7 +207,7 @@
 			expect($location.path()).toBe('/courses/' + sampleCoursePutData._id);
 		}));
 
-		it('$scope.remove() should send a DELETE request with a valid courseId and remove the Course from the scope', inject(function(Courses) {
+		it('$scope.remove() should send a DELETE request with a valid courseId with a User role as admin and remove the Course from the scope', inject(function(Courses) {
 			// Create new Course object
 			var sampleCourse = new Courses({
 				_id: '525a8422f6d0f87f0e407a33'
@@ -149,6 +215,16 @@
 
 			// Create new Courses array and include the Course
 			scope.courses = [sampleCourse];
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['admin']
+	        };
+
 
 			// Set expected DELETE response
 			$httpBackend.expectDELETE(/courses\/([0-9a-fA-F]{24})$/).respond(204);
@@ -160,5 +236,7 @@
 			// Test array after successful delete
 			expect(scope.courses.length).toBe(0);
 		}));
+
+
 	});
 }());
