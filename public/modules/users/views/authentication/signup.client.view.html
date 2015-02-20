@@ -79,7 +79,7 @@
 				<div class="form-group">
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="basic-addon1">
-							<i  class="text-muted glyphicon glyphicon-cog"></i>
+							<i  class="text-muted glyphicon glyphicon-link"></i>
 						</span>
 						<input type="text" id="ufid" name="ufid" class="form-control" data-ng-model="credentials.ufid" placeholder="UFID">
 					</div>
@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="basic-addon1">
-							<i class="text-muted  glyphicon glyphicon-heart"></i>
+							<i class="text-muted  glyphicon glyphicon-link"></i>
 						</span>						
 						<input type="text" id="gatorlink" name="gatorlink" class="form-control" data-ng-model="credentials.gatorlink" placeholder="Gatorlink" required>
 					</div>
@@ -95,14 +95,20 @@
 				
 				<!--Admin role-->
 				<div class="form-group">
-					<h4 class="text-center">Are you a Professor?</h4>
-					<div class="text-center">
-						<label  class="toggle" for="roles"> 
-							<input type="checkbox" id="roles" name="roles"  data-ng-model="credentials.roles"
-							 data-ng-true-value="admin" data-ng-false-value="user"  aria-label="...">
-							 <span class="handle"></span>
-						 </label>
-					</div>
+					<div class="row">
+                        <div class = "col-xs-offset-1">
+                        <div class="col-xs-8 text-center">
+                            Are you a Professor?
+                        </div>
+                        <div class="col-xs-2 text-center">
+                            <label  class="toggle" for="roles"> 
+                                <input type="checkbox" id="roles" name="roles"  data-ng-model="credentials.roles"
+                                 data-ng-true-value="admin" data-ng-false-value="user"  aria-label="...">
+                                 <span class="handle"></span>
+                             </label>
+                        </div>
+                            </div>
+                    </div>
 				</div>
 
 
