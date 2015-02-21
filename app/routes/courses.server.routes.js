@@ -14,6 +14,10 @@ module.exports = function(app) {
 		.put(users.requiresLogin, courses.hasAuthorization, courses.update)
 		.delete(users.requiresLogin, courses.hasAuthorization, courses.delete);
 
+    app.route('/courses/:courseId/quizzes')
+        .get(courses.readQuizzes);
+    // This is where we will be posting new quizzes as well.
+
 	// Finish by binding the Course middleware
 	app.param('courseId', courses.courseByID);
 };
