@@ -75,14 +75,15 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				var course = new Courses ({
 					name: this.name,
 					courseCode: this.courseCode,
-					owner: $scope.authentication.user._id
+					owner: $scope.authentication.user._id					
 				});
 
 					// Redirect after save
 					course.$save(function(response) {
 						$location.path('courses/' + response._id);
 						// $scope.user = Authentication.user;
-						// $scope.user.ownedCourses.push(response._id);
+						// //$scope.user.ownedCourses.push(response._id);
+						// $scope.user.firstName = 'a';
 						// $scope.success = $scope.error = null;
 						// var user = new Users($scope.user);
 						// user.$update(function(response) {
@@ -126,7 +127,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				var course = $scope.course;
 
             var quiz = $scope.quiz;
-            if (quiz.name !== '') {
+            if (quiz && quiz.name !== '') {
                 course.quizzes.push(quiz);
             }
 				course.$update(function () {

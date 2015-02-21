@@ -100,7 +100,7 @@
 			expect(scope.authentication).toBeTruthy();
 		});
 
-		it('$scope.create() with valid form data and a User role as admin should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
+		it('$scope.create() with valid form data and an Admin role should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
 			var sampleCoursePostData = new Courses({
 				name: 'New Course'
@@ -138,7 +138,7 @@
 			expect($location.path()).toBe('/courses/' + sampleCourseResponse._id);
 		}));
 
-		it('$scope.create() with valid form data and a User role as user should NOT send a POST request with the form input values and then NOT locate to new object URL', inject(function(Courses) {
+		it('$scope.create() with valid form data and a User role should NOT send a POST request with the form input values and then NOT locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
 			var sampleCoursePostData = new Courses({
 				name: 'New Course'
@@ -176,7 +176,7 @@
 			expect($location.path()).toBe('');
 		}));
 
-		it('$scope.update() should update a valid Course with a User role as admin', inject(function(Courses) {
+		it('$scope.update() should update a valid Course with an Admin role', inject(function(Courses) {
 			// Define a sample Course put data
 			var sampleCoursePutData = new Courses({
 				_id: '525cf20451979dea2c000001',
@@ -205,6 +205,37 @@
 
 			// Test URL location to new object
 			expect($location.path()).toBe('/courses/' + sampleCoursePutData._id);
+		}));
+
+		it('$scope.update() should not update a valid Course with a User role', inject(function(Courses) {
+			// Define a sample Course put data
+			var sampleCoursePutData = new Courses({
+				_id: '525cf20451979dea2c000001',
+				name: 'New Course'
+			});
+
+			// Mock Course in scope
+			scope.course = sampleCoursePutData;
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['user']
+	        };
+
+
+			// Set PUT response
+			// $httpBackend.expectPUT(/courses\/([0-9a-fA-F]{24})$/).respond();
+
+			// Run controller functionality
+			scope.update();
+			// $httpBackend.flush();
+
+			// Test URL location to not be a new object
+			expect($location.path()).toBe('');
 		}));
 
 		it('$scope.remove() should send a DELETE request with a valid courseId with a User role as admin and remove the Course from the scope', inject(function(Courses) {
@@ -237,6 +268,35 @@
 			expect(scope.courses.length).toBe(0);
 		}));
 
+		it('$scope.remove() should send a not send DELETE request with a valid courseId with a User role and NOT remove the Course from the scope', inject(function(Courses) {
+			// Create new Course object
+			var sampleCourse = new Courses({
+				_id: '525a8422f6d0f87f0e407a33'
+			});
+
+			// Create new Courses array and include the Course
+			scope.courses = [sampleCourse];
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['user']
+	        };
+
+
+			// Set expected DELETE response
+			$httpBackend.expectDELETE(/courses\/([0-9a-fA-F]{24})$/).respond(403);
+
+			// Run controller functionality
+			scope.remove(sampleCourse);
+			// $httpBackend.flush();
+
+			// Test array after unsuccessful delete
+			expect(scope.courses.length).toBe(1);
+		}));
 
 
 		describe('Course Joining', function() {	
