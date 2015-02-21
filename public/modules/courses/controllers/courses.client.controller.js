@@ -1,9 +1,10 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log) {
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'SubFinder',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, SubFinder) {
 		$scope.authentication = Authentication;
+        $scope.subFinder = SubFinder;
 
 		// Blocking non admins from creating/editing/deleting courses..
 		
@@ -84,7 +85,10 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.update = function() {
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
-
+            var quiz = $scope.quiz;
+            if (quiz.name !== '') {
+                course.quizzes.push(quiz);
+            }
 				course.$update(function () {
 					$location.path('courses/' + course._id);
 				}, function (errorResponse) {
@@ -102,8 +106,20 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.findOne = function() {
 			$scope.course = Courses.get({
 				courseId: $stateParams.courseId
-			});
+			}, function () {
+                console.log($scope.course);
+            });
+            $scope.quiz = {
+                name: ''
+            };
 		};
 
+        $scope.findOneQuiz = function() {
+            $scope.course = Courses.get({
+                courseId: $stateParams.courseId
+            }, function() {
+                $scope.quiz = $scope.subFinder.search($stateParams.quizId, $scope.course.quizzes);
+            });
+        };
 	}
 ]);

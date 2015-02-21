@@ -53,6 +53,10 @@ var questionSchema = new Schema({
         required: 'Please give the question a description',
         trim: true
     },
+    created: {
+        type: Date,
+        default: Date.now
+    },
     answers: [ansSchema]
 });
 /**
@@ -64,6 +68,10 @@ var quizSchema = new Schema ({
         default: '',
         required: 'Please name the quiz',
         trim: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
     },
     questions: [questionSchema]
 });

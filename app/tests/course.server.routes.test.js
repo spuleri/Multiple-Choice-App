@@ -54,7 +54,15 @@ describe('Course CRUD tests', function() {
 		user_p.save(function() {
 			course = {
 				name: 'Course Name',
-                owner: user_p._id
+                owner: user_p._id,
+                quizzes: [
+                    {
+                        name: 'Joe Blow'
+                    },
+                    {
+                        name: 'Nancy Drew'
+                    }
+                ]
 			};
 
 			done();
@@ -200,6 +208,23 @@ describe('Course CRUD tests', function() {
 
 		});
 	});
+
+    it('should be able to get a list of quizzes within a particular course', function(done) {
+        // Create new Course model instance
+        var courseObj = new Course(course);
+
+        // Save the Course
+        courseObj.save(function() {
+            request(app).get('/courses/' + courseObj._id + '/quizzes')
+                .end(function(req, res) {
+                    // Set assertion
+                    res.body.should.be.an.Array.with.lengthOf(2);
+
+                    // Call the assertion callback
+                    done();
+                });
+        });
+    });
 
 
 	it('should be able to get a single Course if not signed in', function(done) {

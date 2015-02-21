@@ -1,9 +1,5 @@
 'use strict';
 
-// if swap viewCourse, and createCourse, the createCourse state breaks
-// @@@@@@@QUESTION@@@@@@@@@@@@@@@@@
-// Why does order of states matter?
-
 angular.module('courses').config(['$stateProvider',
     function($stateProvider) {
         // Courses state routing
@@ -23,13 +19,21 @@ angular.module('courses').config(['$stateProvider',
             url: '/courses/:courseId',
             templateUrl: 'modules/courses/views/view-course.client.view.html'
         }).
+        state('editQuiz', {
+            url: '/courses/:courseId/:quizId/edit',
+            templateUrl: 'modules/courses/views/quiz/edit-quiz-in-course.client.view.html'
+		}).
         state('editCourse', {
             url: '/courses/:courseId/edit',
             templateUrl: 'modules/courses/views/edit-course.client.view.html',
             data: {
                 needAdmin: true
             }
-        });     
+        }).
+        state('viewQuiz', {
+            url: '/courses/:courseId/:quizId',
+            templateUrl: 'modules/courses/views/quiz/view-quiz-in-course.client.view.html'
+        });
 
     }
 ]);
