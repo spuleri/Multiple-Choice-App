@@ -238,50 +238,95 @@
 		}));
 
 
-/*
-		describe('Course Joining', function() {
-			var student = new Users({
-				firstName: 'Bruce',
-				lastName: 'Wayne',
-				displayName: 'Bruce Wayne',
-				username: 'bwayne',
-				password: 'uio987p4',
-				ufid: '13371337',
-				gatorlink: 'imbatman'
 
-			});
-			var prof = new Users({
-				_id: 'f892j34958fg982901jasdl3',
-				firstName: 'Teh',
-				lastName: 'Joker',
-				displayName: 'Teh Joker',
-				username: 'joker',
-				password: 'jokesonyou',
-				ufid: '98194964',
-				gatorlink: 'shaco'
-			})
-			var course = new Courses({
-				name: 'Gotham', 
-				courseCode: 'lul',
-				owner: 'f892j34958fg982901jasdl3'
-			});
+		describe('Course Joining', function() {	
 
-			it('user should be able to join a course', inject(function(Courses) {
+			it('joinCourse() user should be able to join a course', inject(function(Courses) {
+				scope.authentication.user = {
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '13371337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
+
+				};
+				
+				scope.course = {
+					_id: '490it9804j5g98j340erofkj34590',
+					name: 'Gotham', 
+					courseCode: 'lul',
+					owner: 'f892j34958fg982901jasdl3'
+				};
+				scope.insertedCCode = 'lul';
 				scope.joinCourse();
-			});
+				expect(scope.authentication.user.joinedCourses[0]).toEqual('490it9804j5g98j340erofkj34590');
+			}));
+
 			it('should not be able to join course without correct course code', inject(function(Courses) {
+				scope.authentication.user = {
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '13371337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
 
-			});
+				};
+				
+				scope.course = {
+					_id: '490it9804j5g98j340erofkj34590',
+					name: 'Gotham', 
+					courseCode: 'lul',
+					owner: 'f892j34958fg982901jasdl3'
+				};
+				scope.insertedCCode = 'idk';
+				scope.joinCourse();
+				expect(scope.authentication.user.joinedCourses[0]).toBe(undefined);
+			}));
+
 			it('user cannont join the course if already enrolled', inject(function(Courses) {
+				scope.authentication.user = {
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '13371337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
 
-			});
-			it('user must be logged in to join a course', inject(function(Courses) {
-
-			});
+				};
+				
+				scope.course = {
+					_id: '490it9804j5g98j340erofkj34590',
+					name: 'Gotham', 
+					courseCode: 'lul',
+					owner: 'f892j34958fg982901jasdl3'
+				};
+				scope.insertedCCode = 'lul';
+				scope.joinCourse();
+				expect(scope.authentication.user.joinedCourses[0]).toEqual('490it9804j5g98j340erofkj34590');
+				scope.joinCourse();
+				expect(scope.authentication.user.joinedCourses[1]).toEqual(undefined);
+			}));
+/*			
 			it('professor(creator) cannot join his own course', inject(function(Courses) {
 
-			});
-	});
+			}));
 */
+		});
+
+
 	});
 }());

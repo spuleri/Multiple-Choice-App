@@ -77,9 +77,20 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 					courseCode: this.courseCode,
 					owner: $scope.authentication.user._id
 				});
+
 					// Redirect after save
 					course.$save(function(response) {
 						$location.path('courses/' + response._id);
+						$scope.user = Authentication.user;
+						$scope.user.ownedCourses.push(course._id);
+						$scope.success = $scope.error = null;
+						var user = new Users($scope.user);
+						user.$update(function(response) {
+							$scope.success = true;
+							Authentication.user = response;
+						}, function(response) {
+							$scope.error = response.data.message;
+						});				
 
 						// Clear form fields
 						$scope.name = '';
@@ -149,9 +160,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			var course = $scope.course;
 			$scope.user = Authentication.user;
 			var flag = false;
-			if ($scope.user._id === course.owner) {
-				$scope.user.ownedCourses.push(course._id);
-			}
 			if ($scope.insertedCCode === course.courseCode) {
 				for (var i in $scope.user.joinedCourses) {
 					if ($scope.user.joinedCourses[i] === course._id) {
