@@ -81,16 +81,16 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 					// Redirect after save
 					course.$save(function(response) {
 						$location.path('courses/' + response._id);
-						$scope.user = Authentication.user;
-						$scope.user.ownedCourses.push(course._id);
-						$scope.success = $scope.error = null;
-						var user = new Users($scope.user);
-						user.$update(function(response) {
-							$scope.success = true;
-							Authentication.user = response;
-						}, function(response) {
-							$scope.error = response.data.message;
-						});				
+						// $scope.user = Authentication.user;
+						// $scope.user.ownedCourses.push(response._id);
+						// $scope.success = $scope.error = null;
+						// var user = new Users($scope.user);
+						// user.$update(function(response) {
+						// 	$scope.success = true;
+						// 	Authentication.user = response;
+						// }, function(response) {
+						// 	$scope.error = response.data.message;
+						// });				
 
 						// Clear form fields
 						$scope.name = '';
