@@ -86,7 +86,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
             var quiz = $scope.quiz;
-            if (quiz.name !== '') {
+            if (quiz && quiz.name !== '') {
                 course.quizzes.push(quiz);
             }
 				course.$update(function () {

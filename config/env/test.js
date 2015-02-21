@@ -1,11 +1,7 @@
 'use strict';
 
 module.exports = {
-<<<<<<< HEAD
-	db: 'mongodb://kevin:kevin@ds049219.mongolab.com:49219/kevin',
-=======
     db: 'mongodb://localhost/multiple-choice-app-test',
->>>>>>> 62af2d821a741bbb11180f08970e15a490bf0e48
 	port: 3001,
 	app: {
 		title: 'Multiple-Choice-App - Test Environment'
