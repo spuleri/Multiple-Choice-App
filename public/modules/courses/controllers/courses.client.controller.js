@@ -19,7 +19,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 						//eg if the "required" field is filled
 
 						//if (createCustomerForm.$valid){
-							$modalInstance.close();
+						    $modalInstance.close();
 						//}
 					};
 
@@ -38,7 +38,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		};
 
 		$scope.openJoinCourse = function (size) {
-
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/courses/views/join-course.client.view.html',
 				controller: function ($scope, $modalInstance){
@@ -48,7 +47,10 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 						//eg if the "required" field is filled
 
 						//if (createCustomerForm.$valid){
-							$modalInstance.close($scope.insertedCCode);
+							//$modalInstance.close($scope.insertedCCode);
+							setTimeout(function(){
+							    $modalInstance.close();
+							},3000);
 						//}
 					};
 
@@ -155,9 +157,14 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
             };
 		};
 
+          $scope.alerts = [];
+
+		  $scope.closeAlert = function(index) {
+		    $scope.alerts.splice(index, 1);
+		  };
+
 		// Join a Course
 		$scope.joinCourse = function() {
-
 			var course = $scope.course;
 			$scope.user = Authentication.user;
 			var flag = false;
@@ -169,6 +176,10 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				}
 				if (!flag) {
 					$scope.user.joinedCourses.push(course._id);
+					$scope.alerts.push({type: 'success', msg: 'You are now enrolled in the course.'});
+				}
+				else {
+					$scope.alerts.push({type: 'warning', msg: 'You are already in this course!'});
 				}
 
 				$scope.success = $scope.error = null;
@@ -179,10 +190,10 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				}, function(response) {
 					$scope.error = response.data.message;
 				});
-
-
 			}
-
+			else {
+				$scope.alerts.push({type: 'danger', msg: 'Wrong course code, try again.'});
+			}
 		};
 
         $scope.findOneQuiz = function() {
@@ -192,5 +203,10 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 $scope.quiz = $scope.subFinder.search($stateParams.quizId, $scope.course.quizzes);
             });
         };
+
+
+
+
+
 	}
 ]);
