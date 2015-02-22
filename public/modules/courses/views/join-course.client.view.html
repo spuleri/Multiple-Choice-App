@@ -1,7 +1,8 @@
 <section data-ng-controller="CoursesController" data-ng-init="findOne()">
-
         <div class="modal-header">
+
             <h3 class="modal-title">Join {{course.name}}</h3>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         </div>
         <form class="" data-ng-submit="joinCourse(); ok()" novalidate>
             <fieldset>
