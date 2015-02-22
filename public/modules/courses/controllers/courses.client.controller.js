@@ -1,7 +1,7 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users',
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder',
 	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder) {
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
@@ -149,9 +149,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.findOne = function() {
 			$scope.course = Courses.get({
 				courseId: $stateParams.courseId
-			}, function () {
-                console.log($scope.course);
-            });
+			});
             $scope.quiz = {
                 name: ''
             };
@@ -197,10 +195,11 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		};
 
         $scope.findOneQuiz = function() {
+            var desired = $stateParams.quizId;
             $scope.course = Courses.get({
                 courseId: $stateParams.courseId
             }, function() {
-                $scope.quiz = $scope.subFinder.search($stateParams.quizId, $scope.course.quizzes);
+                $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
             });
         };
 

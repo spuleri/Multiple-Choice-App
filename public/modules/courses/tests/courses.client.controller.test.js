@@ -8,7 +8,8 @@
 		scope,
 		$httpBackend,
 		$stateParams,
-		$location;
+		$location,
+        subFinder;
 
 		// The $resource service augments the response object with methods for updating and deleting the resource.
 		// If we were to use the standard toEqual matcher, our tests would fail because the test values would not match
@@ -35,12 +36,13 @@
 		// The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
 		// This allows us to inject a service but then attach it to a variable
 		// with the same name as the service.
-		beforeEach(inject(function($controller, $rootScope, _$location_, _$stateParams_, _$httpBackend_,$injector,$templateCache) {
+		beforeEach(inject(function($controller, $rootScope, _$location_, _$stateParams_, _$httpBackend_, $injector, $templateCache, SubFinder) {
 			//need to cache both pages for tests to work
             $templateCache.put('modules/core/views/home.client.view.html', '.<template-goes-here />');
             $templateCache.put('modules/courses/views/view-course.client.view.html', '.<template-goes-here />');
 			// Set a new global scope
 			scope = $rootScope.$new();
+            subFinder = $injector.get('SubFinder');
 
 			// Point global variables to injected services
 			$stateParams = _$stateParams_;
@@ -49,7 +51,8 @@
 
 			// Initialize the Courses controller.
 			CoursesController = $controller('CoursesController', {
-				$scope: scope
+				$scope: scope,
+                SubFinder: subFinder
 			});
 		}));
 
@@ -99,6 +102,35 @@
 			scope.authentication.user.roles = 'admin';
 			expect(scope.authentication).toBeTruthy();
 		});
+
+        it ('$scope.findOneQuiz() should be able to find a quiz by ID from any list of quizzes', inject(function(Courses) {
+
+            var sampleCourse = new Courses({
+                name: 'My Course',
+                quizzes: [
+                    { name: 'Quiz 1',
+                       _id: '1defa34562bb25342e7dad56a3'},
+                    { name: 'Quiz 2',
+                       _id: '1defa34562bb25342e7d2456a3'},
+                    { name: 'Quiz 3',
+                       _id: '1defa34562bb25342e7da456a1'},
+                    { name: 'Quiz 4',
+                       _id: '1defa34562bb25342e7daf56a3'}
+                ]
+            });
+
+            // Set the URL parameter
+            $stateParams.courseId = '525a8422f6d0f87f0e407a33';
+            $stateParams.quizId = sampleCourse.quizzes[1]._id;
+
+            scope.subFinder = subFinder;
+
+            // Set GET response
+            $httpBackend.expectGET(/courses\/([0-9a-fA-F]{24})$/).respond(sampleCourse);
+            scope.findOneQuiz();
+            $httpBackend.flush();
+            expect(scope.quiz).toEqual(sampleCourse.quizzes[1]);
+        }));
 
 		it('$scope.create() with valid form data and an Admin role should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
