@@ -8,15 +8,16 @@
         	<i class="glyphicon glyphicon-plus"></i>
         </button>
     </div>
-
-	<div class="pull-right">
-		<a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
+    <div data-ng-show="authenticate.user.roles[0] === 'admin'">
+        <div class="pull-right">
+            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-primary" data-ng-click="remove();">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+        </div>
+    </div>
 	<small>
 		<em class="text-muted">
 			Created on
@@ -29,7 +30,9 @@
         <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work-->
         <div class="header">
             <h1>Quizzes</h1>
-            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create">Add a Quiz</a>
+            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create"  data-ng-show="authenticate.user.roles[0] === 'admin'">
+                Add a Quiz
+            </a>
         </div>
         <div class="list-group col-md-4">
             <a data-ng-repeat="quiz in course.quizzes" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
