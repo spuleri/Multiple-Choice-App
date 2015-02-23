@@ -8,7 +8,7 @@
         	<i class="glyphicon glyphicon-plus"></i>
         </button>
     </div>
-    <div data-ng-show="authenticate.user.roles[0] === 'admin'">
+    <div data-ng-show="authentication.user.roles[0] === 'admin'">
         <div class="pull-right">
             <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
                 <i class="glyphicon glyphicon-edit"></i>
@@ -30,7 +30,7 @@
         <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work-->
         <div class="header">
             <h1>Quizzes</h1>
-            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create"  data-ng-show="authenticate.user.roles[0] === 'admin'">
+            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create"  data-ng-show="authentication.user.roles[0] === 'admin'">
                 Add a Quiz
             </a>
         </div>
