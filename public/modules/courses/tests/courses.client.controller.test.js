@@ -153,11 +153,15 @@
 	            email: 'test@test.com',
 	            ufid: '88888888',
 	            gatorlink: 'crazyman',
-	            roles: ['admin']
+	            roles: ['admin'],
+	            ownedCourses: []
 	        };
 
 			// Set POST response
 			$httpBackend.expectPOST('courses', sampleCoursePostData).respond(sampleCourseResponse);
+
+			// Set PUT response
+			$httpBackend.expectPUT('users', scope.authentication.user).respond();
 
 			// Run controller functionality
 			scope.create();
