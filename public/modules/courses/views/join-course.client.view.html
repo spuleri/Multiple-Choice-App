@@ -1,0 +1,26 @@
+<section data-ng-controller="CoursesController" data-ng-init="findOne()">
+        <div class="modal-header">
+
+            <h3 class="modal-title">Join {{course.name}}</h3>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
+        <form class="" data-ng-submit="joinCourse(); ok()" novalidate>
+            <fieldset>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="insertedCCode">Insert Course Code</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="insertedCCode" id="insertedCCode" class="form-control" placeholder="XXX-####" required>
+                        </div>
+                    </div>  
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-normal btn-md" ng-click="cancel()">Cancel</button>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                </div>         
+           </fieldset>
+        </form>
+</section>
