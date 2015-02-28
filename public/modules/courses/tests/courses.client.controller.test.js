@@ -347,14 +347,21 @@
 					joinedCourses: []
 
 				};
-				
-				scope.course = {
+
+
+
+				var sampleCoursePutData = new Courses({
 					_id: '490it9804j5g98j340erofkj34590',
 					name: 'Gotham', 
 					courseCode: 'lul',
-					owner: 'f892j34958fg982901jasdl3'
-				};
+					owner: 'f892j34958fg982901jasdl3',
+					roster: []
+				});
+
+				scope.course = sampleCoursePutData;
+
 				scope.insertedCCode = 'lul';
+
 				scope.joinCourse();
 				expect(scope.authentication.user.joinedCourses[0]).toEqual('490it9804j5g98j340erofkj34590');
 			}));
@@ -374,14 +381,19 @@
 
 				};
 				
-				scope.course = {
+				var sampleCoursePutData = new Courses({
 					_id: '490it9804j5g98j340erofkj34590',
 					name: 'Gotham', 
 					courseCode: 'lul',
-					owner: 'f892j34958fg982901jasdl3'
-				};
+					owner: 'f892j34958fg982901jasdl3',
+					roster: []
+				});
+
+				scope.course = sampleCoursePutData;
 				scope.insertedCCode = 'idk';
 				scope.joinCourse();
+
+
 				expect(scope.authentication.user.joinedCourses[0]).toBe(undefined);
 			}));
 
@@ -400,18 +412,53 @@
 
 				};
 				
-				scope.course = {
+				var sampleCoursePutData = new Courses({
 					_id: '490it9804j5g98j340erofkj34590',
 					name: 'Gotham', 
 					courseCode: 'lul',
-					owner: 'f892j34958fg982901jasdl3'
-				};
+					owner: 'f892j34958fg982901jasdl3',
+					roster: []
+				});
+
+				scope.course = sampleCoursePutData;
 				scope.insertedCCode = 'lul';
+								
 				scope.joinCourse();
 				expect(scope.authentication.user.joinedCourses[0]).toEqual('490it9804j5g98j340erofkj34590');
 				scope.joinCourse();
 				expect(scope.authentication.user.joinedCourses[1]).toEqual(undefined);
 			}));
+
+			it('course roster updates when user enrolls', inject(function(Courses) {
+				scope.authentication.user = {
+					_id: 'oijg093094j0f9j0030fkw',
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '13371337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
+
+				};
+				
+				var sampleCoursePutData = new Courses({
+					_id: '490it9804j5g98j340erofkj34590',
+					name: 'Gotham', 
+					courseCode: 'lul',
+					owner: 'f892j34958fg982901jasdl3',
+					roster: []
+				});
+
+				scope.course = sampleCoursePutData;
+				scope.insertedCCode = 'lul';
+				scope.joinCourse();
+				expect(scope.course.roster[0]).toEqual('oijg093094j0f9j0030fkw');
+			}));
+
 /*			
 			it('professor(creator) cannot join his own course', inject(function(Courses) {
 
