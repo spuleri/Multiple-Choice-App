@@ -50,7 +50,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 							//$modalInstance.close($scope.insertedCCode);
 							setTimeout(function(){
 							    $modalInstance.close();
-							},3000);
+							},1300);
 						//}
 					};
 
@@ -77,23 +77,29 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				var course = new Courses ({
 					name: this.name,
 					courseCode: this.courseCode,
-					owner: $scope.authentication.user._id					
+					owner: $scope.authentication.user._id,
+					roster: this.roster					
 				});
 
 					// Redirect after save
 					course.$save(function(response) {
 						$location.path('courses/' + response._id);
-						// $scope.user = Authentication.user;
-						// //$scope.user.ownedCourses.push(response._id);
-						// $scope.user.firstName = 'a';
-						// $scope.success = $scope.error = null;
-						// var user = new Users($scope.user);
-						// user.$update(function(response) {
-						// 	$scope.success = true;
-						// 	Authentication.user = response;
-						// }, function(response) {
-						// 	$scope.error = response.data.message;
-						// });				
+
+
+
+						$scope.user = Authentication.user;
+						$scope.user.ownedCourses.push(response._id);
+						$scope.user.firstName = 'a';
+						$scope.success = $scope.error = null;
+						var user = new Users($scope.user);
+						user.$update(function(response) {
+							$scope.success = true;
+							Authentication.user = response;
+						}, function(response) {
+							$scope.error = response.data.message;
+						});				
+
+
 
 						// Clear form fields
 						$scope.name = '';
@@ -164,7 +170,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Join a Course
 		$scope.joinCourse = function() {
 			var course = $scope.course;
-			$scope.user = Authentication.user;
+			$scope.user = Authentication.user;			
 			var flag = false;
 			if ($scope.insertedCCode === course.courseCode) {
 				for (var i in $scope.user.joinedCourses) {
@@ -174,6 +180,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				}
 				if (!flag) {
 					$scope.user.joinedCourses.push(course._id);
+					$scope.course.roster.push($scope.user._id);
 					$scope.alerts.push({type: 'success', msg: 'You are now enrolled in the course.'});
 				}
 				else {
@@ -188,6 +195,13 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				}, function(response) {
 					$scope.error = response.data.message;
 				});
+
+				course.$update(function () {
+					$location.path('courses/' + course._id);
+				}, function (errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
+
 			}
 			else {
 				$scope.alerts.push({type: 'danger', msg: 'Wrong course code, try again.'});
