@@ -182,25 +182,26 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 					$scope.user.joinedCourses.push(course._id);
 					$scope.course.roster.push($scope.user._id);
 					$scope.alerts.push({type: 'success', msg: 'You are now enrolled in the course.'});
+
+					$scope.success = $scope.error = null;
+					var user = new Users($scope.user);
+					user.$update(function(response) {
+						$scope.success = true;
+						Authentication.user = response;
+					}, function(response) {
+						$scope.error = response.data.message;
+					});
+
+					course.$updateRoster(function () {
+						$location.path('courses/' + course._id);
+					}, function (errorResponse) {
+						$scope.error = errorResponse.data.message;
+					});
 				}
 				else {
 					$scope.alerts.push({type: 'warning', msg: 'You are already in this course!'});
 				}
 
-				$scope.success = $scope.error = null;
-				var user = new Users($scope.user);
-				user.$update(function(response) {
-					$scope.success = true;
-					Authentication.user = response;
-				}, function(response) {
-					$scope.error = response.data.message;
-				});
-
-				course.$update(function () {
-					$location.path('courses/' + course._id);
-				}, function (errorResponse) {
-					$scope.error = errorResponse.data.message;
-				});
 
 			}
 			else {
@@ -216,8 +217,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
             });
         };
-
-
 
 
 
