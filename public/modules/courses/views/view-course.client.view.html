@@ -2,21 +2,6 @@
 	<div class="page-header">
 		<h1 data-ng-bind="course.name"></h1>
 	</div>
-
-    <!-- DEBUGCODE 
-    {{course.roster}}
-            <a class="btn btn-warning" data-ng-click="removeUserCourses();">
-                <i class="glyphicon glyphicon-trash"></i>
-            </a>
-            Course Owner: {{course.owner}}
-            User ID: {{authentication.user._id}}  
-    -->
-
-    <div class="pull-right">
-        <button type="submit" class="btn btn-warning" ng-click="openJoinCourse('md')">
-        	<i class="glyphicon glyphicon-plus"></i>
-        </button>
-    </div>
     <div data-ng-show="authentication.user.roles[0] === 'admin'">
         <div class="pull-right">
             <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">

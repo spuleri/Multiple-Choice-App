@@ -1,20 +1,35 @@
 <section data-ng-controller="CoursesController" data-ng-init="find()">
     <div class="page-header">
-        <h1>Courses</h1>
+        <h1>Your Enrolled Courses</h1>
+        <p class="text-muted">(check the console for a list of all of them)</p>
 
         <div data-ng-if="(authentication.user.roles[0] === 'admin')">
             <button type="submit" class="btn btn-primary btn-md" ng-click="open('md')">Create a Course</button>
         </div>
+    <div class="">
+        <button type="submit" class="btn btn-warning" ng-click="openJoinCourse('md')">
+            <i class="glyphicon glyphicon-plus"></i>
+            JOIN A COURSE
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="course in courses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="course.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="course.owner.displayName"></span>
-			</small>
+    </div>
+    <div class="list-group col-xs-6 col-xs-offset-3">
+        <div ng-show="enrolledCourses.length === 0">
+            <h3>Wow quit skipping class and join yours by clicking that button!!!</h3>
+        </div>
+        <!-- had to add track by index, bcs thre was duplicates cuz u can join a course and own one,
+        and ng-repeat doesnt like duplicates :( -->
+        <a data-ng-repeat="course in enrolledCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
 			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
+            <small class="list-group-item-text">
+                Instructor:
+                <span data-ng-bind="course.owner.displayName"></span>
+            </small>
+
+             <span class="badge">{{course.quizzes.length}} Quizzes</span>
+             <span class="badge">{{course.roster.length}} Students</span>
+
         </a>
     </div>
     <!--

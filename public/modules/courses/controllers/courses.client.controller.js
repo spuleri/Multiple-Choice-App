@@ -145,10 +145,39 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				});
 			}
 		};
-
 		// Find a list of Courses
 		$scope.find = function() {
 			$scope.courses = Courses.query();
+			$scope.user = Authentication.user;			
+			$scope.enrolledCourses = [];
+			/*
+			 courses does not return your actual data immediately.
+			 It returns something will hold your data when the ajax returns.
+			 On that (the $promise), you can register an additional callback
+			 to log your data.
+			 */
+
+			$scope.courses.$promise.then(function(data) {
+       			console.log(data);
+       			for (var i in data){
+       				//finding courses the user is enrolled in
+					for(var j in $scope.user.joinedCourses) {
+						if(data[i]._id === $scope.user.joinedCourses[j]){
+							$scope.enrolledCourses.push($scope.courses[i]);
+						}
+					}
+					//finding courses that the user owns
+					for(var x in $scope.user.ownedCourses){
+						if(data[i]._id === $scope.user.ownedCourses[x]){
+							$scope.enrolledCourses.push($scope.courses[i]);
+						}
+					}
+				}
+				console.log($scope.enrolledCourses);
+   			});
+
+
+
 		};
 
 		// Find existing Course
@@ -169,6 +198,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 		// Join a Course
 		$scope.joinCourse = function() {
+
+			$scope.course = $scope.selectedCourse;
 			var course = $scope.course;
 			$scope.user = Authentication.user;			
 			var flag = false;
@@ -208,6 +239,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				$scope.alerts.push({type: 'danger', msg: 'Wrong course code, try again.'});
 			}
 		};
+
 
         $scope.findOneQuiz = function() {
             var desired = $stateParams.quizId;

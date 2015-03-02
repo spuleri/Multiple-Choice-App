@@ -101,7 +101,7 @@ var CourseSchema = new Schema({
 		ref: 'User'
 	},
     roster: [{
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     }],
     quizzes: [quizSchema]
