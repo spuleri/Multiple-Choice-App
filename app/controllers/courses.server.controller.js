@@ -136,3 +136,24 @@ exports.hasAuthorization = function(req, res, next) {
 	}
 	next();
 };
+
+
+/**
+ * Update a Course
+ */
+exports.updateRoster = function(req, res) {
+	var course = req.course ;
+
+	course = _.extend(course , req.body);
+
+	course.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(course);
+		}
+	});
+	
+};
