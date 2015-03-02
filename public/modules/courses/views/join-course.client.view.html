@@ -1,15 +1,27 @@
-<section data-ng-controller="CoursesController" data-ng-init="findOne()">
+<section data-ng-controller="CoursesController" data-ng-init="find()">
         <div class="modal-header">
-            <h3 class="modal-title">Join {{course.name}}</h3>
+            <h3 class="modal-title">Join a course</h3>
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         </div>
         <form class="" data-ng-submit="joinCourse(); ok()" novalidate>
             <fieldset>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="control-label" for="insertedCCode">Insert Course Code</label>
+                        <label class="control-label" for="selectedCourse">Search for a Course</label>
+                        <!--Parameters for typeahead expression -->
+                        <!--modelValue as display for iterationItem in list-->
+                        <input type="text" ng-model="selectedCourse" placeholder="Type in here and watch some cool shit happen" typeahead="course as course.name for course in courses | filter:$viewValue" typeahead-loading="loadingLocations" class="form-control">
+
+                        <div ng-show="selectedCourse">
+                            <p class="text-muted">
+                                <strong>Selected Course:</strong> {{selectedCourse.name}}, <strong>Instructor:</strong> {{selectedCourse.owner.displayName}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="insertedCCode">Insert Course Code [most are 123 ;) ]</label>
                         <div class="controls">
-                            <input type="text" data-ng-model="insertedCCode" id="insertedCCode" class="form-control" placeholder="XXX-####" required>
+                            <input type="text" data-ng-model="insertedCCode" id="insertedCCode" class="form-control" placeholder="Insert the course code silly!!!" required>
                         </div>
                     </div>  
                 </div>

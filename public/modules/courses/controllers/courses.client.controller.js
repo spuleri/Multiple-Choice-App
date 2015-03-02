@@ -145,7 +145,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				});
 			}
 		};
-
 		// Find a list of Courses
 		$scope.find = function() {
 			$scope.courses = Courses.query();
@@ -161,8 +160,15 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			$scope.courses.$promise.then(function(data) {
        			console.log(data);
        			for (var i in data){
+       				//finding courses the user is enrolled in
 					for(var j in $scope.user.joinedCourses) {
 						if(data[i]._id === $scope.user.joinedCourses[j]){
+							$scope.enrolledCourses.push($scope.courses[i]);
+						}
+					}
+					//finding courses that the user owns
+					for(var x in $scope.user.ownedCourses){
+						if(data[i]._id === $scope.user.ownedCourses[x]){
 							$scope.enrolledCourses.push($scope.courses[i]);
 						}
 					}
@@ -192,6 +198,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 		// Join a Course
 		$scope.joinCourse = function() {
+
+			$scope.course = $scope.selectedCourse;
 			var course = $scope.course;
 			$scope.user = Authentication.user;			
 			var flag = false;
