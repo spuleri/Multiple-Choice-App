@@ -7,10 +7,12 @@ angular.module('courses').factory('Courses', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
-			},
+			}
+			/*,
 			updateRoster: {
 				method: 'PUT'
 			}
+			*/
 		});
 	}
 ]);

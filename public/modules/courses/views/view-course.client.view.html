@@ -2,6 +2,16 @@
 	<div class="page-header">
 		<h1 data-ng-bind="course.name"></h1>
 	</div>
+
+    <!-- DEBUGCODE 
+    {{course.roster}}
+            <a class="btn btn-warning" data-ng-click="removeUserCourses();">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+            Course Owner: {{course.owner}}
+            User ID: {{authentication.user._id}}  
+    -->
+
     <div class="pull-right">
         <button type="submit" class="btn btn-warning" ng-click="openJoinCourse('md')">
         	<i class="glyphicon glyphicon-plus"></i>

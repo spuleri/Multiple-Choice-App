@@ -11,8 +11,9 @@ module.exports = function(app) {
 
 	app.route('/courses/:courseId')
 		.get(courses.read)
-		.put(users.requiresLogin, courses.updateRoster)
-		.put(users.requiresLogin, courses.hasAuthorization, courses.update)
+		//.put(users.requiresLogin, courses.updateRoster)
+		//.put(users.requiresLogin, courses.hasAuthorization, courses.update)
+		.put(users.requiresLogin, courses.update)  // messing with guards
 		.delete(users.requiresLogin, courses.hasAuthorization, courses.delete);
 
     app.route('/courses/:courseId/quizzes')

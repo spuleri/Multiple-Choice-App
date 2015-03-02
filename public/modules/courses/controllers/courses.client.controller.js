@@ -192,7 +192,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 						$scope.error = response.data.message;
 					});
 
-					course.$updateRoster(function () {
+					course.$update(function () {
 						$location.path('courses/' + course._id);
 					}, function (errorResponse) {
 						$scope.error = errorResponse.data.message;
@@ -218,6 +218,22 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
             });
         };
 
+/*
+        // DEBUG CODE~!@#
+        $scope.removeUserCourses = function() {
+        	$scope.user = Authentication.user;
+        	$scope.user.joinedCourses = [];
+
+			$scope.success = $scope.error = null;
+			var user = new Users($scope.user);
+			user.$update(function(response) {
+				$scope.success = true;
+				Authentication.user = response;
+			}, function(response) {
+				$scope.error = response.data.message;
+			});
+        };
+*/
 
 
 	}

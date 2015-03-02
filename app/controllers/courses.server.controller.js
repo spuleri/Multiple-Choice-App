@@ -51,7 +51,8 @@ exports.readQuizzes = function(req, res) {
 /**
  * Update a Course
  */
-exports.update = function(req, res) {
+ /*
+exports.update = function(req, res) {	
 
 	if(req.user.roles[0] === 'admin') {
 		var course = req.course ;
@@ -70,6 +71,35 @@ exports.update = function(req, res) {
 	}
 	else {console.log('You are not an admin and cannot update a course');}
 };
+*/
+
+
+exports.update = function(req, res) {	
+	var course = req.course;
+	var user = req.user;
+
+	// Otherwise, prof will join the roster everytime he updates
+	if (req.user.roles[0] === 'user')
+		course.roster.push(user.id);
+
+	if(user.id.toString() === course.owner._id.toString()) {
+		course = _.extend(course , req.body);
+
+	}
+	else {console.log('You are not an admin and cannot update a course');}
+	course.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(course);
+		}
+	});
+};
+
+
+
 
 /**
  * Delete an Course
@@ -131,14 +161,14 @@ exports.hasAuthorization = function(req, res, next) {
 };
 
 
+
 /**
  * Update a Course
  */
+/*
 exports.updateRoster = function(req, res) {
-	var course = req.course ;
-
-	course = _.extend(course , req.body);
-
+	var course = req.course;
+	course.roster.push(req.user.id);
 	course.save(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -150,3 +180,4 @@ exports.updateRoster = function(req, res) {
 	});
 	
 };
+*/
