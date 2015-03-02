@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="list-group col-xs-6 col-xs-offset-3">
-        <a data-ng-repeat="course in usersCourses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
+        <a data-ng-repeat="course in enrolledCourses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
 			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
             <small class="list-group-item-text">
                 Instructor:
