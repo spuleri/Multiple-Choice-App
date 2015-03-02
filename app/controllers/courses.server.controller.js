@@ -79,7 +79,7 @@ exports.update = function(req, res) {
 	var user = req.user;
 
 	// Otherwise, prof will join the roster everytime he updates
-	if (req.user.roles[0] === 'user')
+	if (user.id.toString() !== course.owner._id.toString())
 		course.roster.push(user.id);
 
 	if(user.id.toString() === course.owner._id.toString()) {
