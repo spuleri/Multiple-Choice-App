@@ -208,6 +208,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			}
 		};
 
+
         $scope.findOneQuiz = function() {
             var desired = $stateParams.quizId;
             $scope.course = Courses.get({

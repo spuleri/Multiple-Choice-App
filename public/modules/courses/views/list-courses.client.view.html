@@ -1,20 +1,22 @@
 <section data-ng-controller="CoursesController" data-ng-init="find()">
     <div class="page-header">
-        <h1>Courses</h1>
+        <h1>Your Enrolled Courses</h1>
 
         <div data-ng-if="(authentication.user.roles[0] === 'admin')">
             <button type="submit" class="btn btn-primary btn-md" ng-click="open('md')">Create a Course</button>
         </div>
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="course in courses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="course.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="course.owner.displayName"></span>
-			</small>
+    <div class="list-group col-xs-6 col-xs-offset-3">
+        <a data-ng-repeat="course in usersCourses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
 			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
+            <small class="list-group-item-text">
+                Instructor:
+                <span data-ng-bind="course.owner.displayName"></span>
+            </small>
+
+             <span class="badge">{{course.quizzes.length}} Quizzes</span>
+             <span class="badge">{{course.roster.length}} Students</span>
+
         </a>
     </div>
     <!--
