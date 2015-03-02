@@ -200,7 +200,6 @@ exports.changePassword = function(req, res) {
  							res.status(400).send({
 								message: 'New password cannot be the same as current password'
  							});
-						}
 						} else{
                             if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
                                 user.password = passwordDetails.newPassword;
