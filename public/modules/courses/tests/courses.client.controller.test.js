@@ -64,7 +64,17 @@
 
 			// Create a sample Courses array that includes the new Course
 			var sampleCourses = [sampleCourse];
-
+			scope.authentication.user = {
+	            firstName: 'Full',
+	            lastName: 'Name',
+	            displayName: 'Im an admin',
+	            email: 'test@test.com',
+	            ufid: '88888888',
+	            gatorlink: 'crazyman',
+	            roles: ['admin'],
+	            ownedCourses: [],
+	            joinedCourses: ['1defa34562bb25342e7dad56a3','1defa34562bb25342e7da456a1']
+	        };
 			// Set GET response
 			$httpBackend.expectGET('courses').respond(sampleCourses);
 
