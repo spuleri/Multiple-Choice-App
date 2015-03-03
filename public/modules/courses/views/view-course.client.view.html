@@ -1,40 +1,46 @@
 <section data-ng-controller="CoursesController" data-ng-init="findOne()" >
-	<div class="page-header">
-		<h1 data-ng-bind="course.name"></h1>
+	<div class="page-header course-header">
+		<h2 data-ng-bind="course.name"></h2>
+        
+        <p>Instructor: {{course.owner.displayName}}
+        <span data-ng-show="authentication.user.roles[0] === 'admin'">
+            <span class="pull-right">
+                <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit"tooltip-placement="top" tooltip="Edit this course">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-primary" data-ng-click="remove();"tooltip-placement="top" tooltip="Delete this course">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </span>
+        </span>
+
+        </p>
 	</div>
-    <div data-ng-show="authentication.user.roles[0] === 'admin'">
-        <div class="pull-right">
-            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-            <a class="btn btn-primary" data-ng-click="remove();">
-                <i class="glyphicon glyphicon-trash"></i>
-            </a>
-        </div>
-    </div>
-	<small>
-		<em class="text-muted">
-			Created on
-			<span data-ng-bind="course.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="course.owner.displayName"></span>
-		</em>
-	</small>
+
+
     <div>
-        <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work-->
+        <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work -->
+        <!-- nah ng-if works^^^^ (sergio) -->
         <div class="header">
-            <h1>Quizzes</h1>
-            <a class="btn btn-default" href="/#!/courses/{{course._id}}/create"  data-ng-show="authentication.user.roles[0] === 'admin'">
-                Add a Quiz
-            </a>
+            <ul class="nav nav-pills">
+              <li role="presentation" ng-class="{ active: isActive(course._id)}">
+                <a ui-sref=".home">Home</a>
+              </li>
+              <li role="presentation" ng-class="{ active: isActive('quizzes')}">
+                <a ui-sref=".quizzes">Quizzes</a>
+              </li>
+              <li role="presentation" ng-class="{ active: isActive('grades')}">
+                <a ui-sref=".grades">Grades</a>
+              </li>
+            </ul>
         </div>
-        <div class="list-group col-md-4">
-            <a data-ng-repeat="quiz in course.quizzes" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
-                <small class="list-group-item-text">
-                    Created on <span data-ng-bind="quiz.created | date:'medium'"></span>
-                </small>
-                <h4 class="list-group-item-heading" data-ng-bind="quiz.name"></h4>
-            </a>
+                <!-- MAIN CONTENT -->
+        <div class="container">
+
+            <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+            <div ui-view></div>
+
         </div>
+
     </div>
 </section>
