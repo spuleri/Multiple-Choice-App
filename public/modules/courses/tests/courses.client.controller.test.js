@@ -362,7 +362,7 @@
 					roster: []
 				});
 
-				scope.course = sampleCoursePutData;
+				scope.selectedCourse = sampleCoursePutData;
 
 				scope.insertedCCode = 'lul';
 
@@ -393,7 +393,7 @@
 					roster: []
 				});
 
-				scope.course = sampleCoursePutData;
+				scope.selectedCourse = sampleCoursePutData;
 				scope.insertedCCode = 'idk';
 				scope.joinCourse();
 
@@ -424,7 +424,7 @@
 					roster: []
 				});
 
-				scope.course = sampleCoursePutData;
+				scope.selectedCourse = sampleCoursePutData;
 				scope.insertedCCode = 'lul';
 								
 				scope.joinCourse();
@@ -457,7 +457,7 @@
 					roster: []
 				});
 
-				scope.course = sampleCoursePutData;
+				scope.selectedCourse = sampleCoursePutData;
 				scope.insertedCCode = 'lul';
 				scope.joinCourse();
 				expect(scope.course.roster[0]).toEqual('oijg093094j0f9j0030fkw');
