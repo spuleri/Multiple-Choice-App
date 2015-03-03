@@ -6,10 +6,10 @@
         <span data-ng-show="authentication.user.roles[0] === 'admin'">
             <span class="pull-right">
                 <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit"tooltip-placement="top" tooltip="Edit this course">
-                    <i class="glyphicon glyphicon-edit"></i>
+                    <i class="glyphicon glyphicon-edit" id="editCourse"></i>
                 </a>
                 <a class="btn btn-primary" data-ng-click="remove();"tooltip-placement="top" tooltip="Delete this course">
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <i class="glyphicon glyphicon-trash" id="removeCourse"></i>
                 </a>
             </span>
         </span>
