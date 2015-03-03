@@ -250,6 +250,18 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
             });
         };
 
+        //Function to dynamically set class=active to navbar
+        $scope.isActive = function (viewLocation) { 
+			//returns an array of each part of the location 
+			//delimeted by the slash
+			//e.g. for "courses/54f/quizzes"
+			//will return ["course", "54f", "quizzes"]
+			//I want the last part of the url, so i am popping the array
+			var path = $location.path().split('/');
+			var result =  path.pop() ;
+        	return viewLocation === result;
+    	};
+
 /*
         // DEBUG CODE~!@#
         $scope.removeUserCourses = function() {

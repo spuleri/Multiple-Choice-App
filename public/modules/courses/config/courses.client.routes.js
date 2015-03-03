@@ -15,9 +15,25 @@ angular.module('courses').config(['$stateProvider',
                 needAdmin: true
             }
         }).
+        //by setting abstrct to true, and removing .home's url,
+        //can make .home the default child state
         state('viewCourse', {
+            abstract: true,
             url: '/courses/:courseId',
             templateUrl: 'modules/courses/views/view-course.client.view.html'
+        }).
+        //Nested states for the Course page
+        state('viewCourse.home', {
+            url:'',
+            templateUrl: 'modules/courses/views/course-partials/partial-course-home.html'
+        }).
+        state('viewCourse.quizzes',{
+            url:'/quizzes',
+            templateUrl: 'modules/courses/views/course-partials/partial-course-quizzes.html'
+        }).
+        state('viewCourse.grades', {
+            url:'/grades',
+            templateUrl: 'modules/courses/views/course-partials/partial-course-grades.html'
         }).
         state('editQuiz', {
             url: '/courses/:courseId/:quizId/edit',
@@ -47,7 +63,6 @@ angular.module('courses').run(['$rootScope', '$state', 'Authentication', functio
   $rootScope.$on('$stateChangeStart', function(event, toState) {
 
 	    var authentication = Authentication;
-
 	    if (toState.data && toState.data.needAdmin && authentication.user.roles[0] !== 'admin') {
 	    	event.preventDefault();
 	    }
