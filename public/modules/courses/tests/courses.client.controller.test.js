@@ -40,6 +40,8 @@
 			//need to cache both pages for tests to work
             $templateCache.put('modules/core/views/home.client.view.html', '.<template-goes-here />');
             $templateCache.put('modules/courses/views/view-course.client.view.html', '.<template-goes-here />');
+			$templateCache.put('modules/courses/views/course-partials/partial-course-home.html', '.<template-goes-here />');
+
 			// Set a new global scope
 			scope = $rootScope.$new();
             subFinder = $injector.get('SubFinder');
