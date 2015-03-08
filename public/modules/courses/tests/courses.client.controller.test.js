@@ -390,7 +390,7 @@
 					email: 'bman@gg.com',
 					username: 'bwayne',
 					password: 'uio987p4',
-					ufid: '13371-337',
+					ufid: '1337-1337',
 					gatorlink: 'imbatman',
 					roles: ['admin'],
 					joinedCourses: []
