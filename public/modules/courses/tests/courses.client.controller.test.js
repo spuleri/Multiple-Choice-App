@@ -71,7 +71,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['admin'],
 	            ownedCourses: [],
@@ -163,7 +163,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['admin'],
 	            ownedCourses: []
@@ -205,7 +205,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['student']
 	        };
@@ -238,7 +238,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['admin']
 	        };
@@ -269,7 +269,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['user']
 	        };
@@ -299,7 +299,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['admin']
 	        };
@@ -329,7 +329,7 @@
 	            lastName: 'Name',
 	            displayName: 'Im an admin',
 	            email: 'test@test.com',
-	            ufid: '88888888',
+	            ufid: '8888-8888',
 	            gatorlink: 'crazyman',
 	            roles: ['user']
 	        };
@@ -357,7 +357,7 @@
 					email: 'bman@gg.com',
 					username: 'bwayne',
 					password: 'uio987p4',
-					ufid: '13371337',
+					ufid: '1337-1337',
 					gatorlink: 'imbatman',
 					roles: ['admin'],
 					joinedCourses: []
@@ -390,7 +390,7 @@
 					email: 'bman@gg.com',
 					username: 'bwayne',
 					password: 'uio987p4',
-					ufid: '13371337',
+					ufid: '13371-337',
 					gatorlink: 'imbatman',
 					roles: ['admin'],
 					joinedCourses: []
@@ -421,7 +421,7 @@
 					email: 'bman@gg.com',
 					username: 'bwayne',
 					password: 'uio987p4',
-					ufid: '13371337',
+					ufid: '1337-1337',
 					gatorlink: 'imbatman',
 					roles: ['admin'],
 					joinedCourses: []
@@ -454,7 +454,7 @@
 					email: 'bman@gg.com',
 					username: 'bwayne',
 					password: 'uio987p4',
-					ufid: '13371337',
+					ufid: '1337-1337',
 					gatorlink: 'imbatman',
 					roles: ['admin'],
 					joinedCourses: []

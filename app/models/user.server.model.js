@@ -88,8 +88,8 @@ var UserSchema = new Schema({
 		type: String,
 		trim: true,
 		default: '',
-		validate: [validateLocalStrategyProperty, 'Please fill in your UFID (without the -)'],
-		match: [/^[0-9]{8}$/, 'UFID should have 8 numbers (no -)']
+		validate: [validateLocalStrategyProperty, 'Please fill in your UFID (include -)'],
+		match: [/^[0-9]{4}-[0-9]{4}$/, 'UFID should have 8 numbers (include -)']
 	},
 	gatorlink: {
 		type: String,
