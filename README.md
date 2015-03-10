@@ -1,14 +1,14 @@
 # Multiple-Choice-App
 CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in real time in class.
 
-####Group Members
+###Group Members
 * **Sergio Puleri**: spuleri
 * **Kevin Wu**: kwu23
 * **Dylan Richardson**: goozie001
 * **Craig Lu**: CraigLu
 * **Chun Fai Kwok**: cfkwok
 
-####Protractor tests  
+###Protractor tests  
 Install Protractor (follow "Setup" instructions):  
 http://angular.github.io/protractor/#/
 
@@ -36,5 +36,5 @@ $ protractor tests/conf.js
 * Log out, sign into student acc  
 * Join the course  
 
-####Screenshot of current landing page
+###Screenshot of current landing page
 ![alt text](http://i.imgur.com/sEjTM25.png?1 =250x "Landing Page")
