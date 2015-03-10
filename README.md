@@ -11,10 +11,20 @@ CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in
 ####Protractor tests  
 Install Protractor (follow "Setup" instructions):  
 http://angular.github.io/protractor/#/
-######Running tests
-1. Start Selenium Server: `webdriver-manager start`
-2. Run `grunt`
-3. Run `protractor tests/conf.js`
+
+######Running tests (you will need to do these in seperate terminal tabs/windows)
+First start the Selenium Server:
+```bash
+$ webdriver-manager start
+```
+Start the application:
+```bash
+$ grunt
+```
+Finally, start Protracting!
+```bash
+$ protractor tests/conf.js
+```
 
 ######Current tests made:
 * Sign up, sign out, sign in  
