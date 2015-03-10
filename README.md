@@ -8,9 +8,6 @@ CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in
 * **Craig Lu**: CraigLu
 * **Chun Fai Kwok**: cfkwok
 
-####Screenshot of current landing page
-![alt text](http://i.imgur.com/sEjTM25.png?1 =250x "Landing Page")
-
 ####Protractor tests  
 Install Protractor (follow "Setup" instructions):  
 http://angular.github.io/protractor/#/
@@ -22,9 +19,12 @@ http://angular.github.io/protractor/#/
 ######Current tests made:
 * Sign up, sign out, sign in  
 * Sign in to prof acc, make course  
-* while still logged in, it updates the course, makes a quiz, goes to that quiz  
-* remove that course  
+* While still logged in, it updates the course, makes a quiz, goes to that quiz  
+* Remove that course  
 * Test if student can join  
-* make a new course while still logged in to prof acc  
-* log out, sign into student acc  
-* join the course  
+* Make a new course while still logged in to prof acc  
+* Log out, sign into student acc  
+* Join the course  
+
+####Screenshot of current landing page
+![alt text](http://i.imgur.com/sEjTM25.png?1 =250x "Landing Page")
