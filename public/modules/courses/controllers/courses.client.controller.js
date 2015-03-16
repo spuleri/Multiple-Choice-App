@@ -89,7 +89,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 						$scope.user = Authentication.user;
 						$scope.user.ownedCourses.push(response._id);
-						$scope.user.firstName = 'a';
 						$scope.success = $scope.error = null;
 						var user = new Users($scope.user);
 						user.$update(function(response) {
