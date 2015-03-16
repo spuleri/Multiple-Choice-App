@@ -78,7 +78,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 					name: this.name,
 					courseCode: this.courseCode,
 					owner: $scope.authentication.user._id,
-					roster: this.roster					
+					roster: this.roster,
+                    questions: []
 				});
 
 					// Redirect after save
@@ -186,7 +187,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				courseId: $stateParams.courseId
 			});
             $scope.quiz = {
-                name: ''
+                name: '',
+                questions: []
             };
 		};
 
@@ -247,6 +249,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 courseId: $stateParams.courseId
             }, function() {
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
+                console.log($scope.quiz.questions);
             });
         };
 
@@ -261,6 +264,21 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			var result =  path.pop() ;
         	return viewLocation === result;
     	};
+
+        $scope.addQuestion = function() {
+          $scope.quiz.questions.push({
+              title:'',
+              description: '',
+              answers: []
+          });
+        };
+
+        $scope.addAnswer = function(quest) {
+            quest.answers.push({
+                name: '',
+                valid: false
+            });
+        };
 
 /*
         // DEBUG CODE~!@#

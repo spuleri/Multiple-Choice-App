@@ -135,8 +135,7 @@ exports.deleteQuiz = function(req, res) {
     if(req.user.roles[0] === 'admin') {
         var course = req.course ;
 
-        course.children.id().remove();
-        course.(function(err) {
+        course.children.id().remove(function(err) {
             if (err) {
                 return res.status(400).send({
                     message: errorHandler.getErrorMessage(err)

@@ -10,6 +10,13 @@
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
+
+    <div ng-repeat="question in quiz.questions">
+        {{question.description}}
+        <div ng-repeat="answer in question.answers">
+            {{answer.name}}
+        </div>
+    </div>
     <small>
         <em class="text-muted">
             Created on
