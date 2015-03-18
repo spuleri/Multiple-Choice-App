@@ -1,12 +1,10 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder) {
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket) {
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
-
-		// Blocking non admins from creating/editing/deleting courses..
 		
 		$scope.open = function (size) {
 

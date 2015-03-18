@@ -27,10 +27,39 @@ var app = require('./config/express')(db);
 require('./config/passport')();
 
 // Start the app by listening on <port>
-app.listen(config.port);
+app.get('server').listen(config.port);
+
+// tack out socket instance from the app container
+var io = app.get('socketio'); 
+io.sockets.on('connection', function(socket){
+
+	console.log('connected brooo!');
+	socket.on('test socket', function(data){
+		console.log('recieved?');
+		io.sockets.emit('send test back', data);
+	}); // emit an event for all connected clients
+
+	socket.on('start-question', function(question){
+		io.sockets.emit('send-question-to-all', question);
+	});
+
+	//on recieving current time from client
+	socket.on('current-time', function(time){
+		//send curr time back to all clients
+		io.sockets.emit('current-time-from-server', time);
+	});
+	socket.on('end-question', function(question){
+		io.sockets.emit('remove-question', question);
+	});
+});
+
+
 
 // Expose app
 exports = module.exports = app;
 
 // Logging initialization
 console.log('MEAN.JS application started on port ' + config.port);
+
+
+
