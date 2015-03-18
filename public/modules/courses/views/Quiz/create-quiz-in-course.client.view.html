@@ -19,5 +19,15 @@
                 </div>
             </fieldset>
         </form>
+        <div ng-repeat="question in quiz.questions">
+            <input type="text" placeholder="Give me a Fucking Name!" ng-model="question.title">
+            <input type="text" placeholder="Description" ng-model="question.description">
+            <div ng-repeat="answer in question.answers">
+                <input type="text" placeholder="Answer Description" ng-model="answer.name">
+                <input type="checkbox" ng-model="answer.valid"> Correct Answer
+            </div>
+            <button class="btn btn-normal btn-md" ng-click="addAnswer(question)">Add Answer</button>
+        </div>
+        <button class="btn btn-normal btn-md" ng-click="addQuestion()">Add Question</button>
     </div>
 </section>

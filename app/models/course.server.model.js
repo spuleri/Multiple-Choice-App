@@ -6,7 +6,7 @@
  * just courses, but other vital components of the
  * application, like so:
  * Course               |
- * --Quiz Array         |   All are schemas
+ * --Quiz Array         |
  * ----Question Array   |
  * ------Answer Array   |
  */
@@ -56,6 +56,10 @@ var questionSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    time: {
+        type: Number,
+        default: 60
     },
     answers: [ansSchema]
 });

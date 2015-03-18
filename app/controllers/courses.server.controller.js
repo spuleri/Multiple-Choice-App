@@ -1,4 +1,3 @@
-
 'use strict';
 
 /**
@@ -8,7 +7,10 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Course = mongoose.model('Course'),
 	User = mongoose.model('User'),
-	_ = require('lodash');
+	_ = require('lodash'),
+    quiz, question, answer;
+
+	
 
 /**
  * Create a Course
@@ -105,9 +107,6 @@ exports.update = function(req, res) {
 	});
 };
 
-
-
-
 /**
  * Delete an Course
  */
@@ -131,6 +130,34 @@ exports.delete = function(req, res) {
 };
 
 /**
+ * Delete an Course
+ */
+exports.deleteQuiz = function(req, res) {
+
+    if(req.user.roles[0] === 'admin') {
+        var course = req.course ;
+
+        course.children.id().remove(function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.jsonp(course);
+            }
+        });
+    }
+    else {console.log('You are not an admin and cannot delete a course');}
+
+};
+
+//var doc = parent.children.id(id).remove();
+//parent.save(function (err) {
+//    if (err) return handleError(err);
+//    console.log('the sub-doc was removed')
+//});
+
+/**
  * List of Courses
  */
 exports.list = function(req, res) { 
@@ -152,7 +179,14 @@ exports.courseByID = function(req, res, next, id) {
 	Course.findById(id).populate('owner', 'displayName').exec(function(err, course) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));
-		req.course = course ;
+        if (req.user.roles[0] !== 'admin')
+            for (quiz in course.quizzes)
+                for (question in quiz.questions)
+                    for (answer in question.answers) {
+                        delete answer.valid;
+                    }
+        req.course = course;
+        console.log(req.course);
 		next();
 	});
 };
