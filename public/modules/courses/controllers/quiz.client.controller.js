@@ -15,28 +15,23 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		$scope.questions = [
 		{
 			question: 'Q1',
-			time: 60,
-			maxTime: undefined
+			time: 60
 		},
 		{
 			question: 'Q2',
-			time: 60,
-			maxTime: undefined
+			time: 60
 		},
 		{
 			question: 'Q3',
-			time: 60,
-			maxTime: undefined
+			time: 60
 		},
 		{
 			question: 'Q4',
-			time: 60,
-			maxTime: undefined
+			time: 60
 		},
 		{
 			question: 'Q5',
-			time: 60,
-			maxTime: undefined
+			time: 60
 		}
 		];
 
