@@ -6,41 +6,37 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
-        //testing websocket on course creation
-		Socket.on('course.created', function(course) {
-		    console.log(course);
-		});
 
 		//sample questions
-		$scope.questions = [
-		{
-			question: 'Q1',
-			time: 60
-		},
-		{
-			question: 'Q2',
-			time: 60
-		},
-		{
-			question: 'Q3',
-			time: 60
-		},
-		{
-			question: 'Q4',
-			time: 60
-		},
-		{
-			question: 'Q5',
-			time: 60
-		}
-		];
+		// $scope.questions = [
+		// {
+		// 	question: 'Q1',
+		// 	time: 60
+		// },
+		// {
+		// 	question: 'Q2',
+		// 	time: 60
+		// },
+		// {
+		// 	question: 'Q3',
+		// 	time: 60
+		// },
+		// {
+		// 	question: 'Q4',
+		// 	time: 60
+		// },
+		// {
+		// 	question: 'Q5',
+		// 	time: 60
+		// }
+		// ];
 
 
 		//another websocket test with button click on quiz page
 		$scope.testSocket = function(question){
 			// tell server to start question
 			Socket.emit('start-question', question); 
-			console.log('i emitted on front end');
+			
 			var timer = $interval(function(){
 				question.time--;
 				//every interval emit the current time so students can see time left
@@ -50,7 +46,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 					Socket.emit('end-question', question);
 					$scope.stop();
 				}				
-				console.log(question.time);
+				//console.log(question.time);
 			}, 1000);
 			//will execute function, every second until time is 0.
 
@@ -76,10 +72,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		Socket.on('send-question-to-all', function(question){
 			//assign the current question to the question emitted from server
 			$scope.currentQuestion = question;
-			$scope.currentQuestion.maxTime = question.time;
-
-			console.log('the max time is: ' + $scope.currentQuestion.maxTime);
-			
+			$scope.currentQuestion.maxTime = question.time;				
 		});
 		//when recieving current time from server, set currentQuestions time to it
 		Socket.on('current-time-from-server', function(time){

@@ -27,8 +27,6 @@ exports.create = function(req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
-				var socket = req.app.get('socketio'); // tacke out socket instance from the app container
-				socket.sockets.emit('course.created', course); // emit an event for all connected clients
 				res.jsonp(course);
 			}
 		});

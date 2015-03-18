@@ -26,8 +26,14 @@
 
 
             <ul class="list-group quiz-list">
-                <li class="list-group-item" ng-repeat="question in questions">
-                    {{question.question}}
+                <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
+                    <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
+                    <ul>
+                        <li ng-repeat="answer in question.answers">
+                            {{answer.name}}
+                        </li>
+                    </ul>
+
                     <form class="form-inline">
                       <div class="form-group">
                         <label for="questionTime">Time (in seconds)</label>
@@ -68,7 +74,12 @@
                     </progressbar>
                 </div>
 
-                <p data-ng-bind="currentQuestion.question"></p>
+                <p data-ng-bind="currentQuestion.description"></p>
+                <ul>
+                    <li ng-repeat="answer in currentQuestion.answers">
+                        {{answer.name}}
+                    </li>
+                </ul>
             </div>
             </div>
 
@@ -76,19 +87,6 @@
     </div>
 
 
-    <div ng-repeat="question in quiz.questions">
-        {{question.description}}
-        <div ng-repeat="answer in question.answers">
-            {{answer.name}}
-        </div>
-    </div>
-    <small>
-        <em class="text-muted">
-            Created on
-            <span data-ng-bind="quiz.created | date:'mediumDate'"></span>
-            by
-            <span data-ng-bind="course.owner.displayName"></span>
-        </em>
-    </small>
+
 
 </section>

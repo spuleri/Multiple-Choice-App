@@ -57,6 +57,10 @@ var questionSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    time: {
+        type: Number,
+        default: 60
+    },
     answers: [ansSchema]
 });
 /**
