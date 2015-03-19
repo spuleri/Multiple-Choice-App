@@ -246,7 +246,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 courseId: $stateParams.courseId
             }, function() {
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
-                console.log($scope.quiz.questions);
+                console.log($scope.quiz);
             });
         };
 
