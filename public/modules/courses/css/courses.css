@@ -1,0 +1,23 @@
+.list-group{
+	padding-right: 0;
+}
+
+.course-header {
+	border-bottom: 1px solid #ccc;
+}
+
+.quiz-head{
+	margin-bottom: 10px;
+
+}
+
+/*.header {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}*/
+
+.some-margin{
+	margin-top: 30px;
+	margin-bottom: 15px;
+}
+

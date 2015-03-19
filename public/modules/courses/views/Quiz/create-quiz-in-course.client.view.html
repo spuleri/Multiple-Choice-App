@@ -1,0 +1,33 @@
+<section data-ng-controller="CoursesController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>Add Quiz</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" data-ng-submit="update()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="quiz">Name</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="quiz.name" id="quiz" class="form-control" placeholder="Quiz Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-default">
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+        <div ng-repeat="question in quiz.questions">
+            <input type="text" placeholder="Give me a Fucking Name!" ng-model="question.title">
+            <input type="text" placeholder="Description" ng-model="question.description">
+            <div ng-repeat="answer in question.answers">
+                <input type="text" placeholder="Answer Description" ng-model="answer.name">
+                <input type="checkbox" ng-model="answer.valid"> Correct Answer
+            </div>
+            <button class="btn btn-normal btn-md" ng-click="addAnswer(question)">Add Answer</button>
+        </div>
+        <button class="btn btn-normal btn-md" ng-click="addQuestion()">Add Question</button>
+    </div>
+</section>
