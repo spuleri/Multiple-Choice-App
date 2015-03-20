@@ -173,15 +173,19 @@ exports.courseByID = function(req, res, next, id) {
 	Course.findById(id).populate('owner', 'displayName').exec(function(err, course) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));
-        if (req.user.roles[0] !== 'admin')
-            for (quiz in course.quizzes)
-                for (question in quiz.questions)
-                    for (answer in question.answers) {
-                        delete answer.valid;
-                    }
-        req.course = course;
-        console.log(req.course);
-		next();
+		//hiding the correct answer to non-admins
+        if (req.user.roles[0] !== 'admin'){
+            course.quizzes.forEach(function(quiz) {
+                quiz.questions.forEach(function(question) {
+                    question.answers.forEach(function(answer){
+                        answer.valid = undefined;
+                    });
+                });
+            });
+            req.course = course;
+			next();
+        }
+
 	});
 };
 
