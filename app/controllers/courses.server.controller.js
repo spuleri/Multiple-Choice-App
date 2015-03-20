@@ -50,12 +50,6 @@ exports.readQuizzes = function(req, res) {
     res.jsonp(req.course.quizzes);
 };
 
-/*Get a users enrolled courses
-Dunno if need yet
-*/
-exports.readEnrolledCourses = function(req, res){
-	res.jsonp(req.user.joinedCourses);
-};
 
 /**
  * Update a Course

@@ -3,11 +3,11 @@
 module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
 	var courses = require('../../app/controllers/courses.server.controller');
+	var singleUser = require('../../app/controllers/users.populate.server.controller');
 
 	// Courses Routes
 	app.route('/courses')
 		.get(courses.list)
-		.get(users.requiresLogin, courses.readEnrolledCourses)
 		.post(users.requiresLogin, courses.create);
 
 	app.route('/courses/:courseId')
@@ -20,6 +20,10 @@ module.exports = function(app) {
     app.route('/courses/:courseId/quizzes')
         .get(courses.readQuizzes);
     // This is where we will be posting new quizzes as well.
+
+    //route for method of populating users courses
+    app.route('/users/courses')
+    	.get(users.requiresLogin, singleUser.populateUser);
 
 	// Finish by binding the Course middleware
 	app.param('courseId', courses.courseByID);
