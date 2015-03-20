@@ -1,7 +1,6 @@
 'use strict';
 
 // Courses controller
-<<<<<<< HEAD
 angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket', '$http',
 	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket, $http) {
 		$scope.authentication = Authentication;
