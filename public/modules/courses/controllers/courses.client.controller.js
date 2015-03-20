@@ -1,12 +1,24 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder) {
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', '$http',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, $http) {
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
-		// Blocking non admins from creating/editing/deleting courses..
+		//gets a user's joined and owned courses.    
+        $http.get('/users/courses').
+	        success(function(data, status) {
+	          //setting authentication.user = to the new user which has populated fields
+	          $scope.authentication.user = data;
+	          console.log($scope.authentication.user); 
+	        }).
+	        error(function(data, status) {
+	          $scope.data = data || 'Request failed';
+	          $scope.status = status;
+	          console.log($scope.data + ': '+ $scope.status);
+	      });
+	
 		
 		$scope.open = function (size) {
 
@@ -147,36 +159,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Find a list of Courses
 		$scope.find = function() {
 			$scope.courses = Courses.query();
-			$scope.user = Authentication.user;			
-			$scope.enrolledCourses = [];
-			/*
-			 courses does not return your actual data immediately.
-			 It returns something will hold your data when the ajax returns.
-			 On that (the $promise), you can register an additional callback
-			 to log your data.
-			 */
-
-			$scope.courses.$promise.then(function(data) {
-       			console.log(data);
-       			for (var i in data){
-       				//finding courses the user is enrolled in
-					for(var j in $scope.user.joinedCourses) {
-						if(data[i]._id === $scope.user.joinedCourses[j]){
-							$scope.enrolledCourses.push($scope.courses[i]);
-						}
-					}
-					//finding courses that the user owns
-					for(var x in $scope.user.ownedCourses){
-						if(data[i]._id === $scope.user.ownedCourses[x]){
-							$scope.enrolledCourses.push($scope.courses[i]);
-						}
-					}
-				}
-				console.log($scope.enrolledCourses);
-   			});
-
-
-
 		};
 
 		// Find existing Course
