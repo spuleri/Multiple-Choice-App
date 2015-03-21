@@ -9,9 +9,9 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		//gets a user's joined and owned courses.    
         $http.get('/users/courses').
 	        success(function(data, status) {
-	          //setting authentication.user = to the new user which has populated fields
-	          $scope.authentication.user = data;
-	          console.log($scope.authentication.user); 
+	          //setting userWithCourses = to the new user which has populated joined and owned Courses fields
+	          $scope.userWithCourses = data;
+	          console.log($scope.userWithCourses); 
 	        }).
 	        error(function(data, status) {
 	          $scope.data = data || 'Request failed';
