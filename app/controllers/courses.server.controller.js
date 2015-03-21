@@ -185,6 +185,10 @@ exports.courseByID = function(req, res, next, id) {
             req.course = course;
 			next();
         }
+        else {
+        	req.course = course;
+			next();
+        }
 
 	});
 };
