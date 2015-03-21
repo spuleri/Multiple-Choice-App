@@ -1,6 +1,6 @@
-<section data-ng-controller="CoursesController" data-ng-init="findOne()">
+<section data-ng-controller="CoursesController" data-ng-init="findOne(); addQuestion(1)">
     <div class="page-header">
-        <h1>Add Quiz</h1>
+        <h1>Create a New Quiz</h1>
     </div>
     <div class="col-md-12">
         <form class="form-horizontal" data-ng-submit="update()" novalidate>
@@ -11,23 +11,70 @@
                         <input type="text" data-ng-model="quiz.name" id="quiz" class="form-control" placeholder="Quiz Name">
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-default">
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+
+<!-- Quick add, maybe later
+        <div class="form-inline">
+            <input type="text" class="form-control bot-margin" placeholder="+Q" ng-model="numquestions" size="1">
+            <input type="text" class="form-control bot-margin" placeholder="+A" ng-model="numanswers" style="position:relative;left:30px" size="1">
+            <button class="btn btn-success btn-md bot-margin" ng-click="quickMake(numquestions, numanswers)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                        Quick Create
+            </button>
+        </div>
+-->       
+
+        <form class="form-inline well well-lg">
+            <div ng-repeat="question in quiz.questions" data-ng-init="addAnswer(question, 5)" class="well">
+                <span style="font-size: 20px; position:relative;bottom:4px" class="label label-success label-as-badge">{{$index + 1}}</span>
+                <input type="text" class="form-control bot-margin" placeholder="Label" ng-model="question.title" size="10">
+                <input type="text" class="form-control bot-margin" placeholder="Question" ng-model="question.description" size="70">
+
+                <button class="btn btn-success btn-md bot-margin" ng-click="removeQuestion(question)" style="position:relative;left:30px">
+                    <i class="glyphicon glyphicon-minus"></i>
+                </button>
+
+                <button class="btn btn-success btn-md bot-margin" ng-click="insertQuestion(question)" style="position:relative;left:30px">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+<!--
+                <button class="btn btn-danger btn-md bot-margin" ng-click="addAnswer(question, numanswers)" style="position:relative;left:30px">
+                    <i class="glyphicon glyphicon-plus"></i>
+                        Add Answer
+                </button>
+-->                
+                <div ng-repeat="answer in question.answers" style="position:relative;left:100px">
+                    <input type="checkbox" ng-model="answer.valid" style="position:relative;right:8px">
+                    <input type="text" class="form-control bot-margin" placeholder="Answer {{$index + 1}}" ng-model="answer.name" size="50">
+                    <span ng-if="answer.valid === true">
+                        <i class="glyphicon glyphicon-ok" style="color:green"></i>
+                    </span>
+                    <span ng-if="answer.valid === false">
+                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </span>
+                    <button class="btn btn-danger btn-md bot-margin" ng-click="removeAnswer(question, answer)" style="position:relative;left:30px">
+                        <i class="glyphicon glyphicon-minus"></i>
+                    </button>
+
+                    <button class="btn btn-danger btn-md bot-margin" ng-click="insertAnswer(question, answer)" style="position:relative;left:30px">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>                    
+                </div>
+            </div>
+        </form>
+        <form class="form-horizontal" data-ng-submit="update()" novalidate>
+            <fieldset>
+                <div class="form-group" align="right">
+                    <input type="submit" value="Create" class="btn btn-info">
                 </div>
                 <div data-ng-show="error" class="text-danger">
                     <strong data-ng-bind="error"></strong>
                 </div>
             </fieldset>
         </form>
-        <div ng-repeat="question in quiz.questions">
-            <input type="text" placeholder="Give me a Fucking Name!" ng-model="question.title">
-            <input type="text" placeholder="Description" ng-model="question.description">
-            <div ng-repeat="answer in question.answers">
-                <input type="text" placeholder="Answer Description" ng-model="answer.name">
-                <input type="checkbox" ng-model="answer.valid"> Correct Answer
-            </div>
-            <button class="btn btn-normal btn-md" ng-click="addAnswer(question)">Add Answer</button>
-        </div>
-        <button class="btn btn-normal btn-md" ng-click="addQuestion()">Add Question</button>
     </div>
 </section>

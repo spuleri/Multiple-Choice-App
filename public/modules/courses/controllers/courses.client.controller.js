@@ -262,19 +262,92 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
         	return viewLocation === result;
     	};
 
-        $scope.addQuestion = function() {
-          $scope.quiz.questions.push({
-              title:'',
-              description: '',
-              answers: []
-          });
+    	
+        $scope.addQuestion = function(num) {
+        	if (num <= 20 && $scope.quiz.questions.length <= 200) {
+		    	for (var i = 0; i < num; ++i) {
+		          $scope.quiz.questions.push({
+		              title:'',
+		              description: '',
+		              answers: []              
+		          });
+
+		      	}
+		      }
         };
 
-        $scope.addAnswer = function(quest) {
-            quest.answers.push({
-                name: '',
-                valid: false
-            });
+        $scope.insertQuestion = function(quest) {
+        	if ($scope.quiz.questions.length <= 200) {
+	        	var index = $scope.quiz.questions.indexOf(quest);
+		          $scope.quiz.questions.splice(index + 1, 0, {
+		              title:'',
+		              description: '',
+		              answers: []              
+		          });
+	      	}
+	      			     
+        };
+
+        $scope.removeQuestion = function(quest) {
+        	if ($scope.quiz.questions.length > 1) {
+	        	var index = $scope.quiz.questions.indexOf(quest);
+		        $scope.quiz.questions.splice(index, 1);
+	      	}	
+	      			     
+        };
+
+        $scope.addAnswer = function(quest, num) {
+        	if (num <= 20 && quest.answers.length <= 50) {
+	        	for (var i = 0; i < num; ++i) {
+		            quest.answers.push({
+		                name: '',
+		                valid: false
+		            });
+	        	}
+	        }
+        };
+
+        $scope.insertAnswer = function(quest, ans) {
+        	if (quest.answers.length <= 50) {
+	        	var index = quest.answers.indexOf(ans);
+		          quest.answers.splice(index + 1, 0, {
+		                name: '',
+		                valid: false            
+		          });
+	      	}
+	      			     
+        };
+
+        $scope.removeAnswer = function(quest, ans) {
+        	if (quest.answers.length > 1) {
+	        	var index = quest.answers.indexOf(ans);
+		        quest.answers.splice(index, 1);
+	      	}
+	      			     
+        };
+
+        $scope.quickMake = function(numQ, numA) {
+        	if (numQ <= 20 && numA <= 20) {
+		    	for (var i = 0; i < numQ; ++i) {
+		          $scope.quiz.questions.push({
+		              title:'',
+		              description: '',
+		              answers: [{
+		                name: '',
+		                valid: false
+		              }]              
+		          });
+		          /*
+  	        		for (var j = 0; j < numA; ++j) {
+		            $scope.quiz.questions.answers.push({
+		                name: '',
+		                valid: false
+		            });
+	        	}
+*/
+
+		      	}
+		      }
         };
 
 /*

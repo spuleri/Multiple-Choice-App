@@ -30,7 +30,12 @@
                     <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
                     <ul>
                         <li ng-repeat="answer in question.answers">
-                            {{answer.name}}
+                            <span class="highlight" ng-if="answer.valid === true">
+                                {{answer.name}}
+                            </span>
+                            <span ng-if="answer.valid === false">
+                                {{answer.name}}
+                            </span>                            
                         </li>
                     </ul>
 
@@ -77,7 +82,10 @@
                 <p data-ng-bind="currentQuestion.description"></p>
                 <ul>
                     <li ng-repeat="answer in currentQuestion.answers">
+                      <label>
+                        <input type="radio" name="ansradio" />
                         {{answer.name}}
+                      </label>
                     </li>
                 </ul>
             </div>

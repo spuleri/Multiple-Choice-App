@@ -21,3 +21,40 @@
 	margin-bottom: 15px;
 }
 
+.bot-margin{
+	margin-bottom: 15px;
+}
+
+.input-xs {
+    height: 22px;
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+span.highlight {
+    background-color: yellow;
+}
+
+i.glyphicon-ok {
+    font-size: 1.5em;
+}
+
+i.glyphicon-remove {
+    font-size: 1.5em;
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+      -ms-transform: scale(2); /* IE */
+      -moz-transform: scale(2); /* FF */
+      -webkit-transform: scale(2); /* Safari and Chrome */
+      -o-transform: scale(2); /* Opera */
+      padding: 10px;
+}
+
+div.well{
+    background-color: rgb(211, 211, 211);
+}
