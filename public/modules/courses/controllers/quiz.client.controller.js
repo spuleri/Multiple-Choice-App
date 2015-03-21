@@ -31,29 +31,36 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		// }
 		// ];
 
+		$scope.active = false;
 
 		//another websocket test with button click on quiz page
 		$scope.testSocket = function(question){
-			// tell server to start question
-			Socket.emit('start-question', question); 
-			
-			var timer = $interval(function(){
-				question.time--;
-				//every interval emit the current time so students can see time left
-				Socket.emit('current-time', question.time);
-				if(question.time === 0){
-					//tell server to end question
-					Socket.emit('end-question', question);
-					$scope.stop();
-				}				
-				//console.log(question.time);
-			}, 1000);
-			//will execute function, every second until time is 0.
+			if (question.time > 0 && !($scope.active)) {
+				// tell server to start question
+				$scope.active = true;
 
-			// stops the interval
-			$scope.stop = function() {
-			  $interval.cancel(timer);
-			};
+				Socket.emit('start-question', question); 
+				
+				var timer = $interval(function(){
+					Socket.emit('start-question', question); 
+					question.time--;
+					//every interval emit the current time so students can see time left
+					Socket.emit('current-time', question.time);
+					if(question.time <= 0){
+						//tell server to end question
+						Socket.emit('end-question', question);
+						$scope.stop();
+						$scope.active = false;
+					}				
+					//console.log(question.time);
+				}, 1000);
+				//will execute function, every second until time is 0.
+
+				// stops the interval
+				$scope.stop = function() {
+				  $interval.cancel(timer);
+				};
+			}
 		};
 		
 		Socket.on('send test back', function(data){
@@ -65,7 +72,9 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 			question.time = question.time + 15;
 		};
 		$scope.subtractTime = function(question){
-			question.time = question.time - 15;
+			if (question.time >= 15) {
+				question.time = question.time - 15;
+			}
 		};
 
 		//when server emits this, set current question to the one sent from server
