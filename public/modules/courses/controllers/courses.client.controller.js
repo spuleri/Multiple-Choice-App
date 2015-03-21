@@ -1,10 +1,24 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket) {
+angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket', '$http',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket, $http) {
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
+
+		//gets a user's joined and owned courses.    
+        $http.get('/users/courses').
+	        success(function(data, status) {
+	          //setting userWithCourses = to the new user which has populated joined and owned Courses fields
+	          $scope.userWithCourses = data;
+	          console.log($scope.userWithCourses); 
+	        }).
+	        error(function(data, status) {
+	          $scope.data = data || 'Request failed';
+	          $scope.status = status;
+	          console.log($scope.data + ': '+ $scope.status);
+	      });
+	
 		
 		$scope.open = function (size) {
 
@@ -146,36 +160,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Find a list of Courses
 		$scope.find = function() {
 			$scope.courses = Courses.query();
-			$scope.user = Authentication.user;			
-			$scope.enrolledCourses = [];
-			/*
-			 courses does not return your actual data immediately.
-			 It returns something will hold your data when the ajax returns.
-			 On that (the $promise), you can register an additional callback
-			 to log your data.
-			 */
-
-			$scope.courses.$promise.then(function(data) {
-       			console.log(data);
-       			for (var i in data){
-       				//finding courses the user is enrolled in
-					for(var j in $scope.user.joinedCourses) {
-						if(data[i]._id === $scope.user.joinedCourses[j]){
-							$scope.enrolledCourses.push($scope.courses[i]);
-						}
-					}
-					//finding courses that the user owns
-					for(var x in $scope.user.ownedCourses){
-						if(data[i]._id === $scope.user.ownedCourses[x]){
-							$scope.enrolledCourses.push($scope.courses[i]);
-						}
-					}
-				}
-				console.log($scope.enrolledCourses);
-   			});
-
-
-
 		};
 
 		// Find existing Course
@@ -246,7 +230,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 courseId: $stateParams.courseId
             }, function() {
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
-                console.log($scope.quiz.questions);
+                console.log($scope.quiz);
             });
         };
 
