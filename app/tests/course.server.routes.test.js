@@ -11,7 +11,7 @@ var should = require('should'),
 /**
  * Globals
  */
-var credentials, user_s, user_p, course;
+var credentials_s, credentials_p, user_s, user_p, course;
 
 /**
  * Course routes tests
@@ -19,10 +19,16 @@ var credentials, user_s, user_p, course;
 describe('Course CRUD tests', function() {
 	beforeEach(function(done) {
 		// Create user credentials
-		credentials = {
+		credentials_p = {
 			username: 'username',
 			password: 'password'
 		};
+
+        credentials_s = {
+            username: 'username_s',
+            password: 'password_s'
+        };
+
 
 		// Create a new user
 		user_s = new User({
@@ -32,8 +38,8 @@ describe('Course CRUD tests', function() {
 			email: 'test@test.com',
             ufid: '8888-8888',
             gatorlink: 'crazyman',
-			username: credentials.username,
-			password: credentials.password,
+			username: credentials_s.username,
+			password: credentials_s.password,
 			provider: 'local'
 		});
 
@@ -45,12 +51,12 @@ describe('Course CRUD tests', function() {
             ufid: '8888-8888',
             gatorlink: 'crazyman',
             roles: 'admin',
-            username: credentials.username,
-            password: credentials.password,
+            username: credentials_p.username,
+            password: credentials_p.password,
             provider: 'local'
         });
 
-		// Save a user to the test db and create new Course
+		// Save an admin to the test db and create new Course
 		user_p.save(function() {
 			course = {
 				name: 'Course Name',
@@ -64,14 +70,17 @@ describe('Course CRUD tests', function() {
                     }
                 ]
 			};
-
-			done();
 		});
+
+        // Save a user to the test db
+        user_s.save(function() {
+            done();
+        });
 	});
 
 	it('should be able to save Course instance if logged in as admin', function(done) {
 		agent.post('/auth/signin')
-			.send(credentials)
+			.send(credentials_p)
 			.expect(200)
 			.end(function(signinErr, signinRes) {
 				// Handle signin error
@@ -123,14 +132,11 @@ describe('Course CRUD tests', function() {
 		course.name = '';
 
 		agent.post('/auth/signin')
-			.send(credentials)
+			.send(credentials_p)
 			.expect(200)
 			.end(function(signinErr, signinRes) {
 				// Handle signin error
 				if (signinErr) done(signinErr);
-
-				// Get the userId
-				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -148,14 +154,11 @@ describe('Course CRUD tests', function() {
 
 	it('should be able to update Course instance if signed in as admin', function(done) {
 		agent.post('/auth/signin')
-			.send(credentials)
+			.send(credentials_p)
 			.expect(200)
 			.end(function(signinErr, signinRes) {
 				// Handle signin error
 				if (signinErr) done(signinErr);
-
-				// Get the userId
-				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')
@@ -209,21 +212,27 @@ describe('Course CRUD tests', function() {
 		});
 	});
 
-    it('should be able to get a list of quizzes within a particular course', function(done) {
-        // Create new Course model instance
-        var courseObj = new Course(course);
+    it('should be able to get a list of quizzes within a particular course if signed in', function(done) {
+        agent.post('/auth/signin')
+            .send(credentials_p)
+            .expect(200)
+            .end(function(signinErr, signinRes) {
+                // Handle signin error
+                if (signinErr) done(signinErr);
+                // Create new Course model instance
+                var courseObj = new Course(course);
+                // Save the Course
+                courseObj.save(function () {
+                    request(app).get('/courses/' + courseObj._id + '/quizzes')
+                        .end(function (req, res) {
+                            // Set assertion
+                            res.body.should.be.an.Array.with.lengthOf(2);
 
-        // Save the Course
-        courseObj.save(function() {
-            request(app).get('/courses/' + courseObj._id + '/quizzes')
-                .end(function(req, res) {
-                    // Set assertion
-                    res.body.should.be.an.Array.with.lengthOf(2);
-
-                    // Call the assertion callback
-                    done();
+                            // Call the assertion callback
+                            done();
+                        });
                 });
-        });
+            });
     });
 
 
@@ -246,14 +255,11 @@ describe('Course CRUD tests', function() {
 
 	it('should be able to delete Course instance if signed in as admin', function(done) {
 		agent.post('/auth/signin')
-			.send(credentials)
+			.send(credentials_p)
 			.expect(200)
 			.end(function(signinErr, signinRes) {
 				// Handle signin error
 				if (signinErr) done(signinErr);
-
-				// Get the userId
-				var userId = user_p.id;
 
 				// Save a new Course
 				agent.post('/courses')

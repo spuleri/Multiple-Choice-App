@@ -37,7 +37,7 @@ var mongoose = require('mongoose'),
 
 /**
  * Populate user with ownedCourses & joinedCourses
- can populate exsisitng documents though: 
+ can populate existing documents though:
  http://mongoosejs.com/docs/api.html#document_Document-populate
  */
 exports.populateUser = function(req, res) { 

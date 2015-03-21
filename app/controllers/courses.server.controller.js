@@ -174,7 +174,11 @@ exports.courseByID = function(req, res, next, id) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));
 		//hiding the correct answer to non-admins
-        if (req.user.roles[0] !== 'admin'){
+        if (req.user && req.user.roles[0] === 'admin'){
+            req.course = course;
+			next();
+        }
+        else {
             course.quizzes.forEach(function(quiz) {
                 quiz.questions.forEach(function(question) {
                     question.answers.forEach(function(answer){
@@ -183,11 +187,7 @@ exports.courseByID = function(req, res, next, id) {
                 });
             });
             req.course = course;
-			next();
-        }
-        else {
-        	req.course = course;
-			next();
+            next();
         }
 
 	});
