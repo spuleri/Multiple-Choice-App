@@ -62,7 +62,7 @@ describe('signup page', function() {
 		email.sendKeys('bestdoctorna@gg.com');
 		username.sendKeys(newUserName);
 		password.sendKeys('abcd1234');
-		ufid.sendKeys(49875243);
+		ufid.sendKeys('4987-5243');
 		gatorlink.sendKeys('ghouse');
 		professor.click();
 		signUp.click();
@@ -98,7 +98,7 @@ describe('site functionality after log', function() {
 
 	it('should be able to sign in as a professor and make a course', function() {
 		element(by.id('headerSignIn')).click();
-    	element(by.id('username')).sendKeys('fai');
+    	element(by.id('username')).sendKeys('fai1');
     	element(by.id('password')).sendKeys('abcd1234');
     	element(by.buttonText('Sign in')).click();
     	element(by.id('headerCourses')).click();
@@ -150,13 +150,14 @@ describe('site functionality after log', function() {
 		element(by.binding('authentication.user.displayName')).click();
 		element(by.id('dropdownSignOut')).click();
 		element(by.id('headerSignIn')).click();
-    	element(by.id('username')).sendKeys('fai_s');
+    	element(by.id('username')).sendKeys('fai4');
     	element(by.id('password')).sendKeys('abcd1234');
     	element(by.buttonText('Sign in')).click();
 
+browser.sleep(4000);
     	// Join the course
     	element(by.id('headerCourses')).click();
-    	element(by.partialButtonText('JOIN')).click();
+    	element(by.partialButtonText('Join')).click();
     	element(by.model('selectedCourse')).sendKeys('TestCourse', protractor.Key.ENTER);
     	element(by.id('insertedCCode')).sendKeys('123');
     	element(by.id('joinSubmit')).click();
