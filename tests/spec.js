@@ -154,7 +154,7 @@ describe('site functionality after log', function() {
     	element(by.id('password')).sendKeys('abcd1234');
     	element(by.buttonText('Sign in')).click();
 
-browser.sleep(4000);
+        browser.sleep(4000);
     	// Join the course
     	element(by.id('headerCourses')).click();
     	element(by.partialButtonText('Join')).click();
@@ -163,6 +163,43 @@ browser.sleep(4000);
     	element(by.id('joinSubmit')).click();
     	browser.sleep(1500);
 	});
-
+    /*
+    it('should be able to make a quiz and a question', function() {
+            element(by.binding('authentication.user.displayName')).click();
+            element(by.id('dropdownSignOut')).click();
+            element(by.id('headerSignIn')).click();
+            element(by.id('username')).sendKeys('fai1');
+            element(by.id('password')).sendKeys('abcd1234');
+            element(by.id('headerCourses')).click();
+            element(by.binding('course.name')).click();
+            element(by.linkText('Quizzes')).click();
+            element(by.linkText('Add a Quiz')).click();
+            element(by.id('quiz')).sendKeys('Quiz 1');
+            element(by.binding('quiz.name')).click();
+            
+            
+            browser.sleep(2000);
+	});
+    */
+    //was giving error before if you did the protractor test twice in a row, this fixes it because before it wasnt deleting the testcourse
+    	it('should be able to log out of student and into professor and delete testCourse', function() {
+            //Signout of student
+            element(by.binding('authentication.user.displayName')).click();
+            element(by.id('dropdownSignOut')).click();
+            element(by.id('headerSignIn')).click();
+            //sign into professor
+            element(by.id('username')).sendKeys('fai1');
+            element(by.id('password')).sendKeys('abcd1234');
+            element(by.buttonText('Sign in')).click();
+            element(by.id('headerCourses')).click();
+            element(by.binding('course.name')).click();
+            expect(element(by.binding('course.name')).getText()).toEqual('TestCourse');
+            //remove testcourse
+		    element(by.id('removeCourse')).click();
+            //logout
+            element(by.binding('authentication.user.displayName')).click();
+            element(by.id('dropdownSignOut')).click();
+            browser.sleep(2000);
+	});
 
 });
