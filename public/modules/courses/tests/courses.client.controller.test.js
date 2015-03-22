@@ -147,7 +147,8 @@
 		it('$scope.create() with valid form data and an Admin role should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
 			var sampleCoursePostData = new Courses({
-				name: 'New Course'
+				name: 'New Course',
+				questions: []
 			});
 
 			// Create a sample Course response

@@ -1,4 +1,4 @@
-<section data-ng-controller="CoursesController" data-ng-init="find()" ng-cloak>
+<section data-ng-controller="CoursesController" data-ng-init="init();find()" ng-cloak>
     <div class="page-header">
         <h1 ng-if="(authentication.user.roles[0] === 'user')">Your Enrolled Courses</h1>
         <h1 ng-if="(authentication.user.roles[0] === 'admin')">Your Courses</h1>
