@@ -143,20 +143,44 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			}
 		};
 
+	    // Remove existing quiz
+		$scope.removeQuiz = function() {
+			//just sets deleteMe to true and calls update()
+			$scope.deleteMe = true;
+			$scope.update();
+		};
+		$scope.editQuiz = function(){
+			$scope.editMe = true;
+			$scope.update();
+		};
+
 		// Update existing Course
 		$scope.update = function() {
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
 
+			//for adding a quiz to the course
             var quiz = $scope.quiz;
-            if (quiz && quiz.name !== '') {
+            if (!$scope.editMe && quiz && quiz.name !== '') {
                 course.quizzes.push(quiz);
             }
-				course.$update(function () {
-					$location.path('courses/' + course._id);
-				}, function (errorResponse) {
-					$scope.error = errorResponse.data.message;
-				});
+            //for deleting a quiz from a course
+            if($scope.deleteMe){
+            	console.log('deleting it');
+        		for (var i in course.quizzes) {
+					if (course.quizzes[i] === quiz) {
+						course.quizzes.splice(i, 1);
+					}
+				}
+				$scope.deleteMe = undefined;
+            }
+
+            //actually updating the course
+			course.$update(function () {
+				$location.path('courses/' + course._id);
+			}, function (errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
 			}
 		};
 		// Find a list of Courses
