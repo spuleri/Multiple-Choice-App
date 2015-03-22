@@ -31,7 +31,7 @@ var ansSchema = new Schema({
     name: {
         type: String,
         default: '',
-        required: 'Please name the quiz',
+        required: 'Please give an answer description',
         trim: true
     },
     valid: Boolean
@@ -50,7 +50,7 @@ var questionSchema = new Schema({
     description: {
         type: String,
         default: '',
-        required: 'Please give the question a description',
+        required: 'Please give a question description',
         trim: true
     },
     created: {
