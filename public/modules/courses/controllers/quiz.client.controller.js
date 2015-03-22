@@ -31,17 +31,17 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		// }
 		// ];
 
-		$scope.active = false;
-
-		//another websocket test with button click on quiz page
+		
+		//Button to broadcast question to students.
 		$scope.testSocket = function(question){
-			if (question.time > 0 && !($scope.active)) {
+			if (question.time > 0 && !($scope.currentQuestion)) {
+				
 				// tell server to start question
-				$scope.active = true;
-
 				Socket.emit('start-question', question); 
 				
 				var timer = $interval(function(){
+					//emits question every second, just incase student leaves page,
+					//or is not on page when prof starts it
 					Socket.emit('start-question', question); 
 					question.time--;
 					//every interval emit the current time so students can see time left
@@ -49,8 +49,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 					if(question.time <= 0){
 						//tell server to end question
 						Socket.emit('end-question', question);
-						$scope.stop();
-						$scope.active = false;
+						$scope.stop();				
 					}				
 					//console.log(question.time);
 				}, 1000);
@@ -79,9 +78,11 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 
 		//when server emits this, set current question to the one sent from server
 		Socket.on('send-question-to-all', function(question){
-			//assign the current question to the question emitted from server
-			$scope.currentQuestion = question;
-			$scope.currentQuestion.maxTime = question.time;				
+			//assign the current question to the question emitted from server, if a question isn't active
+			if(!$scope.currentQuestion){
+				$scope.currentQuestion = question;
+				$scope.currentQuestion.maxTime = question.time;	
+			}			
 		});
 		//when recieving current time from server, set currentQuestions time to it
 		Socket.on('current-time-from-server', function(time){
@@ -101,7 +102,10 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		// be responsible of stopping it when the scope is
 		// is destroyed.
 		$scope.$on('$destroy', function() {
-			$scope.stop();
+			//only stops timer if is active
+			if($scope.currentQuestion){
+				$scope.stop();
+			}
 		});
 
 	}

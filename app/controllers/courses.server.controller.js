@@ -124,7 +124,7 @@ exports.delete = function(req, res) {
 };
 
 /**
- * Delete an Course
+ * Delete an quiz (not being used atm)
  */
 exports.deleteQuiz = function(req, res) {
 

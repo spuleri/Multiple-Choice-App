@@ -3,10 +3,10 @@
         <h2 data-ng-bind="quiz.name"></h2>
     
         <div class="pull-right">
-            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit">
+            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
                 <i class="glyphicon glyphicon-edit"></i>
             </a>
-            <a class="btn btn-primary">
+            <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
                 <i class="glyphicon glyphicon-trash"></i>
             </a>
         </div>
