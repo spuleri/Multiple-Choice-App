@@ -7,7 +7,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
         $scope.subFinder = SubFinder;
 
 		//gets a user's joined and owned courses.    
-        $http.get('/users/courses').
+        $scope.init = function() {
+        	$http.get('/users/courses').
 	        success(function(data, status) {
 	          //setting userWithCourses = to the new user which has populated joined and owned Courses fields
 	          $scope.userWithCourses = data;
@@ -18,6 +19,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 	          $scope.status = status;
 	          console.log($scope.data + ': '+ $scope.status);
 	      });
+	    };
 	
 		
 		$scope.open = function (size) {
