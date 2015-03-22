@@ -17,7 +17,7 @@
     <div id="student-view" ng-if="(authentication.user.roles[0] === 'user')">
         <div class="list-group col-xs-6 col-xs-offset-3">
             
-            <a data-ng-repeat="course in authentication.user.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
+            <a data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
     			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
                 <small class="list-group-item-text">
                     Instructor:
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div ng-if="!userWithCourses.joinedCourses.length && authentication.user.roles[0] === 'user' " class="alert alert-warning" role="alert" >
+    <div ng-if="userWithCourses && !userWithCourses.joinedCourses.length && authentication.user.roles[0] === 'user' " class="alert alert-warning" role="alert" >
             <h3>Whoa!</h3>
             <p>You aren't enrolled in any courses, go enroll in one above!</p>
     </div>
