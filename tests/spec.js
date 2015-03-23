@@ -163,24 +163,46 @@ describe('site functionality after log', function() {
     	element(by.id('joinSubmit')).click();
     	browser.sleep(1500);
 	});
-    /*
+    
     it('should be able to make a quiz and a question', function() {
             element(by.binding('authentication.user.displayName')).click();
             element(by.id('dropdownSignOut')).click();
             element(by.id('headerSignIn')).click();
             element(by.id('username')).sendKeys('fai1');
             element(by.id('password')).sendKeys('abcd1234');
+            element(by.buttonText('Sign in')).click();
+            browser.sleep(4000);
             element(by.id('headerCourses')).click();
             element(by.binding('course.name')).click();
             element(by.linkText('Quizzes')).click();
-            element(by.linkText('Add a Quiz')).click();
-            element(by.id('quiz')).sendKeys('Quiz 1');
+            element(by.id('addQuiz')).click();
+            element(by.id('quiz')).sendKeys('Quiz #2 for Sprint 2');
+            element.all(by.model('question.title')).get(0).sendKeys('Question 1');
+            element.all(by.model('question.description')).get(0).sendKeys('2+2=X');
+            element.all(by.model('answer.name')).get(0).sendKeys('X=4');
+            element.all(by.model('answer.name')).get(1).sendKeys('X=2');
+            element.all(by.model('answer.name')).get(2).sendKeys('X=6');
+            element.all(by.model('answer.name')).get(3).sendKeys('X=5');
+            element.all(by.model('answer.name')).get(4).sendKeys('X=3');
+            element.all(by.model('answer.valid')).get(0).click();
+            element.all(by.id('newQuestion')).get(0).click();
+            element.all(by.model('question.title')).get(1).sendKeys('Question 2');
+            element.all(by.model('question.description')).get(1).sendKeys('3+5=X');
+            element.all(by.model('answer.name')).get(5).sendKeys('X=4');
+            element.all(by.model('answer.name')).get(6).sendKeys('X=3');
+            element.all(by.model('answer.name')).get(7).sendKeys('X=8');
+            element.all(by.model('answer.name')).get(8).sendKeys('X=5');
+            element.all(by.model('answer.name')).get(9).sendKeys('X=1');
+            element.all(by.model('answer.valid')).get(7).click();
+            element(by.id('create')).click();
+            element(by.linkText('Quizzes')).click();
             element(by.binding('quiz.name')).click();
-            
-            
-            browser.sleep(2000);
+            element.all(by.id('questionTime')).get(0).clear();
+            element.all(by.id('questionTime')).get(0).sendKeys('10');
+            element.all(by.id('broadcast')).get(0).click();
+            browser.sleep(11000);
 	});
-    */
+    
     //was giving error before if you did the protractor test twice in a row, this fixes it because before it wasnt deleting the testcourse
     	it('should be able to log out of student and into professor and delete testCourse', function() {
             //Signout of student
