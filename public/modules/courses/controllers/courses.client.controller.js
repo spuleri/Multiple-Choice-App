@@ -166,7 +166,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 	            }
 	            //for deleting a quiz from a course
 	            if($scope.deleteMe){
-	            	console.log('deleting it');
 	        		for (var i in course.quizzes) {
 						if (course.quizzes[i] === quiz) {
 							course.quizzes.splice(i, 1);
@@ -256,7 +255,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 courseId: $stateParams.courseId
             }, function() {
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
-                console.log($scope.quiz);
             });
         };
 
