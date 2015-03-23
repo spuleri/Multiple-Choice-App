@@ -115,34 +115,6 @@
 			expect(scope.authentication).toBeTruthy();
 		});
 
-        it ('$scope.findOneQuiz() should be able to find a quiz by ID from any list of quizzes', inject(function(Courses) {
-
-            var sampleCourse = new Courses({
-                name: 'My Course',
-                quizzes: [
-                    { name: 'Quiz 1',
-                       _id: '1defa34562bb25342e7dad56a3'},
-                    { name: 'Quiz 2',
-                       _id: '1defa34562bb25342e7d2456a3'},
-                    { name: 'Quiz 3',
-                       _id: '1defa34562bb25342e7da456a1'},
-                    { name: 'Quiz 4',
-                       _id: '1defa34562bb25342e7daf56a3'}
-                ]
-            });
-
-            // Set the URL parameter
-            $stateParams.courseId = '525a8422f6d0f87f0e407a33';
-            $stateParams.quizId = sampleCourse.quizzes[1]._id;
-
-            scope.subFinder = subFinder;
-
-            // Set GET response
-            $httpBackend.expectGET(/courses\/([0-9a-fA-F]{24})$/).respond(sampleCourse);
-            scope.findOneQuiz();
-            $httpBackend.flush();
-            expect(scope.quiz).toEqual(sampleCourse.quizzes[1]);
-        }));
 
 		it('$scope.create() with valid form data and an Admin role should send a POST request with the form input values and then locate to new object URL', inject(function(Courses) {
 			// Create a sample Course object
@@ -482,6 +454,255 @@
 			}));
 */
 		});
+		describe('Quiz tests', function() {
+
+	        it ('$scope.findOneQuiz() should be able to find a quiz by ID from any list of quizzes', inject(function(Courses) {
+
+	            var sampleCourse = new Courses({
+	                name: 'My Course',
+	                quizzes: [
+	                    { name: 'Quiz 1',
+	                       _id: '1defa34562bb25342e7dad56a3'},
+	                    { name: 'Quiz 2',
+	                       _id: '1defa34562bb25342e7d2456a3'},
+	                    { name: 'Quiz 3',
+	                       _id: '1defa34562bb25342e7da456a1'},
+	                    { name: 'Quiz 4',
+	                       _id: '1defa34562bb25342e7daf56a3'}
+	                ]
+	            });
+
+	            // Set the URL parameter
+	            $stateParams.courseId = '525a8422f6d0f87f0e407a33';
+	            $stateParams.quizId = sampleCourse.quizzes[1]._id;
+
+	            scope.subFinder = subFinder;
+
+	            // Set GET response
+	            $httpBackend.expectGET(/courses\/([0-9a-fA-F]{24})$/).respond(sampleCourse);
+	            scope.findOneQuiz();
+	            $httpBackend.flush();
+	            expect(scope.quiz).toEqual(sampleCourse.quizzes[1]);
+	        }));
+
+	        it ('$scope.removeQuiz should be able to delete a quiz from the quizzes page if an Admin', inject(function(Courses) {
+
+				scope.authentication.user = {
+					_id: 'oijg093094j0f9j0030fkw',
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '1337-1337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
+
+				};
+	            var sampleCourse = new Courses({
+	                name: 'My Course',
+	                quizzes: [
+	                    { name: 'Quiz 1',
+	                       _id: '1defa34562bb25342e7dad56a3'},
+	                    { name: 'Quiz 2',
+	                       _id: '1defa34562bb25342e7d2456a3'},
+	                    { name: 'Quiz 3',
+	                       _id: '1defa34562bb25342e7da456a1'},
+	                    { name: 'Quiz 4',
+	                       _id: '1defa34562bb25342e7daf56a3'}
+	                ]
+	            });
+
+				//set scopes
+				scope.quiz = sampleCourse.quizzes[2];
+				scope.course = sampleCourse;
+
+				// Set PUT response
+				$httpBackend.expectPUT('courses', scope.course).respond();
+
+				// Run controller functionality
+				scope.removeQuiz();
+				 $httpBackend.flush();
+				// Test array after successful delete
+				expect(sampleCourse.quizzes.length).toBe(3);	           
+	        }));
+
+	        it ('$scope.removeQuiz should NOT be able to delete a quiz from the quizzes page if a Student', inject(function(Courses) {
+				scope.authentication.user = {
+					_id: 'oijg093094j0f9j0030fkw',
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '1337-1337',
+					gatorlink: 'imbatman',
+					roles: ['user'],
+					joinedCourses: []
+
+				};
+	            var sampleCourse = new Courses({
+	                name: 'My Course',
+	                quizzes: [
+	                    { name: 'Quiz 1',
+	                       _id: '1defa34562bb25342e7dad56a3'},
+	                    { name: 'Quiz 2',
+	                       _id: '1defa34562bb25342e7d2456a3'},
+	                    { name: 'Quiz 3',
+	                       _id: '1defa34562bb25342e7da456a1'},
+	                    { name: 'Quiz 4',
+	                       _id: '1defa34562bb25342e7daf56a3'}
+	                ]
+	            });
+
+				//set scopes
+				scope.quiz = sampleCourse.quizzes[2];
+				scope.course = sampleCourse;
+
+				// Set PUT response
+				$httpBackend.expectPUT('courses', scope.course).respond();
+
+				// Run controller functionality
+				scope.removeQuiz();
+				// Test array after unsuccessful delete
+				expect(sampleCourse.quizzes.length).toBe(4);	           
+	        }));
+
+	        it ('$scope.editQuiz should be able to edit a quizzes everything from the quizzes page if a Admin', inject(function(Courses) {
+				scope.authentication.user = {
+					_id: 'oijg093094j0f9j0030fkw',
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '1337-1337',
+					gatorlink: 'imbatman',
+					roles: ['admin'],
+					joinedCourses: []
+
+				};
+	            var sampleCourse = new Courses({
+	                name: 'My Course',
+	                quizzes: [
+	                    { name: 'Quiz 1',
+	                       _id: '1defa34562bb25342e7dad56a3',
+	                       questions: [
+	                       		{
+	                       			description: 'What is 3 + 3',
+	                       			answers: [
+	                       				{
+	                       					name: '2',
+	                       					valid: false
+	                       				},
+	 	                  				{
+	                       					name: '6',
+	                       					valid: true
+
+	                       				},
+	                       				{
+	                       					name: '2',
+	                       					valid: true
+	                       				}
+	                       			]
+	                       		}
+	                    	]
+	                    },
+	                    { name: 'Quiz 2',
+	                       _id: '1defa34562bb25342e7d2456a3'},
+	                    { name: 'Quiz 3',
+	                       _id: '1defa34562bb25342e7da456a1'},
+	                    { name: 'Quiz 4',
+	                       _id: '1defa34562bb25342e7daf56a3'}
+	                ]
+	            });
+
+				//set scopes
+				scope.quiz = sampleCourse.quizzes[0];
+				scope.course = sampleCourse;
+				scope.quiz.questions[0].description = 'This quiz has been edited';
+				scope.quiz.questions[0].answers[1].valid = false;
+				// Set PUT response
+				$httpBackend.expectPUT('courses', scope.course).respond();
+
+				// Run controller functionality
+				scope.editQuiz();
+				$httpBackend.flush();
+				// Test array after succsesful edit
+				expect(sampleCourse.quizzes[0].questions[0].description).toBe('This quiz has been edited');
+				expect(sampleCourse.quizzes[0].questions[0].answers[1].valid).toBe(false);	 	           
+	        }));
+
+	        it ('$scope.editQuiz should NOT allow students to edit quizzes', inject(function(Courses) {
+				scope.authentication.user = {
+					_id: 'oijg093094j0f9j0030fkw',
+					firstName: 'Bruce',
+					lastName: 'Wayne',
+					displayName: 'Bruce Wayne',
+					email: 'bman@gg.com',
+					username: 'bwayne',
+					password: 'uio987p4',
+					ufid: '1337-1337',
+					gatorlink: 'imbatman',
+					roles: ['user'],
+					joinedCourses: []
+
+				};
+	            var sampleCourse = new Courses({
+	                name: 'My Course',
+	                quizzes: [
+	                    { name: 'Quiz 1',
+	                       _id: '1defa34562bb25342e7dad56a3',
+	                       questions: [
+	                       		{
+	                       			description: 'What is 3 + 3',
+	                       			answers: [
+	                       				{
+	                       					name: '2',
+	                       					valid: false
+	                       				},
+	 	                  				{
+	                       					name: '6',
+	                       					valid: true
+
+	                       				},
+	                       				{
+	                       					name: '2',
+	                       					valid: true
+	                       				}
+	                       			]
+	                       		}
+	                    	]
+	                    },
+	                    { name: 'Quiz 2',
+	                       _id: '1defa34562bb25342e7d2456a3'},
+	                    { name: 'Quiz 3',
+	                       _id: '1defa34562bb25342e7da456a1'},
+	                    { name: 'Quiz 4',
+	                       _id: '1defa34562bb25342e7daf56a3'}
+	                ]
+	            });
+
+				//set scopes
+				scope.quiz = sampleCourse.quizzes[0];
+				scope.course = sampleCourse;
+				scope.quiz.questions[0].description = 'This quiz has been edited';
+				scope.quiz.questions[0].answers[1].valid = false;
+				// Set PUT response
+				$httpBackend.expectPUT('courses', scope.course).respond();
+
+				// Run controller functionality
+				scope.editQuiz();
+				// Test array after unsuccsesful edit
+				expect(sampleCourse.quizzes[0].questions[0].description).toBe('This quiz has been edited');
+				expect(sampleCourse.quizzes[0].questions[0].answers[1].valid).toBe(false);	 	           
+	        }));
+
+		});	
 
 
 	});

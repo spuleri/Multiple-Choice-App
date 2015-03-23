@@ -159,28 +159,28 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
 
-			//for adding a quiz to the course
-            var quiz = $scope.quiz;
-            if (!$scope.editMe && quiz && quiz.name !== '') {
-                course.quizzes.push(quiz);
-            }
-            //for deleting a quiz from a course
-            if($scope.deleteMe){
-            	console.log('deleting it');
-        		for (var i in course.quizzes) {
-					if (course.quizzes[i] === quiz) {
-						course.quizzes.splice(i, 1);
+				//for adding a quiz to the course
+	            var quiz = $scope.quiz;
+	            if (!$scope.editMe && !$scope.deleteMe && quiz && quiz.name !== '') {
+	                course.quizzes.push(quiz);
+	            }
+	            //for deleting a quiz from a course
+	            if($scope.deleteMe){
+	            	console.log('deleting it');
+	        		for (var i in course.quizzes) {
+						if (course.quizzes[i] === quiz) {
+							course.quizzes.splice(i, 1);
+						}
 					}
-				}
-				$scope.deleteMe = undefined;
-            }
+					$scope.deleteMe = undefined;
+	            }
 
-            //actually updating the course
-			course.$update(function () {
-				$location.path('courses/' + course._id);
-			}, function (errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
+	            //actually updating the course
+				course.$update(function () {
+					$location.path('courses/' + course._id);
+				}, function (errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
 			}
 		};
 		// Find a list of Courses
