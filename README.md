@@ -1,6 +1,6 @@
 # Multiple-Choice-App
-CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in real time in class.
-**(our main progress is on the *Develop* branch)**
+CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in real time in class.  
+**(Our main progress is on the *Develop* branch)**
 
 ###Group Members
 * **Sergio Puleri**: spuleri
