@@ -1,75 +1,19 @@
-<section data-ng-controller="CoursesController" data-ng-init="init();find()" ng-cloak>
+<section data-ng-controller="CoursesController" data-ng-init="find()">
     <div class="page-header">
-        <h1 ng-if="(authentication.user.roles[0] === 'user')">Your Enrolled Courses</h1>
-        <h1 ng-if="(authentication.user.roles[0] === 'admin')">Your Courses</h1>
-        <p class="text-muted">(check the console for a list of all of them)</p>
-
-        <div data-ng-if="(authentication.user.roles[0] === 'admin')">
-            <button type="submit" class="btn btn-primary btn-md" ng-click="open('md')">Create a Course</button>
-        </div>
-    <div class="">
-        <button type="submit" class="btn btn-success" ng-click="openJoinCourse('md')">
-            <i class="glyphicon glyphicon-plus"></i>
-            Join a course
-        </button>
+        <h1>Courses</h1>
     </div>
+    <div class="list-group">
+        <a data-ng-repeat="course in courses" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="course.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="course.owner.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
+        </a>
     </div>
-    <div id="student-view" ng-if="(authentication.user.roles[0] === 'user')">
-        <div class="list-group col-xs-6 col-xs-offset-3">
-            
-            <a data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-    			<h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
-                <small class="list-group-item-text">
-                    Instructor:
-                    <span data-ng-bind="course.owner.displayName"></span>
-                </small>
-
-                 <span class="badge">{{course.quizzes.length}} Quizzes</span>
-                 <span class="badge">{{course.roster.length}} Students</span>
-
-            </a>
-        </div>
-    </div>
-
-    <div id="prof-view" ng-if="(authentication.user.roles[0] === 'admin') && (userWithCourses.joinedCourses.length || userWithCourses.ownedCourses.length) ">
-        <h4 class="text-center">Your Owned Courses</h4>
-        <div class="list-group col-xs-6 col-xs-offset-3">
-            <a data-ng-repeat="course in userWithCourses.ownedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-                <h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
-                <small class="list-group-item-text">
-                    Instructor:
-                    <span data-ng-bind="course.owner.displayName"></span>
-                </small>
-
-                 <span class="badge">{{course.quizzes.length}} Quizzes</span>
-                 <span class="badge">{{course.roster.length}} Students</span>
-
-            </a>
-        </div>
-        
-        <div class="list-group col-xs-6 col-xs-offset-3">
-            <h4 class="text-center">Your joined Courses</h4>
-            <a data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-                <h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
-                <small class="list-group-item-text">
-                    Instructor:
-                    <span data-ng-bind="course.owner.displayName"></span>
-                </small>
-
-                 <span class="badge">{{course.quizzes.length}} Quizzes</span>
-                 <span class="badge">{{course.roster.length}} Students</span>
-
-            </a>
-        </div>
-    </div>
-
-    <div ng-if="userWithCourses && !userWithCourses.joinedCourses.length && authentication.user.roles[0] === 'user' " class="alert alert-warning" role="alert" >
-            <h3>Whoa!</h3>
-            <p>You aren't enrolled in any courses, go enroll in one above!</p>
-    </div>
-    <!--
     <div class="alert alert-warning text-center" data-ng-hide="!courses.$resolved || courses.length">
     	No Courses yet, why don't you <a href="/#!/courses/create">create one</a>?
     </div>
-    -->
 </section>

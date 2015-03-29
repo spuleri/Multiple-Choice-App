@@ -10,7 +10,6 @@
 		beforeEach(module(ApplicationConfiguration.applicationModuleName));
 
 		beforeEach(inject(function($controller, $rootScope) {
-
 			scope = $rootScope.$new();
 
 			HomeController = $controller('HomeController', {

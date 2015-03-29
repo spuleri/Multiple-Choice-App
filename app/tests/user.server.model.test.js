@@ -22,7 +22,7 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
@@ -33,7 +33,7 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
@@ -67,53 +67,7 @@ describe('User Model Unit Tests:', function() {
 			user.firstName = '';
 			return user.save(function(err) {
 				should.exist(err);
-				user.firstName = 'Full';
-                done();
-			});
-		});
-        
-        it('should be able to show an error when saving without proper email', function(done) {
-			user.email = 'email';
-			return user.save(function(err) {
-				should.exist(err);
-				user.email = 'test@test.com';
-                done();
-			});
-		});
-        
-        it('should be able to show an error when saving without gatorlink', function(done) {
-			user.gatorlink = '';
-			return user.save(function(err) {
-				should.exist(err);
-				user.gatorlink = 'crazyman';
-                done();
-			});
-		});
-        
-        it('should be able to show an error when saving without ufid', function(done) {
-			user.ufid = '';
-			return user.save(function(err) {
-				should.exist(err);
-				user.ufid = '8888-8888';
-                done();
-			});
-		});
-        
-        it('should be able to show an error when saving with too few digits', function(done) {
-			user.ufid = '1234-5';
-			return user.save(function(err) {
-				should.exist(err);
-				user.ufid = '8888-8888';
-                done();
-			});
-		});
-        
-        it('should be able to show an error when saving with too many digits', function(done) {
-			user.ufid = '1234-56789';
-			return user.save(function(err) {
-				should.exist(err);
-				user.ufid = '8888-8888';
-                done();
+				done();
 			});
 		});
 	});
