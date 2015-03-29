@@ -7,33 +7,9 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
         $scope.subFinder = SubFinder;
 
 
-		//sample questions
-		// $scope.questions = [
-		// {
-		// 	question: 'Q1',
-		// 	time: 60
-		// },
-		// {
-		// 	question: 'Q2',
-		// 	time: 60
-		// },
-		// {
-		// 	question: 'Q3',
-		// 	time: 60
-		// },
-		// {
-		// 	question: 'Q4',
-		// 	time: 60
-		// },
-		// {
-		// 	question: 'Q5',
-		// 	time: 60
-		// }
-		// ];
 
-		
 		//Button to broadcast question to students.
-		$scope.testSocket = function(question){
+		$scope.sendQuestion = function(question){
 			if (question.time > 0 && !($scope.currentQuestion)) {
 				
 				// tell server to start question
