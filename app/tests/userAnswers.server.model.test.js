@@ -67,7 +67,7 @@ describe('Storing User Answers Tests:\n', function() {
                if (!err) {
                    student.save(function() {
                        done();
-                   })
+                   });
                }
            }); // Above code saves a professor, then his course, then a student
        });

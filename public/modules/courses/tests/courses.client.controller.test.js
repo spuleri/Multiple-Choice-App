@@ -50,7 +50,7 @@
 			scope = $rootScope.$new();
 			quizScope = $rootScope.$new();
             subFinder = $injector.get('SubFinder');
-            socketMock = new sockMock($rootScope);
+            socketMock = new SockMock($rootScope);
 
 			// Point global variables to injected services
 			$stateParams = _$stateParams_;
@@ -1044,7 +1044,7 @@
 	see: https://github.com/btford/angular-socket-io-seed/issues/4
 	thanks to https://github.com/southdesign for the idea
 	*/
-	var sockMock = function($rootScope){
+	var SockMock = function($rootScope){
 	  this.events = {};
 	  this.emits = {};
 
@@ -1073,7 +1073,7 @@
 	          callback.apply(this, args);
 	        });
 	      });
-	    };
+	    }
 	  };
 	};
 
