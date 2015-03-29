@@ -8,7 +8,7 @@ angular.module('ui.bootstrap.progressbar', [])
 })
 
 /*
-Changing angular-ui porgress bar directive to 
+Changing angular-ui progress bar directive to
 accept a model for max, instead of a constant.
 */
 
