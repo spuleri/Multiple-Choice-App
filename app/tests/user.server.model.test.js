@@ -136,7 +136,7 @@ describe('User Model Unit Tests:', function() {
             user.update(function(err) {
                 should.not.exist(err);
                 done();
-            })
+            });
         });
 
     });
