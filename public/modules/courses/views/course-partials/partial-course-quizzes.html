@@ -1,0 +1,26 @@
+<div class="row quiz-head">
+    <div class="col-sm-4 col-sm-offset-4">
+        <div class="header">
+            <h3 class="text-center">Quizzes</h3>
+
+        </div>
+    </div>
+    <span class="pull-right some-margin">
+        <a class="btn btn-normal" id = "addQuiz" href="/#!/courses/{{course._id}}/create"  data-ng-show="authentication.user.roles[0] === 'admin'">
+            Add a Quiz
+        </a>
+    </span>
+</div>
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <div class="list-group">
+            <a data-ng-repeat="quiz in course.quizzes" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
+                <small class="list-group-item-text">
+                    Created on <span data-ng-bind="quiz.created | date:'medium'"></span>
+                </small>
+                <h4 class="list-group-item-heading" data-ng-bind="quiz.name"></h4>
+            </a>
+        </div>
+    </div>
+</div>

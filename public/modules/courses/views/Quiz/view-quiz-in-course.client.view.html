@@ -1,0 +1,100 @@
+<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()">
+    <div class="page-header">
+        <h2 data-ng-bind="quiz.name"></h2>
+    
+        <div class="pull-right">
+            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+        </div>
+        <small>
+            <em class="text-muted">
+                Created on
+                <span data-ng-bind="quiz.created | date:'mediumDate'"></span>
+                by
+                <span data-ng-bind="course.owner.displayName"></span>
+            </em>
+        </small>
+    </div>
+
+    <div data-ng-controller="QuizController">
+        <!--Professor's question controls -->
+        <div class="prof-controls" ng-if="authentication.user.roles[0] === 'admin'" >
+
+
+            <ul class="list-group quiz-list">
+                <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
+                    <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
+                    <ul>
+                        <li ng-repeat="answer in question.answers">
+                            <span class="highlight" ng-if="answer.valid === true">
+                                {{answer.name}}
+                            </span>
+                            <span ng-if="answer.valid === false">
+                                {{answer.name}}
+                            </span>                            
+                        </li>
+                    </ul>
+
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label for="questionTime">Time (in seconds)</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Subtract 15 seconds"type="button" ng-click="subtractTime(question)">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>                                
+                            </span>
+                            <input type="text" class="form-control" id="questionTime" ng-model="question.time" placeholder="Time in seconds" size="1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Add 15 seconds" type="button" ng-click="addTime(question)">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                      </div>
+                      <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question)">
+                        Broadcast to students
+                      </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <!-- Questions will appear here -->
+        <div class="container well">
+            <div class="col-xs-12">
+                <p>Questions will be appear in this well<p>
+
+
+
+            <div class="alert alert-success" role="alert" ng-show="currentQuestion">
+                <h5>A Question is active!</h5>
+                <strong>TIME REMAINING:</strong> {{currentQuestion.time}}
+                <div class="">
+                    <progressbar class="progress-striped active" value="currentQuestion.time" max="currentQuestion.maxTime" type="warning">
+                        {{currentQuestion.time}} seconds remaining
+                    </progressbar>
+                </div>
+
+                <p data-ng-bind="currentQuestion.description"></p>
+                <ul>
+                    <li ng-repeat="answer in currentQuestion.answers">
+                      <label>
+                        <input type="radio" name="ansradio" />
+                        {{answer.name}}
+                      </label>
+                    </li>
+                </ul>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</section>

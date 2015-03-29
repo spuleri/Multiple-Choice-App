@@ -1,21 +1,46 @@
-<section data-ng-controller="CoursesController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="course.name"></h1>
+<section data-ng-controller="CoursesController" data-ng-init="findOne()" >
+	<div class="page-header course-header">
+		<h2 data-ng-bind="course.name"></h2>
+        
+        <p>Instructor: {{course.owner.displayName}}
+        <span data-ng-show="authentication.user.roles[0] === 'admin'">
+            <span class="pull-right">
+                <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit"tooltip-placement="top" tooltip="Edit this course">
+                    <i class="glyphicon glyphicon-edit" id="editCourse"></i>
+                </a>
+                <a class="btn btn-primary" data-ng-click="remove();"tooltip-placement="top" tooltip="Delete this course">
+                    <i class="glyphicon glyphicon-trash" id="removeCourse"></i>
+                </a>
+            </span>
+        </span>
+
+        </p>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == course.owner._id))">
-		<a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="course.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="course.owner.displayName"></span>
-		</em>
-	</small>
+
+
+    <div>
+        <!--TODO: Hide above div (and everything in it) from somebody that doesn't own a course. A service for this would work -->
+        <!-- nah ng-if works^^^^ (sergio) -->
+        <div class="header">
+            <ul class="nav nav-pills">
+              <li role="presentation" ng-class="{ active: isActive(course._id)}">
+                <a ui-sref=".home">Home</a>
+              </li>
+              <li role="presentation" ng-class="{ active: isActive('quizzes')}">
+                <a ui-sref=".quizzes">Quizzes</a>
+              </li>
+              <li role="presentation" ng-class="{ active: isActive('grades')}">
+                <a ui-sref=".grades">Grades</a>
+              </li>
+            </ul>
+        </div>
+                <!-- MAIN CONTENT -->
+        <div class="container">
+
+            <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+            <div ui-view></div>
+
+        </div>
+
+    </div>
 </section>
