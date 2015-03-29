@@ -96,7 +96,7 @@ describe('Course Model Unit Tests:', function() {
                 { name: 'B doesn\'t exist', valid: false },
                 { name: 'No', valid: true },
                 { name: 'Insufficient Evidence', valid: false },
-                { name: 'We\'re not looking at it from the right dimensional perspecitve', valid: true }
+                { name: 'We\'re not looking at it from the right dimensional perspective', valid: true }
             ];
             return course.save(function(err) {
                 should.not.exist(err);
