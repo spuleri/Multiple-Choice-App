@@ -7,10 +7,11 @@ var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Course = mongoose.model('Course');
+
 /**
  * Globals
  */
-var user, course, quiz, question, answer;
+var user, course;
 
 /**
  * Unit tests
@@ -29,7 +30,7 @@ describe('Course Model Unit Tests:', function() {
 		user.save(function() { 
 			course = new Course({
 				name: 'Course Name',
-				owner: user._id
+				user: user
 			});
 
 			done();
@@ -53,57 +54,6 @@ describe('Course Model Unit Tests:', function() {
 			});
 		});
 	});
-
-    describe('Quiz Unit Tests', function(done) {
-        it('should be able to save course with added quizzes', function(done) {
-            course.quizzes = [
-                { name: 'quiz1' },
-                { name: 'quiz2' },
-                { name: 'quiz3' }
-            ];
-            return course.save(function(err) {
-                should.not.exist(err);
-                done();
-            });
-
-        });
-
-        it('As well as questions on a quiz', function(done) {
-            course.quizzes = [
-                { name: 'quiz1' },
-                { name: 'quiz2' },
-                { name: 'quiz3' }
-            ];
-            course.quizzes[0].questions = [
-                { title: 'First Question:', description: 'X + 1 = B. True, or False? (30 points)' }
-            ];
-            return course.save(function(err) {
-                should.not.exist(err);
-                done();
-            });
-        });
-
-        it('As well as answers on a question', function(done) {
-            course.quizzes = [
-                { name: 'quiz1' },
-                { name: 'quiz2' },
-                { name: 'quiz3' }
-            ];
-            course.quizzes[0].questions = [
-                { title: 'First Question:', description: 'X + 1 = B. True, or False? (30 points)' }
-            ];
-            course.quizzes[0].questions[0].answers = [
-                { name: 'B doesn\'t exist', valid: false },
-                { name: 'No', valid: true },
-                { name: 'Insufficient Evidence', valid: false },
-                { name: 'We\'re not looking at it from the right dimensional perspecitve', valid: true }
-            ];
-            return course.save(function(err) {
-                should.not.exist(err);
-                done();
-            });
-        });
-    });
 
 	afterEach(function(done) { 
 		Course.remove().exec();

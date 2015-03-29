@@ -196,37 +196,31 @@ exports.changePassword = function(req, res) {
 			User.findById(req.user.id, function(err, user) {
 				if (!err && user) {
 					if (user.authenticate(passwordDetails.currentPassword)) {
-				        if(passwordDetails.newPassword === passwordDetails.currentPassword){
- 							res.status(400).send({
-								message: 'New password cannot be the same as current password'
- 							});
-						} else{
-                            if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
-                                user.password = passwordDetails.newPassword;
+						if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
+							user.password = passwordDetails.newPassword;
 
-                                user.save(function(err) {
-                                    if (err) {
-                                        return res.status(400).send({
-                                            message: errorHandler.getErrorMessage(err)
-                                        });
-                                    } else {
-                                        req.login(user, function(err) {
-                                            if (err) {
-                                                res.status(400).send(err);
-                                            } else {
-                                                res.send({
-                                                    message: 'Password changed successfully'
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            } else {
-                                res.status(400).send({
-                                    message: 'Passwords do not match'
-                                });
-                            }
-                        }
+							user.save(function(err) {
+								if (err) {
+									return res.status(400).send({
+										message: errorHandler.getErrorMessage(err)
+									});
+								} else {
+									req.login(user, function(err) {
+										if (err) {
+											res.status(400).send(err);
+										} else {
+											res.send({
+												message: 'Password changed successfully'
+											});
+										}
+									});
+								}
+							});
+						} else {
+							res.status(400).send({
+								message: 'Passwords do not match'
+							});
+						}
 					} else {
 						res.status(400).send({
 							message: 'Current password is incorrect'
