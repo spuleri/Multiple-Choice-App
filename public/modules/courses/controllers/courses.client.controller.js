@@ -292,8 +292,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		              description: '',
 		              answers: []              
 		          });
-	      	}
-	      			     
+	      	}	      			     
         };
 
         $scope.removeQuestion = function(quest) {
