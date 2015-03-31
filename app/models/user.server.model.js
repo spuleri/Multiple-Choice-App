@@ -24,8 +24,10 @@ var validateLocalStrategyPassword = function(password) {
 /**
  * User Schema
  */
-
-var CourseSchema = mongoose.model('Course');
+var QuizAnswers = new Schema({
+    quizId: {type: Schema.Types.ObjectId, ref: 'Course'}, // Quiz ID
+    answers: [{type: Schema.Types.ObjectId, ref: 'Course'}] // Corresponding answer IDs
+});
 var UserSchema = new Schema({
 	firstName: {
 		type: String,
@@ -88,8 +90,8 @@ var UserSchema = new Schema({
 		type: String,
 		trim: true,
 		default: '',
-		validate: [validateLocalStrategyProperty, 'Please fill in your UFID (include -)'],
-		match: [/^[0-9]{4}-[0-9]{4}$/, 'UFID should have 8 numbers (include -)']
+		validate: [validateLocalStrategyProperty, 'Please fill in your UFID'],
+		match: [/^[0-9]{4}?-[0-9]{4}$/, 'UFID should have 8 numbers']
 	},
 	gatorlink: {
 		type: String,
@@ -105,7 +107,8 @@ var UserSchema = new Schema({
 		type: Date
 	},
     ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
-    joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}]
+    joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
+    storedAnswers: [QuizAnswers]
 });
 
 /**

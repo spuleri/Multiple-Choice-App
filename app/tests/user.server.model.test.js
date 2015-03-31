@@ -118,6 +118,29 @@ describe('User Model Unit Tests:', function() {
 		});
 	});
 
+    describe('Method Update', function() {
+        before(function(done) {
+            user.save(done);
+        });
+
+        it('Should be able to update user information if it is changed', function(done) {
+            user.firstName = 'New';
+            user.lastName = 'Nam';
+            user.displayName = 'New Nam';
+            user.email = 'test@test.com';
+            user.ufid = '8888-8888';
+            user.gatorlink = 'notcrazyman';
+            user.username = 'user';
+            user.password = 'password';
+            user.provider = 'international';
+            user.update(function(err) {
+                should.not.exist(err);
+                done();
+            });
+        });
+
+    });
+
 	after(function(done) {
 		User.remove().exec();
 		done();
