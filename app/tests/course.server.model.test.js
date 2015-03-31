@@ -103,6 +103,50 @@ describe('Course Model Unit Tests:', function() {
                 done();
             });
         });
+
+        it ('should be able to show an error when creating a quiz without a quiz name', function(done) {
+            course.quizzes = [
+                { name: '' }
+            ];
+            return course.save(function(err) {
+                should.exist(err);
+                done();
+            });            
+        });
+
+        it ('should be able to show an error when creating a quiz with a blank question', function(done) {
+            course.quizzes = [
+                { name: 'quiz1' }
+            ];
+            course.quizzes[0].questions = [
+                { title: 'First Question:', description: '' }
+            ];
+            return course.save(function(err) {
+                should.exist(err);
+                done();
+            });
+        });
+
+        it ('should be able to show an error when creating a quiz with a blank answer', function(done) {
+            course.quizzes = [
+                { name: 'quiz1' },
+                { name: 'quiz2' },
+                { name: 'quiz3' }
+            ];
+            course.quizzes[0].questions = [
+                { title: 'First Question:', description: 'X + 1 = B. True, or False? (30 points)' }
+            ];
+            course.quizzes[0].questions[0].answers = [
+                { name: 'B doesn\'t exist', valid: false },
+                { name: 'No', valid: true },
+                { name: 'Insufficient Evidence', valid: false },
+                { name: '', valid: true }
+            ];
+            return course.save(function(err) {
+                should.exist(err);
+                done();
+            });
+        });
     });
 
 	afterEach(function(done) { 

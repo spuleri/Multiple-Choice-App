@@ -6,6 +6,7 @@ var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Course = mongoose.model('Course'),
+	_ = require('lodash'),
 	agent = request.agent(app);
 
 /**
