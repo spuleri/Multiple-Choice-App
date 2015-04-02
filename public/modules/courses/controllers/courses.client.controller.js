@@ -345,36 +345,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		                valid: false
 		              }]              
 		          });
-		          /*
-  	        		for (var j = 0; j < numA; ++j) {
-		            $scope.quiz.questions.answers.push({
-		                name: '',
-		                valid: false
-		            });
-	        	}
-*/
-
 		      	}
 		      }
         };
-
-/*
-        // DEBUG CODE~!@#
-        $scope.removeUserCourses = function() {
-        	$scope.user = Authentication.user;
-        	$scope.user.joinedCourses = [];
-
-			$scope.success = $scope.error = null;
-			var user = new Users($scope.user);
-			user.$update(function(response) {
-				$scope.success = true;
-				Authentication.user = response;
-			}, function(response) {
-				$scope.error = response.data.message;
-			});
-        };
-*/
-
-
 	}
 ]);
