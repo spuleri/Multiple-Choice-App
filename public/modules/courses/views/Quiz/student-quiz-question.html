@@ -1,21 +1,19 @@
-<!--<div class="alert alert-success" role="alert" ng-show="currentQuestion">-->
-    <!--<h5>A Question is active!</h5>-->
-    <!--<strong>TIME REMAINING:</strong> {{currentQuestion.time}}-->
-    <!--<div class="">-->
-        <!--<progressbar class="progress-striped active" value="currentQuestion.time" max="currentQuestion.maxTime" type="warning">-->
-            <!--{{currentQuestion.time}} seconds remaining-->
-        <!--</progressbar>-->
-    <!--</div>-->
+<div class="alert alert-success" role="alert" ng-show="currentQuestion">
+    <h5>A Question is active!</h5>
+    <strong>TIME REMAINING:</strong> {{currentQuestion.time}}
+    <div class="">
+        <progressbar class="progress-striped active" value="currentQuestion.time" max="currentQuestion.maxTime" type="warning">
+            {{currentQuestion.time}} seconds remaining
+        </progressbar>
+    </div>
 
-    <!--<p data-ng-bind="currentQuestion.description"></p>-->
-    <!--<ul>-->
-        <!--<li ng-repeat="answer in currentQuestion.answers">-->
-            <!--<label>-->
-                <!--<input type="radio" name="ansradio" />-->
-                <!--{{answer.name}}-->
-            <!--</label>-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</div>-->
-
-<div>Test</div>
+    <p data-ng-bind="currentQuestion.description"></p>
+    <ul>
+        <li ng-repeat="answer in currentQuestion.answers">
+            <label>
+                <input type="radio" name="ansradio" />
+                {{answer.name}}
+            </label>
+        </li>
+    </ul>
+</div>
