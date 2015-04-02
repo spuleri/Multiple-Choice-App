@@ -1,8 +1,8 @@
 'use strict';
 
 // Quizzes controller
-angular.module('courses').controller('QuizController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket', '$interval',
-	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket, $interval) {
+angular.module('courses').controller('QuizController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket', '$interval', 'Quiz',
+	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket, $interval, Quiz) {
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
@@ -83,6 +83,39 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 				$scope.stop();
 			}
 		});
+
+		$scope.releaseAndGrade = function() {
+			//grabbing quiz from $scope.quiz from the CourseController, prob bad practice but bleh
+
+			var thisQuiz = $scope.quiz;
+			var thisCourse = $scope.course;
+
+			$scope.quizAndCourse = new Quiz();
+
+			$scope.quizAndCourse.quiz = thisQuiz;
+			$scope.quizAndCourse.course = thisCourse;
+
+			// var quizAndCourse = {
+			// 	quiz: thisQuiz,
+			// 	course: thisCourse
+			// };
+
+			$scope.quizAndCourse.$release(function(data){
+				console.log(data);
+			});
+
+			
+		};	
+
+		$scope.showAnswers = false;
+		$scope.toggleAnswers = function(){
+
+			if($scope.showAnswers){
+				$scope.showAnswers = false;
+			}
+
+			else $scope.showAnswers = true;
+		};
 
 	}
 ]);

@@ -23,18 +23,28 @@
     <div data-ng-controller="QuizController">
         <!--Professor's question controls -->
         <div class="prof-controls" ng-if="authentication.user.roles[0] === 'admin'" >
+            <div class="container">
+                <button type="submit" id="release" class="btn btn-normal" ng-click="releaseAndGrade()">
+                    Release and Grade
+                </button>
 
+
+                <button  id="release" class="btn btn-normal" ng-click="toggleAnswers()">
+                    <span ng-show="!showAnswers">Show correct answers</span>
+                    <span ng-show="showAnswers">Hide correct answers</span>
+                </button> 
+            </div>
+            <br>
 
             <ul class="list-group quiz-list">
                 <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
                     <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
                     <ul>
-                        <li ng-repeat="answer in question.answers">
-                            <span class="highlight" ng-if="answer.valid === true">
+                        <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
+
+                            <span >
                                 {{answer.name}}
-                            </span>
-                            <span ng-if="answer.valid === false">
-                                {{answer.name}}
+
                             </span>                            
                         </li>
                     </ul>
@@ -59,6 +69,7 @@
                       <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question)">
                         Broadcast to students
                       </button>
+                      
                     </form>
                 </li>
             </ul>
