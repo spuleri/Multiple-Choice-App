@@ -22,7 +22,7 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
@@ -33,7 +33,7 @@ describe('User Model Unit Tests:', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
 			username: 'username',
 			password: 'password',
@@ -100,19 +100,19 @@ describe('User Model Unit Tests:', function() {
 		});
         
         it('should be able to show an error when saving with too few digits', function(done) {
-			user.ufid = '1234-5';
+			user.ufid = '12345';
 			return user.save(function(err) {
 				should.exist(err);
-				user.ufid = '8888-8888';
+				user.ufid = '88888888';
                 done();
 			});
 		});
         
         it('should be able to show an error when saving with too many digits', function(done) {
-			user.ufid = '1234-56789';
+			user.ufid = '123456789';
 			return user.save(function(err) {
 				should.exist(err);
-				user.ufid = '8888-8888';
+				user.ufid = '88888888';
                 done();
 			});
 		});
@@ -128,7 +128,7 @@ describe('User Model Unit Tests:', function() {
             user.lastName = 'Nam';
             user.displayName = 'New Nam';
             user.email = 'test@test.com';
-            user.ufid = '8888-8888';
+            user.ufid = '88888888';
             user.gatorlink = 'notcrazyman';
             user.username = 'user';
             user.password = 'password';

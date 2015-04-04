@@ -7,7 +7,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
         $scope.subFinder = SubFinder;
         $scope.user = Authentication.user;
         var quizInArray, quizIndex, questIndex;
-        const start = 'start-question';
+        var start = 'start-question';
 
 		//Button to broadcast question to students.
 		$scope.sendQuestion = function(question, questInd){
