@@ -10,23 +10,22 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
         var start = 'start-question';
 
 		//Button to broadcast question to students.
-		$scope.sendQuestion = function(question, questInd){
+		$scope.sendQuestion = function(question, questInd) {
 			if (question.time > 0 && !($scope.currentQuestion)) {
-
                 $scope.questIndex = questInd;
 				// tell server to start question
-				Socket.emit(start, question, questInd);
+				Socket.emit(start, question, questInd, $scope.course._id);
 				
 				var timer = $interval(function(){
 					//emits question every second, just in case student leaves page,
 					//or is not on page when prof starts it
-					Socket.emit(start, question, questInd);
+					Socket.emit(start, question, questInd, $scope.course._id);
 					question.time--;
 					//every interval emit the current time so students can see time left
-					Socket.emit('current-time', question.time);
+					Socket.emit('current-time', question.time, $scope.course._id);
 					if(question.time <= 0){
 						//tell server to end question
-						Socket.emit('end-question', question);
+						Socket.emit('end-question', question, $scope.course._id);
 						$scope.stop();				
 					}				
 					//console.log(question.time);
@@ -41,7 +40,6 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		};
 		
 		Socket.on('send test back', function(data){
-			console.log('i got it from the server');			
 			$scope.testySocket = data;
 		});
 		
@@ -55,23 +53,27 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 		};
 
 		//when server emits this, set current question to the one sent from server
-		Socket.on('send-question-to-all', function(question, index){
-			//assign the current question to the question emitted from server, if a question isn't active
-			if(!$scope.currentQuestion){
-				$scope.currentQuestion = question;
-				$scope.currentQuestion.maxTime = question.time;
-                $scope.questIndex = index;
-			}			
+		Socket.on('send-question-to-all', function(question, index, courseId){
+            if ($scope.course._id === courseId) {
+                //assign the current question to the question emitted from server, if a question isn't active
+                if (!$scope.currentQuestion) {
+                    $scope.currentQuestion = question;
+                    $scope.currentQuestion.maxTime = question.time;
+                    $scope.questIndex = index;
+                }
+            }
 		});
 		//when recieving current time from server, set currentQuestions time to it
-		Socket.on('current-time-from-server', function(time){
-			$scope.currentQuestion.time = time;
+		Socket.on('current-time-from-server', function(time, courseId){
+            if ($scope.course._id === courseId)
+			    $scope.currentQuestion.time = time;
 		});
 
 		//when server emits this, the timer is done
 		//set current question to undefined
-		Socket.on('remove-question', function(question){
-			$scope.currentQuestion = undefined;
+		Socket.on('remove-question', function(question, courseId){
+            if ($scope.course._id === courseId)
+			    $scope.currentQuestion = undefined;
             // Update with the most recently chosen question
 
 		});
@@ -123,12 +125,16 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
             else {
                 $scope.user.storedAnswers[quizIndex].answers[questIndex] = ansId;
             }
-            var user = new Users($scope.user);
-            console.log(user);
-            user.$update(function(response) {
-                Authentication.user = response;
-            }, function(response) {
-                console.log('Update Error: ' + response);
+
+            Socket.emit('send-answer', ansId, $scope.user._id);
+
+            $scope.user = Users.get({}, function() {
+                var user = new Users($scope.user);
+                user.$update(function(response) {
+                    Authentication.user = response;
+                }, function(response) {
+                    console.log('Update Error: ' + response);
+                });
             });
         };
 

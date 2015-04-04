@@ -8,9 +8,6 @@ var app = angular.module('courses');
 app.directive('studentQuestionView', function () {
     return {
         restrict: 'AE',
-        templateUrl: '/modules/courses/views/Quiz/student-quiz-question.html',
-        link: function(scope,elem,attrs) {
-
-        }
+        templateUrl: '/modules/courses/views/Quiz/student-quiz-question.html'
     };
 });
