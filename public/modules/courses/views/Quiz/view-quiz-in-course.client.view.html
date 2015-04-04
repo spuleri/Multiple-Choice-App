@@ -1,4 +1,4 @@
-<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()">
+<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()" xmlns="http://www.w3.org/1999/html">
     <div class="page-header">
         <h2 data-ng-bind="quiz.name"></h2>
     
@@ -75,14 +75,25 @@
             </ul>
         </div>
         <!-- Questions will appear here -->
-        <div class="container well">
+        <div class="container well" ng-if="authentication.user.roles[0] !== 'admin'">
             <div class="col-xs-12">
                 <p>Questions will be appear in this well<p>
-
                 <div student-question-view></div>
-
             </div>
-
+        </div>
+        <!--TODO: Figure out how to properly hide graph btwn questions / whenever-->
+        <!--<div class="col-md-offset-2">-->
+            <!--Show Distribution Graph <br/>-->
+            <!--<input type="checkbox" ng-model="showGraph"> <br/>-->
+        <!--</div>-->
+        <div class="col-lg-6 col-sm-12" id="bar-chart" ng-controller="QuizGraphCtrl" ng-if="authentication.user.roles[0] === 'admin'">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Answer Distribution</div>
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar" data="data" labels="labels" series="series"
+                            options="options"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 

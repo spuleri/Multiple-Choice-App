@@ -8,6 +8,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
         $scope.user = Authentication.user;
         var quizInArray, quizIndex, questIndex;
         var start = 'start-question';
+        $scope.showGraph = false;
 
 		//Button to broadcast question to students.
 		$scope.sendQuestion = function(question, questInd) {
@@ -15,8 +16,8 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
                 $scope.questIndex = questInd;
 				// tell server to start question
 				Socket.emit(start, question, questInd, $scope.course._id);
-				
-				var timer = $interval(function(){
+
+                var timer = $interval(function(){
 					//emits question every second, just in case student leaves page,
 					//or is not on page when prof starts it
 					Socket.emit(start, question, questInd, $scope.course._id);
@@ -159,7 +160,7 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
                 $scope.user.storedAnswers[quizIndex].answers[questIndex] = ansId;
             }
 
-            Socket.emit('send-answer', ansId, $scope.user._id);
+            Socket.emit('send-answer', ansId, $scope.user._id, $scope.course._id);
 
             $scope.user = Users.get({}, function() {
                 var user = new Users($scope.user);
@@ -169,7 +170,10 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
                     console.log('Update Error: ' + response);
                 });
             });
+
+
         };
+        // Helper
 
 	}
 ]);

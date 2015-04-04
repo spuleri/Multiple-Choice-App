@@ -31,6 +31,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-socket-io/socket.js',
 				'public/lib/socket.io-client/socket.io.js',
+                'public/lib/Chart.js/Chart.js',
+                'public/lib/angular-chart.js/angular-chart.js',
 				'public/lib/angular-xeditable/dist/js/xeditable.js'
 
 				//bootflat js

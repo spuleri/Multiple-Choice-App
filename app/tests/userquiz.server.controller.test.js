@@ -117,7 +117,7 @@ describe('Grading and releasing a quiz:', function() {
                         if(!err){
                           done();
                         } else console.log(err);
-                      })
+                      });
                     } 
                     else console.log(err);
                   });
@@ -189,7 +189,7 @@ describe('Grading and releasing a quiz:', function() {
           .expect(200)
           .end(function(err, res) {
             // Handle signin error
-            if (err) done(signinErr);
+            if (err) done(err);
             
             //checking the quiz has been set to released!
             res.body.quizzes[0].released.should.equal(true);
