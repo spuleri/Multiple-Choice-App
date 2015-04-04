@@ -109,7 +109,7 @@ var UserSchema = new Schema({
     ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     storedAnswers: [QuizAnswers]
-},{ versionKey: '_alt' });
+},{ versionKey: 'customVersionKey' });
 
 /**
  * Hook a pre save method to hash the password
