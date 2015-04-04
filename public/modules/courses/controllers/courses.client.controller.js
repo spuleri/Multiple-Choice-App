@@ -6,6 +6,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
+
 		//gets a user's joined and owned courses.    
         $scope.init = function() {
         	$http.get('/users/courses').
@@ -165,7 +166,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 	                course.quizzes.push(quiz);
 	            }
 	            //for deleting a quiz from a course
-	            if($scope.deleteMe){
+	            if($scope.deleteMe) {
 	        		for (var i in course.quizzes) {
 						if (course.quizzes[i] === quiz) {
 							course.quizzes.splice(i, 1);

@@ -25,7 +25,7 @@ var validateLocalStrategyPassword = function(password) {
  * User Schema
  */
 var QuizAnswers = new Schema({
-    quizId: {type: Schema.Types.ObjectId, ref: 'Course'}, // Quiz ID
+    quizId: {type: Schema.Types.ObjectId, ref: 'Course'},   // Quiz ID
     answers: [{type: Schema.Types.ObjectId, ref: 'Course'}] // Corresponding answer IDs
 });
 var UserSchema = new Schema({
@@ -91,7 +91,7 @@ var UserSchema = new Schema({
 		trim: true,
 		default: '',
 		validate: [validateLocalStrategyProperty, 'Please fill in your UFID'],
-		match: [/^[0-9]{4}?-[0-9]{4}$/, 'UFID should have 8 numbers']
+		match: [/^[0-9]{8}$/, 'UFID should have 8 numbers']
 	},
 	gatorlink: {
 		type: String,
@@ -109,7 +109,7 @@ var UserSchema = new Schema({
     ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     storedAnswers: [QuizAnswers]
-});
+},{ versionKey: '_alt' });
 
 /**
  * Hook a pre save method to hash the password

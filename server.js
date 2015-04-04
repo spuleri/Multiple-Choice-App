@@ -33,14 +33,13 @@ app.get('server').listen(config.port);
 var io = app.get('socketio'); 
 io.sockets.on('connection', function(socket){
 
-	console.log('connected brooo!');
 	socket.on('test socket', function(data){
 		console.log('recieved?');
 		io.sockets.emit('send test back', data);
 	}); // emit an event for all connected clients
 
-	socket.on('start-question', function(question){
-		io.sockets.emit('send-question-to-all', question);
+	socket.on('start-question', function(question, index){
+		io.sockets.emit('send-question-to-all', question, index);
 	});
 
 	//on recieving current time from client

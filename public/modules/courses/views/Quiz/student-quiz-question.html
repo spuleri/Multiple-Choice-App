@@ -11,7 +11,7 @@
     <ul>
         <li ng-repeat="answer in currentQuestion.answers">
             <label>
-                <input type="radio" name="ansradio" />
+                <input type="radio" name="ansradio" ng-click="submitAnswer(answer._id)" />
                 {{answer.name}}
             </label>
         </li>
