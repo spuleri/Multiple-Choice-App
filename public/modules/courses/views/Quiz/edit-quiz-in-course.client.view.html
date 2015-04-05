@@ -3,12 +3,18 @@
         <h1>Edit Quiz</h1>
     </div>
     <div class="col-md-12">
+    <h2>
+        Quiz Name:
+        <a href="#" editable-text="quiz.name">{{ quiz.name || "Click to enter a Quiz Name" }}</a>
+    </h2>
+<!--    
         <form class="form-horizontal" data-ng-submit="update()" novalidate>
             <fieldset>
                 <div class="form-group">
                     <label class="control-label" for="quiz">Name</label>
                     <div class="controls">
                         <input type="text" data-ng-model="quiz.name" id="quiz" class="form-control" placeholder="Quiz Name">
+
                     </div>
                 </div>
                 <div data-ng-show="error" class="text-danger">
@@ -16,18 +22,101 @@
                 </div>
             </fieldset>
         </form>
+-->
 
-<!-- Quick add, maybe later
-        <div class="form-inline">
-            <input type="text" class="form-control bot-margin" placeholder="+Q" ng-model="numquestions" size="1">
-            <input type="text" class="form-control bot-margin" placeholder="+A" ng-model="numanswers" style="position:relative;left:30px" size="1">
-            <button class="btn btn-success btn-md bot-margin" ng-click="quickMake(numquestions, numanswers)">
+        <div ng-repeat="question in quiz.questions" class="well">
+            <form editable-form name="editableForm" onaftersave="">
+                <span ng-if="question.answers[0] === undefined">
+                    <div data-ng-init="addAnswer(question, 5)">
+                    </div>
+                </span>
+                <span style="font-size: 20px; position:relative;bottom:4px;top:5px" class="label label-success label-as-badge">{{$index + 1}}</span>
+                  <!-- button to show form -->
+                  <button type="button" class="btn btn-danger pull-right" ng-click="editableForm.$show()" ng-show="!editableForm.$visible" style="width:111px;">
+                    Edit Question
+                  </button>
+                    <button type="submit" class="btn btn-primary pull-right" ng-disabled="editableForm.$waiting" ng-show="editableForm.$visible" style="width:111px;">
+                      Done
+                    </button>
+                <button class="btn btn-success btn-md bot-margin pull-right margin" ng-click="insertQuestion(question)">
                     <i class="glyphicon glyphicon-plus"></i>
-                        Quick Create
-            </button>
-        </div>
--->       
+                </button>
+                <button class="btn btn-success btn-md bot-margin pull-right" ng-click="removeQuestion(question)">
+                    <i class="glyphicon glyphicon-minus"></i>
+                </button>
 
+                <span ng-if="!editableForm.$visible">
+                    <h5>
+                        <p class="well well-sm ex grey" style="position:relative;left:70px;">
+                            Title: 
+                        </p>
+                    </h5>
+                    <div editable-text="question.title" style="position:relative;left:100px">{{ question.title || "Add a Label" }}</div>
+                    <h5>
+                        <p class="well well-sm ex grey" style="position:relative;left:70px;">
+                            Question: 
+                        </p>
+                    </h5>
+                    <span class="hundred-padding" editable-text="question.description">{{ question.description || "Add a Question" }}</span>
+                    <h5>
+                        <p class="well well-sm ex grey" style="position:relative;left:70px;">
+                            Answers: 
+                        </p>
+                    </h5>
+                </span>
+                <span ng-if="editableForm.$visible">
+                    <h5>
+                        <p class="well well-sm ex blue" style="position:relative;left:70px;">
+                            <font color="#FF4A00">Title:</font>
+                        </p>
+                    </h5>
+                    <div editable-text="question.title" style="position:relative;left:100px">{{ question.title || "Add a Title" }}</div>
+                    <h5>
+                        <p class="well well-sm ex blue" style="position:relative;left:70px;">
+                            <font color="#FF4A00">Question:</front>
+                        </p>
+                    </h5>
+                    <span editable-text="question.description" style="position:relative;left:100px">{{ question.description || "Add a Question" }}</span>
+                    <h5>
+                        <p class="well well-sm ex blue" style="position:relative;left:70px;">
+                            <font color="#FF4A00">Answers:</font>
+                        </p>
+                    </h5>
+                </span>
+                <div ng-if="!editableForm.$visible" ng-repeat="answer in question.answers" style="position:relative;left:100px">
+                    <span editable-text="answer.name" style="">{{ answer.name || "Add an Answer" }}</span>
+                    <span ng-if="answer.valid === true">
+                        <i class="glyphicon glyphicon-ok" style="color:green"></i>
+                    </span>
+                    <span ng-if="answer.valid === false">
+                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </span>
+                </div>                  
+                <div ng-if="editableForm.$visible" ng-repeat="answer in question.answers" style="position:relative;">
+                    <span ng-if="editableForm.$visible" style="position:relative;left:100px; margin-right:10px">
+                        <input type="checkbox" ng-model="answer.valid">                  
+                    </span>
+                    <span editable-text="answer.name" style="">{{ answer.name || "Add an Answer" }}</span>
+                    <span ng-if="answer.valid === true" style="position:relative;left:100px">
+                        <i class="glyphicon glyphicon-ok" style="color:green"></i>
+                    </span>
+                    <span ng-if="answer.valid === false" style="position:relative;left:100px">
+                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </span>
+                    <span style="position:relative;left:100px">
+                        <button class="btn btn-danger btn-md bot-margin" ng-click="removeAnswer(question, answer)">
+                            <i class="glyphicon glyphicon-minus"></i>
+                        </button>
+
+                        <button class="btn btn-danger btn-md bot-margin" ng-click="insertAnswer(question, answer)">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>                    
+                    </span>
+                </div>               
+            </form>
+        </div>
+
+<!--       
         <form class="form-inline well well-lg">
             <div ng-repeat="question in quiz.questions" class="well">
                 <span ng-if="question.answers[0] === undefined">
@@ -45,12 +134,6 @@
                 <button class="btn btn-success btn-md bot-margin" ng-click="insertQuestion(question)" style="position:relative;left:30px">
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
-<!--
-                <button class="btn btn-danger btn-md bot-margin" ng-click="addAnswer(question, numanswers)" style="position:relative;left:30px">
-                    <i class="glyphicon glyphicon-plus"></i>
-                        Add Answer
-                </button>
--->                
                 <div ng-repeat="answer in question.answers" style="position:relative;left:100px">
                     <input type="checkbox" ng-model="answer.valid" style="position:relative;right:8px">
                     <input type="text" class="form-control bot-margin" placeholder="Answer {{$index + 1}}" ng-model="answer.name" size="50">
@@ -70,6 +153,7 @@
                 </div>
             </div>
         </form>
+-->        
         <form class="form-horizontal" data-ng-submit="editQuiz()" novalidate>
             <fieldset>
                 <div class="form-group" align="right">

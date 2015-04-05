@@ -49,7 +49,7 @@
 -->                
                 <div ng-repeat="answer in question.answers" style="position:relative;left:100px">
                     <input type="checkbox" ng-model="answer.valid" style="position:relative;right:8px">
-                    <input type="text" class="form-control bot-margin" placeholder="Answer {{$index + 1}}" ng-model="answer.name" size="50">
+                    <input type="text" class="form-control bot-margin" placeholder="Answer {{$index + 1}}" ng-model="answer.name" size="60">
                     <span ng-if="answer.valid === true">
                         <i class="glyphicon glyphicon-ok" style="color:green"></i>
                     </span>
