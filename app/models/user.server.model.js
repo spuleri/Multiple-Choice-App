@@ -26,7 +26,11 @@ var validateLocalStrategyPassword = function(password) {
  */
 var QuizAnswers = new Schema({
     quizId: {type: Schema.Types.ObjectId, ref: 'Course'},   // Quiz ID
-    answers: [{type: Schema.Types.ObjectId, ref: 'Course'}] // Corresponding answer IDs
+    answers: [{type: Schema.Types.ObjectId, ref: 'Course'}], // Corresponding answer IDs
+    score: { //the user's score for this quiz. (how many questions they got correct)
+    	type: Number,
+    	default: 0
+    }
 });
 var UserSchema = new Schema({
 	firstName: {
@@ -108,7 +112,7 @@ var UserSchema = new Schema({
 	},
     ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
-    storedAnswers: [QuizAnswers]
+    storedAnswers: [QuizAnswers] //array of quiz answers (these are quizzes that the student has taken)
 },{ versionKey: 'customVersionKey' });
 
 /**
