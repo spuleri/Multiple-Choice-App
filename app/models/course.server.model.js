@@ -77,7 +77,11 @@ var quizSchema = new Schema ({
         type: Date,
         default: Date.now
     },
-    questions: [questionSchema]
+    questions: [questionSchema],
+    released: {
+        type: Boolean,
+        default: false
+    }
 });
 
 /**

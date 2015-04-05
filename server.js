@@ -33,23 +33,25 @@ app.get('server').listen(config.port);
 var io = app.get('socketio'); 
 io.sockets.on('connection', function(socket){
 
-	console.log('connected brooo!');
 	socket.on('test socket', function(data){
-		console.log('recieved?');
 		io.sockets.emit('send test back', data);
 	}); // emit an event for all connected clients
 
-	socket.on('start-question', function(question){
-		io.sockets.emit('send-question-to-all', question);
+	socket.on('start-question', function(question, index, courseId){
+		io.sockets.emit('send-question-to-all', question, index, courseId);
 	});
 
+    socket.on('send-answer', function(ansId, userId, courseId) {
+        io.sockets.emit('receive-student-answer', ansId, userId, courseId);
+    });
+
 	//on recieving current time from client
-	socket.on('current-time', function(time){
+	socket.on('current-time', function(time, courseId){
 		//send curr time back to all clients
-		io.sockets.emit('current-time-from-server', time);
+		io.sockets.emit('current-time-from-server', time, courseId);
 	});
-	socket.on('end-question', function(question){
-		io.sockets.emit('remove-question', question);
+	socket.on('end-question', function(question, courseId){
+		io.sockets.emit('remove-question', question, courseId);
 	});
 });
 

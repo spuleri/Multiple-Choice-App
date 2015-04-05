@@ -6,6 +6,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
+
 		//gets a user's joined and owned courses.    
         $scope.init = function() {
         	$http.get('/users/courses').
@@ -165,7 +166,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 	                course.quizzes.push(quiz);
 	            }
 	            //for deleting a quiz from a course
-	            if($scope.deleteMe){
+	            if($scope.deleteMe) {
 	        		for (var i in course.quizzes) {
 						if (course.quizzes[i] === quiz) {
 							course.quizzes.splice(i, 1);
@@ -292,7 +293,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		              description: '',
 		              answers: []              
 		          });
-	      	}	      			     
+	      	}
+	      			     
         };
 
         $scope.removeQuestion = function(quest) {
@@ -344,36 +346,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		                valid: false
 		              }]              
 		          });
-		          /*
-  	        		for (var j = 0; j < numA; ++j) {
-		            $scope.quiz.questions.answers.push({
-		                name: '',
-		                valid: false
-		            });
-	        	}
-*/
-
 		      	}
 		      }
         };
-
-/*
-        // DEBUG CODE~!@#
-        $scope.removeUserCourses = function() {
-        	$scope.user = Authentication.user;
-        	$scope.user.joinedCourses = [];
-
-			$scope.success = $scope.error = null;
-			var user = new Users($scope.user);
-			user.$update(function(response) {
-				$scope.success = true;
-				Authentication.user = response;
-			}, function(response) {
-				$scope.error = response.data.message;
-			});
-        };
-*/
-
-
 	}
 ]);

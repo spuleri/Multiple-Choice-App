@@ -127,4 +127,8 @@ describe('Storing User Answers Tests:\n', function() {
             });
         });
     });
+    after(function(done) {
+      User.remove().exec();
+      done();
+    });
 });
