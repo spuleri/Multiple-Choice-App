@@ -16,7 +16,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				// 'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				//bootflat css, needed to comment out the bootstrap theme to use the Bootflat one
-				'public/lib/Bootflat/bootflat/css/bootflat.min.css'
+				'public/lib/Bootflat/bootflat/css/bootflat.min.css',
+				'public/lib/angular-xeditable/dist/css/xeditable.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -29,7 +30,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-socket-io/socket.js',
-				'public/lib/socket.io-client/socket.io.js'
+				'public/lib/socket.io-client/socket.io.js',
+				'public/lib/angular-xeditable/dist/js/xeditable.js'
 
 				//bootflat js
 				// 'public/lib/Bootflat/bootflat/js/icheck.min.js',
