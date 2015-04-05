@@ -69,10 +69,6 @@ exports.releaseQuiz = function(req, res) {
 							return res.status(400).send({
 								message: errorHandler.getErrorMessage(err)
 							});
-						} else {
-							//console.log('this user was updated: ' + user._id);
-							//console.log(user);
-							//the user was succesfully updated, do nothing..
 						}
 					});
 				}
