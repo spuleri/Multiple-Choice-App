@@ -27,14 +27,14 @@ $ protractor tests/conf.js
 ```
 
 ######Current tests made:
-* Sign up, sign out, sign in  
-* Sign in to prof acc, make course  
-* While still logged in, it updates the course, makes a quiz, goes to that quiz  
-* Remove that course  
-* Test if student can join  
-* Make a new course while still logged in to prof acc  
-* Log out, sign into student acc  
-* Join the course  
+* Sign up as professor
+* Make a course
+* Make a quiz with questions and answers
+* Broadcast quiz and show answers
+* Sign out, sign up as student
+* Join the course and view the quiz
+* Sign out and sign in as professor
+* Remove the course
 
 ###Screenshot of current landing page
 ![alt text](http://i.imgur.com/sEjTM25.png?1 =250x "Landing Page")
