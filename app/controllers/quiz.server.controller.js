@@ -35,7 +35,7 @@ exports.releaseQuiz = function(req, res) {
 
 				//looking for the one who's id matches the quiz we are grading
 				if(takenQuiz.quizId.toString() === quiz._id.toString()){
-					console.log('found match of quizId');
+					// console.log('found match of quizId');
 					var score = 0;
 					for(var i = 0; i < quiz.questions.length; ++i){
 
@@ -43,14 +43,14 @@ exports.releaseQuiz = function(req, res) {
 						//lodash where: https://lodash.com/docs#where
 
 						var correctAnswers = _.pluck(_.where(quiz.questions[i].answers, {'valid': true }), '_id');
-						console.log(correctAnswers);
-						console.log('my answer for this question is: ' + takenQuiz.answers[i]);
+						// console.log(correctAnswers);
+						// console.log('my answer for this question is: ' + takenQuiz.answers[i]);
 
 						//checking if the users's answer for this question matches any of the correct answers for this question						
 						for(var j = 0; j < correctAnswers.length; ++j){
 							if( correctAnswers[j].toString() === takenQuiz.answers[i].toString() ){
 								//if so, increase score
-								console.log('a correct answer was found: ' + takenQuiz.answers[i]);
+								// console.log('a correct answer was found: ' + takenQuiz.answers[i]);
 								score++;
 							}
 						}
@@ -60,16 +60,17 @@ exports.releaseQuiz = function(req, res) {
 					//setting the actuall users score in the "QuizAnswers" schema.
 					//for this quiz
 					takenQuiz.score = score;
-					console.log('quiz score is: ' + takenQuiz.score);
+					//console.log('quiz score is: ' + takenQuiz.score);
 					//updating and saving the user
 					user.updated = Date.now();
 					user.save(function(err) {
 						if (err) {
+							console.log(err);
 							return res.status(400).send({
 								message: errorHandler.getErrorMessage(err)
 							});
 						} else {
-							console.log('this user was updated: ' + user._id);
+							//console.log('this user was updated: ' + user._id);
 							//console.log(user);
 							//the user was succesfully updated, do nothing..
 						}
@@ -77,21 +78,20 @@ exports.releaseQuiz = function(req, res) {
 				}
 
 			});
-
-			console.log(user.storedAnswers.length);
 			
 		});
 	});
-	
 	//marking quiz as released and sending back course
-	course.quizzes.forEach(function(quizInCourse){
-		if(quizInCourse._id === quiz._id){
+	for(var i = 0; i < course.quizzes.length; ++i){
+		console.log('in the loop');
+		if(course.quizzes[i]._id === quiz._id){
 			//releasing the quiz we graded for every user
-			quizInCourse.released = true;
+			course.quizzes[i].released = true;
 			//responding back with course with the "released quiz"
 			//every user should have their score now in thier storedAnswers array
 			res.jsonp(course);
+			break;
 		}
-	});
+	}
 
 };
