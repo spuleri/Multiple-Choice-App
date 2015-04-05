@@ -112,9 +112,13 @@ describe('create and broadcast a quiz', function(){
         element(by.binding('quiz.name')).click();
         expect(element(by.binding('quiz.name')).getText()).toEqual('Quiz for Sprint 3');
         element.all(by.id('questionTime')).get(0).clear();
-        element.all(by.id('questionTime')).get(0).sendKeys('10');
+        element.all(by.id('questionTime')).get(0).sendKeys('30');
         element.all(by.id('broadcast')).get(0).click();
-        browser.sleep(11000);
+        browser.sleep(2000);
+        element.all(by.id('release')).get(1).click();
+        browser.sleep(3500);
+        element.all(by.id('endQuiz')).get(0).click();
+        browser.sleep(1000);
     });
 });
 describe('signup as student', function() {
