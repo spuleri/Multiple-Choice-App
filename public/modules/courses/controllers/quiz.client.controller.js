@@ -52,6 +52,9 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 				question.time = question.time - 15;
 			}
 		};
+        $scope.endTime = function(question){
+				question.time = 1;
+		};
 
 		//when server emits this, set current question to the one sent from server
 		Socket.on('send-question-to-all', function(question, index, courseId){
