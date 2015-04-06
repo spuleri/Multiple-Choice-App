@@ -24,7 +24,9 @@ exports.releaseQuiz = function(req, res) {
 	//question in the quiz
 	course.roster.forEach(function(userID){
 		User.findOne({
-			_id: userID
+			//need to do ._id because the roster is an array of user objects now
+			//cuz its being populated in the courseByID function
+			_id: userID._id
 		}).exec(function(err, user) {
 			if (err) console.log(err);
 			if (!user) console.log('Failed to load User ' + userID);
@@ -77,17 +79,39 @@ exports.releaseQuiz = function(req, res) {
 			
 		});
 	});
-	//marking quiz as released and sending back course
-	for(var i = 0; i < course.quizzes.length; ++i){
-		console.log('in the loop');
-		if(course.quizzes[i]._id === quiz._id){
-			//releasing the quiz we graded for every user
-			course.quizzes[i].released = true;
-			//responding back with course with the "released quiz"
-			//every user should have their score now in thier storedAnswers array
-			res.jsonp(course);
-			break;
+
+	//finding the correct course and updating it.
+	Course.findOne({
+		_id: course._id
+	}).exec(function(err, course) {
+		if (err) console.log(err);
+		if (!course) console.log('Failed to load course ' + course._id);
+
+		//marking quiz as released and sending back course
+		for(var i = 0; i < course.quizzes.length; ++i){
+			
+			if(course.quizzes[i]._id.toString() === quiz._id.toString()){
+				//releasing the quiz we graded for every user
+				console.log('saved quiz: ' + course.quizzes[i]._id );
+				course.quizzes[i].released = true;
+				break;
+			}
 		}
-	}
+		//saving the updated course and then
+		//responding back with course with the "released quiz"
+		//every user should have their score now in thier storedAnswers array
+		course.save(function(err) {
+			console.log('saved the course: ' + course._id);
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(course);
+			}
+		});
+
+	});
+
 
 };

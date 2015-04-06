@@ -161,8 +161,11 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
             }
 
             Socket.emit('send-answer', ansId, $scope.user._id, $scope.course._id);
-
+            $scope.userWithAnswers = $scope.user;
+            console.log($scope.userWithAnswers);
             $scope.user = Users.get({}, function() {
+            	//setting the stored answers to the user just got from DB
+            	$scope.user.storedAnswers = $scope.userWithAnswers.storedAnswers;
                 var user = new Users($scope.user);
                 user.$update(function(response) {
                     Authentication.user = response;
