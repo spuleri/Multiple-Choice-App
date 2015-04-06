@@ -1,6 +1,24 @@
 <div>
 
 	<h4>Welcome to the course, navigate with the menu</h4>
-	<p>This course has <strong>{{course.roster.length}}</strong> students!
+
+	<div class="col-sm-6">
+		This course has <strong>{{course.roster.length}}</strong> students!
+
+		<div class="roster-list" ng-if="authentication.user.roles[0] === 'admin'">
+			<h5>Course Roster</h5>
+			<ul class="list-group" >
+				<li class="list-group-item" ng-repeat="student in course.roster">
+
+					<strong>Name: </strong>{{student.displayName}} <br>
+					<strong>Gatorlink: </strong>{{student.gatorlink}} <br>
+					<strong>UFID: </strong>{{student.ufid}} <br>
+					<strong>Email: </strong> {{student.email}} <br>
+
+				</li>
+
+			</ul>
+		</div>
+	</div>
 
 </div>
