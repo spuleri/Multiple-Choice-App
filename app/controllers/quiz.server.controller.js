@@ -73,7 +73,6 @@ exports.releaseQuiz = function(req, res) {
 								message: errorHandler.getErrorMessage(err)
 							});
 						}
-						else console.log('user was updated: ' + user._id);
 					});
 				}
 
@@ -94,7 +93,6 @@ exports.releaseQuiz = function(req, res) {
 			
 			if(course.quizzes[i]._id.toString() === quiz._id.toString()){
 				//releasing the quiz we graded for every user
-				console.log('saved quiz: ' + course.quizzes[i]._id );
 				course.quizzes[i].released = true;
 				break;
 			}
@@ -103,7 +101,6 @@ exports.releaseQuiz = function(req, res) {
 		//responding back with course with the "released quiz"
 		//every user should have their score now in thier storedAnswers array
 		course.save(function(err) {
-			console.log('saved the course: ' + course._id);
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)

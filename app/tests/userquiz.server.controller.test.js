@@ -208,7 +208,6 @@ describe('Grading and releasing a quiz:', function() {
         }).exec(function(err, user1) {
           if (err) console.log(err);
           if (!user1) console.log('Failed to load user1 ' + student1._id);
-          //console.log(user1);
           user1.storedAnswers[0].should.have.property('score', 2);
 
           //checking student 2 now has score 1/2
@@ -217,7 +216,6 @@ describe('Grading and releasing a quiz:', function() {
           }).exec(function(err, user2) {
             if (err) console.log(err);
             if (!user2) console.log('Failed to load user2 ' + student2._id);
-            //console.log(user2);
             user2.storedAnswers[0].should.have.property('score', 1);
             done();
             });
