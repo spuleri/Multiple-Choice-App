@@ -26,9 +26,10 @@ exports.releaseQuiz = function(req, res) {
 		User.findOne({
 			//need to do ._id because the roster is an array of user objects now
 			//cuz its being populated in the courseByID function
-			_id: userID._id
+			_id: userID
 		}).exec(function(err, user) {
 			if (err) console.log(err);
+			//console.log(user);
 			if (!user) console.log('Failed to load User ' + userID);
 
 			user.storedAnswers.forEach(function(takenQuiz){
@@ -72,6 +73,7 @@ exports.releaseQuiz = function(req, res) {
 								message: errorHandler.getErrorMessage(err)
 							});
 						}
+						else console.log('user was updated: ' + user._id);
 					});
 				}
 

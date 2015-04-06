@@ -175,7 +175,7 @@ exports.courseByID = function(req, res, next, id) {
 		if (! course) return next(new Error('Failed to load Course ' + id));
 
 		//populating roster, just because
-		User.populate(course, {path: 'roster'}, function(err, course){
+		//User.populate(course, {path: 'roster'}, function(err, course){
 
 			//hiding the correct answer to non-admins
 	        if (req.user && req.user.roles[0] === 'admin'){
@@ -196,7 +196,7 @@ exports.courseByID = function(req, res, next, id) {
 	            req.course = course;
 	            next();
 	        }
-		});
+		//});
 
 
 	});
