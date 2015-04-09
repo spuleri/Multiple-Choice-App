@@ -24,7 +24,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
         $scope.convertID = function() {
             var dashPos = $scope.credentials.ufid.indexOf('-');
             if (dashPos !== -1)
-                $scope.credentials.ufid = $scope.credentials.ufid.slice(0,dashPos - 1) + $scope.credentials.slice(dashPos + 1);
+                $scope.credentials.ufid = $scope.credentials.ufid.slice(0,dashPos) + $scope.credentials.ufid.slice(dashPos + 1);
         };
 
 		$scope.signin = function() {
