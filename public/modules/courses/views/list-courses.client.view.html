@@ -8,68 +8,128 @@
             <button type="submit" class="btn btn-primary btn-md" ng-click="open('md')">Create a Course</button>
         </div>
     <div class="">
-        <button type="submit" class="btn btn-success" ng-click="openJoinCourse('md')">
-            <i class="glyphicon glyphicon-plus"></i>
-            Join a course
-        </button>
+        <div data-ng-if="(authentication.user.roles[0] === 'user')">
+            <button type="submit" class="btn btn-success" ng-click="openJoinCourse('md')">
+                <i class="glyphicon glyphicon-plus"></i>
+                Join a course
+            </button>
+        </div>
     </div>
     </div>
     <div id="student-view" ng-if="(authentication.user.roles[0] === 'user')">
-        <a class="col-md-6" data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <h4 data-ng-bind="course.name"></h4>
-                    </h4>
-                </div>
-                <div style="padding-top:25px;">
-                    <div style="padding-bottom:25px;">
-                        <div class="panel-body">
-                            <div class= "row">
-                                    <h4 class="text-center">
-                                        Instructor:
+        <!-- View for only 1 course -->
+        <div ng-if= "(userWithCourses.joinedCourses.length === 1)">
+            <a class="col-md-6 col-md-offset-3" data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <h4 data-ng-bind="course.name"></h4>
+                        </h4>
+                    </div>
+                    <div style="padding-top:25px;">
+                        <div style="padding-bottom:25px;">
+                            <div class="panel-body">
+                                <div class= "row">
+                                     <h4 class="text-center">
+                                         Instructor:
                                         <span data-ng-bind="course.owner.displayName"></span>
                                     </h4>
-                                <div class="text-center">
-                                    <span class="badge">{{course.roster.length}} Students</span>
-                                    <span class="badge">{{course.quizzes.length}} Quizzes</span>
+                                    <div class="text-center">
+                                        <span class="badge">{{course.roster.length}} Students</span>
+                                        <span class="badge">{{course.quizzes.length}} Quizzes</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
+        <!-- View for more than 1 course -->
+        <div ng-if= "(userWithCourses.joinedCourses.length !== 1)">
+            <a class="col-md-6" data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <h4 data-ng-bind="course.name"></h4>
+                        </h4>
+                    </div>
+                    <div style="padding-top:25px;">
+                        <div style="padding-bottom:25px;">
+                            <div class="panel-body">
+                                <div class= "row">
+                                     <h4 class="text-center">
+                                         Instructor:
+                                        <span data-ng-bind="course.owner.displayName"></span>
+                                    </h4>
+                                    <div class="text-center">
+                                        <span class="badge">{{course.roster.length}} Students</span>
+                                        <span class="badge">{{course.quizzes.length}} Quizzes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 
     <div id="prof-view" ng-if="(authentication.user.roles[0] === 'admin') && (userWithCourses.joinedCourses.length || userWithCourses.ownedCourses.length) ">
         <h4 class="text-center">Your Owned Courses</h4>
-        <div class="list-group col-xs-6 col-xs-offset-3">
-            <a data-ng-repeat="course in userWithCourses.ownedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-                <h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
-                <small class="list-group-item-text">
-                    Instructor:
-                    <span data-ng-bind="course.owner.displayName"></span>
-                </small>
-
-                 <span class="badge">{{course.quizzes.length}} Quizzes</span>
-                 <span class="badge">{{course.roster.length}} Students</span>
-
+        <div ng-if= "(userWithCourses.ownedCourses.length === 1)">
+            <a class="col-md-6 col-md-offset-3" data-ng-repeat="course in userWithCourses.ownedCourses track by $index" data-ng-href="#!/courses/{{course._id}}">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <h4  data-ng-bind="course.name"></h4>
+                        </h4>
+                    </div>
+                    <div style="padding-top:25px;">
+                        <div style="padding-bottom:25px;">
+                            <div class="panel-body">
+                                <div class= "row">
+                                    <h4 class="text-center">
+                                        Instructor:
+                                        <span data-ng-bind="course.owner.displayName"></span>
+                                    </h4>
+                                    <div class="text-center">
+                                        <span class="badge">{{course.quizzes.length}} Quizzes</span>
+                                        <span class="badge">{{course.roster.length}} Students</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </a>
         </div>
         
-        <div class="list-group col-xs-6 col-xs-offset-3">
-            <h4 class="text-center">Your joined Courses</h4>
-            <a data-ng-repeat="course in userWithCourses.joinedCourses track by $index" data-ng-href="#!/courses/{{course._id}}" class="list-group-item">
-                <h4 class="list-group-item-heading" data-ng-bind="course.name"></h4>
-                <small class="list-group-item-text">
-                    Instructor:
-                    <span data-ng-bind="course.owner.displayName"></span>
-                </small>
-
-                 <span class="badge">{{course.quizzes.length}} Quizzes</span>
-                 <span class="badge">{{course.roster.length}} Students</span>
-
+        <div ng-if= "(userWithCourses.ownedCourses.length !== 1)">
+            <a class="col-md-6" data-ng-repeat="course in userWithCourses.ownedCourses track by $index" data-ng-href="#!/courses/{{course._id}}">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <h4  data-ng-bind="course.name"></h4>
+                        </h4>
+                    </div>
+                    <div style="padding-top:25px;">
+                        <div style="padding-bottom:25px;">
+                            <div class="panel-body">
+                                <div class= "row">
+                                    <h4 class="text-center">
+                                        Instructor:
+                                        <span data-ng-bind="course.owner.displayName"></span>
+                                    </h4>
+                                    <div class="text-center">
+                                        <span class="badge">{{course.quizzes.length}} Quizzes</span>
+                                        <span class="badge">{{course.roster.length}} Students</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </a>
         </div>
     </div>
