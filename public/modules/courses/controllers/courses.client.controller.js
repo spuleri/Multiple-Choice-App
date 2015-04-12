@@ -6,6 +6,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
+
 		//gets a user's joined and owned courses.    
         $scope.init = function() {
         	$http.get('/users/courses').
@@ -143,15 +144,38 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 			}
 		};
 
+	    // Remove existing quiz
+		$scope.removeQuiz = function() {
+			//just sets deleteMe to true and calls update()
+			$scope.deleteMe = true;
+			$scope.update();
+		};
+		$scope.editQuiz = function(){
+			$scope.editMe = true;
+			$scope.update();
+		};
+
 		// Update existing Course
 		$scope.update = function() {
 			if ($scope.authentication.user.roles[0] === 'admin') {
 				var course = $scope.course;
 
-            var quiz = $scope.quiz;
-            if (quiz && quiz.name !== '') {
-                course.quizzes.push(quiz);
-            }
+				//for adding a quiz to the course
+	            var quiz = $scope.quiz;
+	            if (!$scope.editMe && !$scope.deleteMe && quiz && quiz.name !== '') {
+	                course.quizzes.push(quiz);
+	            }
+	            //for deleting a quiz from a course
+	            if($scope.deleteMe) {
+	        		for (var i in course.quizzes) {
+						if (course.quizzes[i] === quiz) {
+							course.quizzes.splice(i, 1);
+						}
+					}
+					$scope.deleteMe = undefined;
+	            }
+
+	            //actually updating the course
 				course.$update(function () {
 					$location.path('courses/' + course._id);
 				}, function (errorResponse) {
@@ -232,7 +256,6 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                 courseId: $stateParams.courseId
             }, function() {
                 $scope.quiz = $scope.subFinder.search(desired, $scope.course.quizzes);
-                console.log($scope.quiz);
             });
         };
 
@@ -323,36 +346,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		                valid: false
 		              }]              
 		          });
-		          /*
-  	        		for (var j = 0; j < numA; ++j) {
-		            $scope.quiz.questions.answers.push({
-		                name: '',
-		                valid: false
-		            });
-	        	}
-*/
-
 		      	}
 		      }
         };
-
-/*
-        // DEBUG CODE~!@#
-        $scope.removeUserCourses = function() {
-        	$scope.user = Authentication.user;
-        	$scope.user.joinedCourses = [];
-
-			$scope.success = $scope.error = null;
-			var user = new Users($scope.user);
-			user.$update(function(response) {
-				$scope.success = true;
-				Authentication.user = response;
-			}, function(response) {
-				$scope.error = response.data.message;
-			});
-        };
-*/
-
-
 	}
 ]);

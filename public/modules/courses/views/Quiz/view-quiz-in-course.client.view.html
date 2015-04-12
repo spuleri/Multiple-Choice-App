@@ -1,12 +1,12 @@
-<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()">
+<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()" xmlns="http://www.w3.org/1999/html">
     <div class="page-header">
         <h2 data-ng-bind="quiz.name"></h2>
     
         <div class="pull-right">
-            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit">
+            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
                 <i class="glyphicon glyphicon-edit"></i>
             </a>
-            <a class="btn btn-primary">
+            <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
                 <i class="glyphicon glyphicon-trash"></i>
             </a>
         </div>
@@ -23,18 +23,28 @@
     <div data-ng-controller="QuizController">
         <!--Professor's question controls -->
         <div class="prof-controls" ng-if="authentication.user.roles[0] === 'admin'" >
+            <div class="container">
+                <button type="submit" id="release" class="btn btn-normal" ng-click="releaseAndGrade()">
+                    Release and Grade
+                </button>
 
+
+                <button  id="release" class="btn btn-normal" ng-click="toggleAnswers()">
+                    <span ng-show="!showAnswers">Show correct answers</span>
+                    <span ng-show="showAnswers">Hide correct answers</span>
+                </button> 
+            </div>
+            <br>
 
             <ul class="list-group quiz-list">
                 <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
                     <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
                     <ul>
-                        <li ng-repeat="answer in question.answers">
-                            <span class="highlight" ng-if="answer.valid === true">
+                        <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
+
+                            <span >
                                 {{answer.name}}
-                            </span>
-                            <span ng-if="answer.valid === false">
-                                {{answer.name}}
+
                             </span>                            
                         </li>
                     </ul>
@@ -56,41 +66,36 @@
                             </span>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary" ng-click="testSocket(question)">
+                      <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question, $index)">
                         Broadcast to students
                       </button>
+                      <button class="btn btn-danger pull-right" id="endQuiz" ng-click="endTime(question, $index)">
+                        End
+                        </button>
                     </form>
                 </li>
             </ul>
         </div>
         <!-- Questions will appear here -->
-        <div class="container well">
+        <div class="container well" ng-if="authentication.user.roles[0] !== 'admin'">
             <div class="col-xs-12">
                 <p>Questions will be appear in this well<p>
-
-
-
-            <div class="alert alert-success" role="alert" ng-show="currentQuestion">
-                <h5>A Question is active!</h5>
-                <strong>TIME REMAINING:</strong> {{currentQuestion.time}}
-                <div class="">
-                    <progressbar class="progress-striped active" value="currentQuestion.time" max="currentQuestion.maxTime" type="warning">
-                        {{currentQuestion.time}} seconds remaining
-                    </progressbar>
+                <div student-question-view></div>
+            </div>
+        </div>
+        <!--TODO: Figure out how to properly hide graph btwn questions / whenever-->
+        <!--<div class="col-md-offset-2">-->
+            <!--Show Distribution Graph <br/>-->
+            <!--<input type="checkbox" ng-model="showGraph"> <br/>-->
+        <!--</div>-->
+        <div class="col-lg-6 col-sm-12" id="bar-chart" ng-controller="QuizGraphCtrl" ng-if="authentication.user.roles[0] === 'admin'">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Answer Distribution</div>
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar" data="data" labels="labels" series="series"
+                            options="options"></canvas>
                 </div>
-
-                <p data-ng-bind="currentQuestion.description"></p>
-                <ul>
-                    <li ng-repeat="answer in currentQuestion.answers">
-                      <label>
-                        <input type="radio" name="ansradio" />
-                        {{answer.name}}
-                      </label>
-                    </li>
-                </ul>
             </div>
-            </div>
-
         </div>
     </div>
 
