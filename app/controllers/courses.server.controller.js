@@ -201,6 +201,16 @@ exports.courseByID = function(req, res, next, id) {
 
 	});
 };
+//
+//exports.addStudent = function(req, res, next, studentId, courseId) {
+//  Course.findById(courseId).exec(function(err, course) {
+//      if (err) return next(err);
+//      if (!course) return next(new Error('Failed to retrieve course: ' + courseId));
+//
+//      req.course = course;
+//      req.course.roster.push(studentId);
+//  })
+//};
 
 /**
  * Course authorization middleware
@@ -211,25 +221,3 @@ exports.hasAuthorization = function(req, res, next) {
 	}
 	next();
 };
-
-
-
-/**
- * Update a Course
- */
-/*
-exports.updateRoster = function(req, res) {
-	var course = req.course;
-	course.roster.push(req.user.id);
-	course.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(course);
-		}
-	});
-	
-};
-*/

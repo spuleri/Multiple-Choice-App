@@ -29,6 +29,8 @@ require('./config/passport')();
 // Start the app by listening on <port>
 app.get('server').listen(config.port);
 
+var Course = mongoose.model('Course');
+
 // tack out socket instance from the app container
 var io = app.get('socketio'); 
 io.sockets.on('connection', function(socket){
@@ -53,6 +55,29 @@ io.sockets.on('connection', function(socket){
 	socket.on('end-question', function(question, courseId){
 		io.sockets.emit('remove-question', question, courseId);
 	});
+    socket.on('join-course', function(courseId, userId) {
+        Course.findById(courseId).exec(function(err, course) {
+            if (err) socket.emit('join-status', userId, false);
+            if (!course) socket.emit('join-status', userId, false);
+            var joined = false;
+            for (var i in course.roster) {
+                if (course.roster[i] === userId) {
+                    joined = true;
+                    console.log('Already joined, betch');
+                }
+            }
+            if (!joined)
+                course.roster.push(userId);
+            course.save(function(err) {
+                if (err)
+                    io.sockets.emit('join-status', userId, false);
+                else {
+                    io.sockets.emit('join-status', userId, true);
+                    console.log('Success!');
+                }
+            });
+        });
+    });
 });
 
 

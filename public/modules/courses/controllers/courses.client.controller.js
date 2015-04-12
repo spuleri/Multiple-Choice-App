@@ -208,20 +208,19 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Join a Course
 		$scope.joinCourse = function() {
 
+
 			$scope.course = $scope.selectedCourse;
-			var course = $scope.course;
 			$scope.user = Authentication.user;			
 			var flag = false;
-			if ($scope.insertedCCode === course.courseCode) {
+			if ($scope.insertedCCode === $scope.course.courseCode) {
 				for (var i in $scope.user.joinedCourses) {
-					if ($scope.user.joinedCourses[i] === course._id) {
+					if ($scope.user.joinedCourses[i] === $scope.course._id) {
 						flag = true;  // Already joined the course
 					}
 				}
 				if (!flag) {
-					$scope.user.joinedCourses.push(course._id);
+					$scope.user.joinedCourses.push($scope.course._id);
 					$scope.course.roster.push($scope.user._id);
-					$scope.alerts.push({type: 'success', msg: 'You are now enrolled in the course.'});
 
 					$scope.success = $scope.error = null;
 					var user = new Users($scope.user);
@@ -232,20 +231,18 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 						$scope.error = response.data.message;
 					});
 
-					course.$update(function () {
-						$location.path('courses/' + course._id);
-					}, function (errorResponse) {
-						$scope.error = errorResponse.data.message;
-					});
+                    var course = $scope.course;
+
+                    Socket.emit('join-course', course._id, user._id);
 				}
 				else {
-					$scope.alerts.push({type: 'warning', msg: 'You are already in this course!'});
+					$scope.alerts.push({type: 'warning', msg: 'You are currently enrolled in this course.'});
 				}
 
 
 			}
 			else {
-				$scope.alerts.push({type: 'danger', msg: 'Wrong course code, try again.'});
+				$scope.alerts.push({type: 'danger', msg: 'Invalid course code.'});
 			}
 		};
 
