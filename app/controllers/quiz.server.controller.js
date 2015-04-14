@@ -31,7 +31,7 @@ exports.releaseQuiz = function(req, res) {
 		}, '-salt -password').exec(function(err, user) {
 			if (err) console.log(err);
 			//console.log(user);
-			if (!user) console.log('Failed to load User ' + userID);
+			if (!user) console.log('Failed to load User ' + user);
 
 			user.storedAnswers.forEach(function(takenQuiz){
 				//going thru the array of quizzes that

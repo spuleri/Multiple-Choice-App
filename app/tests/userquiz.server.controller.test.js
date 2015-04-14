@@ -175,7 +175,7 @@ describe('Grading and releasing a quiz:', function() {
             //simulating populating the roster
             User.populate(courseGet, {path: 'roster', select:'-salt -password'}, function(err, course2){
               course = course2;
-              
+
               var quiz = course.quizzes[0];
 
               var quizAndCourse = {
@@ -197,7 +197,7 @@ describe('Grading and releasing a quiz:', function() {
                   
                 });
 
-            })
+            });
 
         });
 
