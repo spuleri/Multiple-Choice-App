@@ -22,12 +22,13 @@ exports.releaseQuiz = function(req, res) {
 
 	//going thru each user in the roster and grading their answers, for each 
 	//question in the quiz
-	course.roster.forEach(function(userID){
+
+	course.roster.forEach(function(user){
 		User.findOne({
 			//need to do ._id because the roster is an array of user objects now
 			//cuz its being populated in the courseByID function
-			_id: userID
-		}).exec(function(err, user) {
+			_id: user._id
+		}, '-salt -password').exec(function(err, user) {
 			if (err) console.log(err);
 			//console.log(user);
 			if (!user) console.log('Failed to load User ' + userID);
@@ -80,6 +81,8 @@ exports.releaseQuiz = function(req, res) {
 			
 		});
 	});
+
+
 
 	//finding the correct course and updating it.
 	Course.findOne({

@@ -113,6 +113,11 @@ angular.module('courses').controller('QuizController', ['$scope', '$stateParams'
 
 			$scope.quizAndCourse.$release(function(data){
 				console.log(data);
+				$scope.alerts.push({type: 'success', msg: 'Quiz was successfully graded'});
+
+			},function(errorData){
+				console.log(errorData);
+				$scope.alerts.push({type: 'danger', msg: 'Shit, we messed up. Contact the developers'});
 			});
 
 			
