@@ -9,32 +9,6 @@ var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	_ = require('lodash');
 
-
-/*Old way of doing it, by actually querying the database and populating the model
-*/
-// exports.populateUser = function(req, res) { 
-// 	var user = req.user;
-// 	User.findOne({
-// 		_id: user.id //popul8in user
-// 	}).populate('joinedCourses').populate('ownedCourses').exec(function(err, user) {
-
-// 		if (err) {
-// 			return res.status(400).send({
-// 				message: errorHandler.getErrorMessage(err)
-// 			});
-// 		} else {
-// 			console.log('hi');
-// 			User.populate('owner', 'displayName',function(err, user){
-// 				// Remove sensitive data
-// 				user.password = undefined;
-// 				user.salt = undefined;
-// 				res.jsonp(user);
-// 			});
-// 		}
-// 	});
-// };
-
-
 /**
  * Populate user with ownedCourses & joinedCourses
  can populate existing documents though:

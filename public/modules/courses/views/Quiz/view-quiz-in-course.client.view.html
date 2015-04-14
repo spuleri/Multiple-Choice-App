@@ -28,11 +28,15 @@
                     Release and Grade
                 </button>
 
-
                 <button  id="release" class="btn btn-normal" ng-click="toggleAnswers()">
                     <span ng-show="!showAnswers">Show correct answers</span>
                     <span ng-show="showAnswers">Hide correct answers</span>
                 </button> 
+                
+                <br>
+                
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+
             </div>
             <br>
 

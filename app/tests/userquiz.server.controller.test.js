@@ -65,7 +65,7 @@ describe('Grading and releasing a quiz:', function() {
        });
        prof.save(function() {
            course = new Course({
-               name: 'Test Course',
+               name: 'shit',
                owner: prof._id,
                quizzes: [{
                    name: 'Test Quiz',
@@ -107,7 +107,7 @@ describe('Grading and releasing a quiz:', function() {
                        }
                    ]
                }],
-               roster: [student1._id, student2._id]
+               roster: [ {_id: student1._id, username: student1.username}, {_id: student2._id, username: student2.username} ]
            });
            course.save(function(err) {
                if (!err) {
@@ -168,38 +168,42 @@ describe('Grading and releasing a quiz:', function() {
         this.timeout(5000);
         setTimeout(done, 3000);
 
-        Course.findOne({name: 'Test Course'}, function (err, courseGet) {
+        Course.findOne({name: 'shit'}, function (err, courseGet) {
             if (err) {
                 done(err);
             }
-            course = courseGet;
-           // course.roster.length.should.equal(2);
+            //simulating populating the roster
+            User.populate(courseGet, {path: 'roster', select:'-salt -password'}, function(err, course2){
+              course = course2;
+
+              var quiz = course.quizzes[0];
+
+              var quizAndCourse = {
+                quiz: quiz,
+                course: course
+              };
+
+              //calling the release and grade method with the specified quiz and course needed to grade
+              agent.post('/courses/quizzes')
+                .send(quizAndCourse)
+                .expect(200)
+                .end(function(err, res) {
+                  // Handle signin error
+                  if (err) done(err);
+                  
+                  //checking the quiz has been set to released!
+                  res.body.quizzes[0].released.should.equal(true);
+                  //done();            
+                  
+                });
+
+            });
+
         });
 
-        var quiz = course.quizzes[0];
-
-        var quizAndCourse = {
-          quiz: quiz,
-          course: course
-        };
-
-        //calling the release and grade method with the specified quiz and course needed to grade
-        agent.post('/courses/quizzes')
-          .send(quizAndCourse)
-          .expect(200)
-          .end(function(err, res) {
-            // Handle signin error
-            if (err) done(err);
-            
-            //checking the quiz has been set to released!
-            res.body.quizzes[0].released.should.equal(true);
-            //done();
-
-            
-            
-          });
 
       });
+
       it('The 2 students should now have the correct scores in their storedAnswers array', function(done){
 
         //checking student1 now has score 2/2

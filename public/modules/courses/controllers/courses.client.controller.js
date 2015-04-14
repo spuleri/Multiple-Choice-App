@@ -234,6 +234,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
                     var course = $scope.course;
 
                     Socket.emit('join-course', course._id, user._id);
+                    //go to course page after joining
+                    $location.path('courses/' + course._id);
 				}
 				else {
 					$scope.alerts.push({type: 'warning', msg: 'You are currently enrolled in this course.'});

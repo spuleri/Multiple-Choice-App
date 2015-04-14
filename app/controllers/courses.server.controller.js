@@ -54,29 +54,6 @@ exports.readQuizzes = function(req, res) {
 /**
  * Update a Course
  */
- /*
-exports.update = function(req, res) {	
-
-	if(req.user.roles[0] === 'admin') {
-		var course = req.course ;
-
-		course = _.extend(course , req.body);
-
-		course.save(function(err) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			} else {
-				res.jsonp(course);
-			}
-		});
-	}
-	else {console.log('You are not an admin and cannot update a course');}
-};
-*/
-
-
 exports.update = function(req, res) {	
 	var course = req.course;
 	var user = req.user;
@@ -174,8 +151,8 @@ exports.courseByID = function(req, res, next, id) {
 		if (err) return next(err);
 		if (! course) return next(new Error('Failed to load Course ' + id));
 
-		//populating roster, just because
-		//User.populate(course, {path: 'roster'}, function(err, course){
+		//populating roster, just because, not selecting salt and pass.
+		User.populate(course, {path: 'roster', select:'-salt -password'}, function(err, course){
 
 			//hiding the correct answer to non-admins
 	        if (req.user && req.user.roles[0] === 'admin'){
@@ -196,7 +173,7 @@ exports.courseByID = function(req, res, next, id) {
 	            req.course = course;
 	            next();
 	        }
-		//});
+		});
 
 
 	});
