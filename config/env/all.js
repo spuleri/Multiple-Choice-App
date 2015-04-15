@@ -17,7 +17,9 @@ module.exports = {
 				// 'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				//bootflat css, needed to comment out the bootstrap theme to use the Bootflat one
 				'public/lib/Bootflat/bootflat/css/bootflat.min.css',
-				'public/lib/angular-xeditable/dist/css/xeditable.css'
+				'public/lib/angular-xeditable/dist/css/xeditable.css',
+				'public/lib/fontawesome/css/font-awesome.css'
+
 			],
 			js: [
 				'public/lib/angular/angular.js',

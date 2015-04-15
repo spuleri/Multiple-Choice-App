@@ -90,3 +90,11 @@ div.well{
     left:100px;
     width: 60%;
 }
+
+.grade-list .panel-heading {
+    background-color: transparent;
+    border-color: transparent;
+}
+.grade-list .panel-group {
+    margin: 0;
+}
