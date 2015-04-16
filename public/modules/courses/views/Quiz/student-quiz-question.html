@@ -2,7 +2,7 @@
     <h5>A Question is active!</h5>
     <strong>TIME REMAINING:</strong> {{currentQuestion.time}}
     <div class="">
-        <img src="{{currentQuestion.imageSource}}" ng-if="currentQuestion.imageSource" id="questImg"/>
+        <img src="{{currentQuestion.imageSource}}" ng-if="currentQuestion.imageSource" class="questImg"/>
         <progressbar class="progress-striped active" value="currentQuestion.time" max="currentQuestion.maxTime" type="warning">
             {{currentQuestion.time}} seconds remaining
         </progressbar>

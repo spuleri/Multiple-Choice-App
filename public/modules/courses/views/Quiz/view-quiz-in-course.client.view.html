@@ -43,7 +43,7 @@
             <ul class="list-group quiz-list">
                 <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
                     <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
-                    <img src="{{question.imageSource}}" ng-if="question.imageSource" id="questImg"/>
+                    <img src="{{question.imageSource}}" ng-if="question.imageSource" class="questImg"/>
                     <ul>
                         <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
 
