@@ -61,6 +61,10 @@ var questionSchema = new Schema({
         type: Number,
         default: 60
     },
+    imageSource: {
+        type: String,
+        trim: true
+    },
     answers: [ansSchema]
 });
 /**
