@@ -90,3 +90,14 @@ div.well{
     left:100px;
     width: 60%;
 }
+
+.question-display{
+    font-size: 1.8em;
+    cursor: pointer;
+    cursor: hand;
+
+}
+
+.quiz-list .row {
+    margin-right: 0px; 
+}

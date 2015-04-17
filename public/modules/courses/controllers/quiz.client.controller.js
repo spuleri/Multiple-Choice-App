@@ -3,6 +3,7 @@
 // Quizzes controller
 angular.module('courses').controller('QuizController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', '$modal', '$log', 'Users', 'SubFinder', 'Socket', '$interval', 'Quiz',
 	function($scope, $stateParams, $location, Authentication, Courses, $modal, $log, Users, SubFinder, Socket, $interval, Quiz) {
+		
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
         $scope.user = Authentication.user;
