@@ -29,9 +29,11 @@
 -->       
 
         <form class="form-inline well well-lg">
-            <div ng-repeat="question in quiz.questions" data-ng-init="addAnswer(question, 5)" class="well">
+
+            <div ng-repeat="question in quiz.questions" data-ng-init="addAnswer(question, 4)" class="well">
+                <img src="{{question.imageSource}}" ng-show="question.imageSource" class="questImg"/><br/>
                 <span style="font-size: 20px; position:relative;bottom:4px" class="label label-success label-as-badge">{{$index + 1}}</span>
-                <input type="text" class="form-control bot-margin" placeholder="Label" ng-model="question.title" size="10">
+                <input type="text" class="form-control bot-margin" placeholder="title" ng-model="question.title" size="10">
                 <input type="text" class="form-control bot-margin" placeholder="Question" ng-model="question.description" size="70">
 
                 <button class="btn btn-success btn-md bot-margin" ng-click="removeQuestion(question)" style="position:relative;left:30px">
@@ -41,6 +43,7 @@
                 <button class="btn btn-success btn-md bot-margin" id="newQuestion" ng-click="insertQuestion(question)" style="position:relative;left:30px">
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
+                <input type="text" class="form-control bot-margin" placeholder="Image Link" ng-model="question.imageSource" size="60">
 <!--
                 <button class="btn btn-danger btn-md bot-margin" ng-click="addAnswer(question, numanswers)" style="position:relative;left:30px">
                     <i class="glyphicon glyphicon-plus"></i>

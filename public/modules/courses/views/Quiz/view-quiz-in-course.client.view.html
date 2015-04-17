@@ -42,7 +42,6 @@
 
             <ul class="list-group quiz-list">
                 <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
-
                     
                     <div ng-class="{row: !showQuestion}">
                         <i class="glyphicon glyphicon-minus question-display pull-right" id="hide" ng-show="showQuestion" ng-click="showQuestion = false"></i>
@@ -51,43 +50,43 @@
 
 
                     <div ng-show="showQuestion">
-                        <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
-                        <ul>
-                            <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
+                    <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
+                    <img ng-src="{{question.imageSource}}" ng-if="question.imageSource" class="questImg"/>
+                    <ul>
+                        <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
 
-                                <span >
-                                    {{answer.name}}
+                            <span >
+                                {{answer.name}}
 
-                                </span>                            
-                            </li>
-                        </ul>
+                            </span>                            
+                        </li>
+                    </ul>
 
-                        <form class="form-inline">
-                          <div class="form-group">
-                            <label for="questionTime">Time (in seconds)</label>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" tooltip="Subtract 15 seconds"type="button" ng-click="subtractTime(question)">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                    </button>                                
-                                </span>
-                                <input type="text" class="form-control" id="questionTime" ng-model="question.time" placeholder="Time in seconds" size="1">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" tooltip="Add 15 seconds" type="button" ng-click="addTime(question)">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                </span>
-                            </div>
-                          </div>
-                          <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question, $index)">
-                            Broadcast to students
-                          </button>
-                          <button class="btn btn-danger pull-right" id="endQuiz" ng-click="endTime(question, $index)">
-                            End
-                          </button>
-                        </form>
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label for="questionTime">Time (in seconds)</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Subtract 15 seconds"type="button" ng-click="subtractTime(question)">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>                                
+                            </span>
+                            <input type="text" class="form-control" id="questionTime" ng-model="question.time" placeholder="Time in seconds" size="1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Add 15 seconds" type="button" ng-click="addTime(question)">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                      </div>
+                      <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question, $index)">
+                        Broadcast to students
+                      </button>
+                      <button class="btn btn-danger pull-right" id="endQuiz" ng-click="endTime(question, $index)">
+                        End
+                        </button>
+                    </form>
                     </div>
-
 
                 </li>
             </ul>

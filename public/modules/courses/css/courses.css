@@ -95,7 +95,18 @@ div.well{
     font-size: 1.8em;
     cursor: pointer;
     cursor: hand;
+}
 
+.grade-list .panel-heading {
+    background-color: transparent;
+    border-color: transparent;
+}
+.grade-list .panel-group {
+    margin: 0;
+}
+.questImg {
+    max-width: 75%;
+    margin:10px 5px;
 }
 
 .quiz-list .row {
