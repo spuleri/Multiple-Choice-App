@@ -43,8 +43,16 @@
 
             <ul class="list-group quiz-list">
                 <li class="list-group-item" ng-repeat="question in quiz.questions track by $index">
+                    
+                    <div ng-class="{row: !showQuestion}">
+                        <i class="glyphicon glyphicon-minus question-display pull-right" id="hide" ng-show="showQuestion" ng-click="showQuestion = false"></i>
+                        <i class="glyphicon glyphicon-plus question-display pull-right" id="show" ng-show="!showQuestion" ng-click="showQuestion = true"></i>
+                    </div>
+
+
+                    <div ng-show="showQuestion">
                     <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
-                    <img src="{{question.imageSource}}" ng-if="question.imageSource" class="questImg"/>
+                    <img ng-src="{{question.imageSource}}" ng-if="question.imageSource" class="questImg"/>
                     <ul>
                         <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
 
@@ -79,6 +87,8 @@
                         End
                         </button>
                     </form>
+                    </div>
+
                 </li>
             </ul>
         </div>
