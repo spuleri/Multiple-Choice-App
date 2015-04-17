@@ -1,6 +1,6 @@
 <section data-ng-controller="CoursesController" data-ng-init="findOne()" >
 	<div class="page-header course-header">
-		<h2 data-ng-bind="course.name"></h2>
+		<h3 data-ng-bind="course.name"></h3>
         
         <p>Instructor: {{course.owner.displayName}}
         <span data-ng-show="authentication.user.roles[0] === 'admin'">

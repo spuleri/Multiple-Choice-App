@@ -1,14 +1,15 @@
 <section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()" xmlns="http://www.w3.org/1999/html">
     <div class="page-header">
         <h2 data-ng-bind="quiz.name"></h2>
-    
-        <div class="pull-right">
-            <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-            <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
-                <i class="glyphicon glyphicon-trash"></i>
-            </a>
+        <div class="quiz-options" ng-if="authentication.user.roles[0] === 'admin'" >
+            <div class="pull-right">
+                <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </div>
         </div>
         <small>
             <em class="text-muted">
@@ -31,13 +32,13 @@
                 <button  id="release" class="btn btn-normal" ng-click="toggleAnswers()">
                     <span ng-show="!showAnswers">Show correct answers</span>
                     <span ng-show="showAnswers">Hide correct answers</span>
-                </button> 
-                
-                <br>
-                
-                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-
+                </button>                
             </div>
+            <div class="container" ng-show="alerts.length">
+                <br>
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
+
             <br>
 
             <ul class="list-group quiz-list">

@@ -1,6 +1,10 @@
 <div class="row quiz-head">
     <div class="col-sm-4 col-sm-offset-4">
-        <div class="header">
+        <div class="header" ng-if="authentication.user.roles[0] === 'user'">
+            <h3 class="text-center">Quizzes available to take</h3>
+
+        </div>
+        <div class="header" ng-if="authentication.user.roles[0] === 'admin'">
             <h3 class="text-center">Quizzes</h3>
 
         </div>
@@ -15,7 +19,7 @@
 <div class="row" ng-if="authentication.user.roles[0] === 'user'">
     <div class="col-sm-4 col-sm-offset-4">
         <div class="list-group">
-            <a data-ng-repeat="quiz in course.quizzes" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
+            <a data-ng-repeat="quiz in course.quizzes | filter: {released: false}" data-ng-href="#!/courses/{{course._id}}/{{quiz._id}}" class="list-group-item">
                 <small class="list-group-item-text">
                     Created on <span data-ng-bind="quiz.created | date:'medium'"></span>
                 </small>
