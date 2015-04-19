@@ -11,6 +11,8 @@
 
 }
 
+li.even:nth-child(even) { background: #DADADA; }
+
 p.ex {
     width: 120px;
 }

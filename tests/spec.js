@@ -83,10 +83,42 @@ describe('create a course', function(){
 });
 
 describe('create and broadcast a quiz', function(){
-    it('should be able to make a quiz', function() {
+    it('should create a quiz that will be graded', function() { 
         element(by.linkText('Quizzes')).click();
         element(by.id('addQuiz')).click();
-        element(by.id('quiz')).sendKeys('Quiz for Sprint 3');
+        element(by.id('quiz')).sendKeys('Quiz for Sprint 4');
+        element(by.id('qTitle0')).sendKeys('Question 1');
+        element(by.id('qDesc0')).sendKeys('2+3=X');
+        element.all(by.id('inputAns0')).get(0).sendKeys('X=4');
+        element.all(by.id('inputAns1')).get(0).sendKeys('X=3');
+        element.all(by.id('inputAns2')).get(0).sendKeys('X=5');
+        element.all(by.id('inputAns3')).get(0).sendKeys('X=7');
+        element.all(by.id('validAns2')).get(0).click();       
+        element(by.id('newQuestion0')).click();
+        element(by.id('qTitle1')).sendKeys('Question 2');
+        element(by.id('qDesc1')).sendKeys('20+20=X');
+        element.all(by.id('inputAns0')).get(1).sendKeys('X=39');
+        element.all(by.id('inputAns1')).get(1).sendKeys('X=9000');
+        element.all(by.id('inputAns2')).get(1).sendKeys('X=40');
+        element.all(by.id('inputAns3')).get(1).sendKeys('X=30');
+        element.all(by.id('validAns2')).get(1).click();
+        element(by.id('newQuestion1')).click();
+        element(by.id('qTitle2')).sendKeys('Freebie');
+        element(by.id('qDesc2')).sendKeys('Just pick the answer, free points');
+        element.all(by.id('inputAns0')).get(2).sendKeys('Choose this');
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('validAns0')).get(2).click();
+        element(by.id('create')).click();
+        expect(element(by.binding('course.name')).getText()).toEqual(courseName);   
+        element(by.linkText('Quizzes')).click();
+    });
+    it('should be able to make a quiz that will not be graded', function() {
+        element(by.linkText('Quizzes')).click();
+        element(by.id('addQuiz')).click();
+        element(by.id('quiz')).sendKeys('Ungraded Quiz for Sprint 4');
+        /*
         element.all(by.model('question.title')).get(0).sendKeys('Question 1');
         element.all(by.model('question.description')).get(0).sendKeys('2+2=X');
         element.all(by.model('answer.name')).get(0).sendKeys('X=4');
@@ -95,7 +127,7 @@ describe('create and broadcast a quiz', function(){
         element.all(by.model('answer.name')).get(3).sendKeys('X=5');
         element.all(by.model('answer.name')).get(4).sendKeys('X=3');
         element.all(by.model('answer.valid')).get(0).click();
-        element.all(by.id('newQuestion')).get(0).click();
+        element.all(by.id('newQuestion0')).get(0).click();
         element.all(by.model('question.title')).get(1).sendKeys('Question 2');
         element.all(by.model('question.description')).get(1).sendKeys('3+5=X');
         element.all(by.model('answer.name')).get(5).sendKeys('X=4');
@@ -104,21 +136,67 @@ describe('create and broadcast a quiz', function(){
         element.all(by.model('answer.name')).get(8).sendKeys('X=5');
         element.all(by.model('answer.name')).get(9).sendKeys('X=1');
         element.all(by.model('answer.valid')).get(7).click();
+        */
+        element(by.id('qTitle0')).sendKeys('Question 1');
+        element(by.id('qDesc0')).sendKeys('2+3=X');
+        element.all(by.id('inputAns0')).get(0).sendKeys('X=4');
+        element.all(by.id('inputAns1')).get(0).sendKeys('X=3');
+        element.all(by.id('inputAns2')).get(0).sendKeys('X=5');
+        element.all(by.id('inputAns3')).get(0).sendKeys('X=7');
+        element.all(by.id('validAns2')).get(0).click();       
+        element(by.id('newQuestion0')).click();
+        element(by.id('qTitle1')).sendKeys('Question 2');
+        element(by.id('qDesc1')).sendKeys('20+20=X');
+        element.all(by.id('inputAns0')).get(1).sendKeys('X=39');
+        element.all(by.id('inputAns1')).get(1).sendKeys('X=9000');
+        element.all(by.id('inputAns2')).get(1).sendKeys('X=40');
+        element.all(by.id('inputAns3')).get(1).sendKeys('X=30');
+        element.all(by.id('validAns2')).get(1).click();
+        element(by.id('newQuestion1')).click();
+        element(by.id('qTitle2')).sendKeys('Freebie');
+        element(by.id('qDesc2')).sendKeys('Just pick the answer, free points');
+        element.all(by.id('inputAns0')).get(2).sendKeys('Choose this');
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('delAns1')).get(2).click();
+        element.all(by.id('validAns0')).get(2).click();
         element(by.id('create')).click();
         expect(element(by.binding('course.name')).getText()).toEqual(courseName);	
+        element(by.linkText('Quizzes')).click();
     });
     it('should be able to broadcast quiz', function() {
         element(by.linkText('Quizzes')).click();
         element(by.binding('quiz.name')).click();
-        expect(element(by.binding('quiz.name')).getText()).toEqual('Quiz for Sprint 3');
+        expect(element(by.binding('quiz.name')).getText()).toEqual('Quiz for Sprint 4');
+        element.all(by.id('show')).get(0).click();
         element.all(by.id('questionTime')).get(0).clear();
         element.all(by.id('questionTime')).get(0).sendKeys('30');
         element.all(by.id('broadcast')).get(0).click();
         browser.sleep(2000);
-        element.all(by.id('release')).get(1).click();
         browser.sleep(3500);
         element.all(by.id('endQuiz')).get(0).click();
         browser.sleep(1000);
+        element.all(by.id('show')).get(1).click();
+        element.all(by.id('questionTime')).get(1).clear();
+        element.all(by.id('questionTime')).get(1).sendKeys('45');
+        element.all(by.id('broadcast')).get(1).click();
+        browser.sleep(2000);        
+        element.all(by.id('endQuiz')).get(1).click();
+        browser.sleep(1000);
+        element.all(by.id('hide')).get(0).click();
+        element.all(by.id('hide')).get(1).click();
+        browser.sleep(1000);
+        element.all(by.id('show')).get(2).click();
+        element.all(by.id('questionTime')).get(2).clear();
+        element.all(by.id('questionTime')).get(2).sendKeys('6');
+        element.all(by.id('broadcast')).get(2).click();
+        browser.sleep(2000);        
+        element.all(by.id('endQuiz')).get(2).click();
+        browser.sleep(1000);
+        element.all(by.id('release')).click();
+        element.all(by.id('show')).get(0).click();
+        element.all(by.id('show')).get(1).click();
+
     });
 });
 describe('signup as student', function() {
@@ -156,7 +234,7 @@ describe('signup as student', function() {
         element(by.linkText('Quizzes')).click();
         expect(element(by.binding('course.name')).getText()).toEqual(courseName);
         element(by.binding('quiz.name')).click();
-        expect(element(by.binding('quiz.name')).getText()).toEqual('Quiz for Sprint 3');	
+        //expect(element(by.binding('quiz.name')).getText()).toEqual('Quiz for Sprint 3');	
     });
 });
 
@@ -178,6 +256,7 @@ describe('delete the course', function(){
         element(by.binding('course.name')).click();
         expect(element(by.binding('course.name')).getText()).toEqual(courseName);	
         element(by.id('removeCourse')).click();
+        element(by.id('delCourse')).click();
         expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#!/courses');
         element(by.binding('authentication.user.displayName')).click();
         element(by.id('dropdownSignOut')).click();
