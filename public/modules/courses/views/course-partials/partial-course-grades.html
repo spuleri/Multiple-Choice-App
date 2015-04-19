@@ -1,11 +1,37 @@
 <div>
 
-	<h4 ng-show="authentication.user.storedAnswers.length === 0">Haha you have all F's</h4>
+    
+    <div ng-if="(authentication.user.roles[0] === 'admin')" ng-controller = "GradesController" class="col-xs-8 col-xs-offset-2">
+        
+        <h4 class="text-center">Released Quiz Scores</h4>
+        
+        <table class="table table-striped" ng-init="compileGradesForProf()">
+            <tr>
+                <th>Name</th>
+                <td ng-repeat = "quiz in releasedQuizzes">
+                    {{quiz.name}}
+                </td>
+            </tr>
+            <tr ng-repeat = "studentData in scores">
+                <td >
+                    {{studentData.student.displayName}}
+                    <td ng-repeat = "grade in studentData.grades"> 
+                        <span ng-show="grade.taken">{{grade.percent}}%</span>
+                        <span ng-show="!grade.taken">0%</span>
+                    </td>
+                </td>
+            </tr>
+        </table>
 
+    </div>
+    
+    
 	<!--only students can see their list of released quizzes in the Grades tab 
 	ng-if="authentication.user.storedAnswers.length !== 0 && authentication.user.roles[0] === 'user'"-->
 	<div ng-if="authentication.user.roles[0] === 'user'" class="col-xs-8 col-xs-offset-2" ng-controller="GradesController" ng-init="compileGrades()">
 		
+                
+        
 		<h4 class="text-center">Released Quiz Scores</h4>
 
 		<ul class="list-group grade-list" >
