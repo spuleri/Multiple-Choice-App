@@ -38,6 +38,11 @@ header.navbar-default {
     color: #000000;
 }
 
+div .navbar-header > img {
+    padding: 0;
+    max-height: 100%;
+}
+
 /* Text color when hovering over */
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
