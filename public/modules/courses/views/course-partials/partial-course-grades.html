@@ -8,6 +8,7 @@
         <table class="table table-striped" ng-init="compileGradesForProf()">
             <tr>
                 <th>Name</th>
+                <th>UFID</th>
                 <td ng-repeat = "quiz in releasedQuizzes">
                     {{quiz.name}}
                 </td>
@@ -15,6 +16,7 @@
             <tr ng-repeat = "studentData in scores">
                 <td >
                     {{studentData.student.displayName}}
+                    <td>{{studentData.student.ufid}}</td>
                     <td ng-repeat = "grade in studentData.grades"> 
                         <span ng-show="grade.taken">{{grade.percent}}%</span>
                         <span ng-show="!grade.taken">0%</span>
