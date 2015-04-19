@@ -1,0 +1,16 @@
+<section data-ng-controller="CoursesController" data-ng-init="findOne()">
+        <div class="modal-header">
+            <h3 class="modal-title">Are you sure you want to delete this course?</h3>
+        </div>
+        <form class="" novalidate>
+            <fieldset>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-md" ng-click="remove(); ok()">Delete</button>
+                    <button type="submit" class="btn btn-normal btn-md" ng-click="cancel()">Cancel</button>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                </div>         
+           </fieldset>
+        </form>
+</section>
