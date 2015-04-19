@@ -8,7 +8,7 @@
 		
 		<h4 class="text-center">Released Quiz Scores</h4>
 
-		<ul class="list-group grade-list">
+		<ul class="list-group grade-list" >
 			
 			<!--gonna need to find a better way to display this... maybe populate all of storedAnswers fields? -->
 			<li class="list-group-item" ng-repeat="grade in grades" >
@@ -22,7 +22,7 @@
 							Score: {{grade.percent}}%
 						</span>
 						<!--if they didnt take this quiz -->
-						<span ng-if="!grade.taken">
+						<span ng-if="!grade.taken" tooltip-placement="top" tooltip="You didn't take this quiz">
 							Score: 0%
 						</span>
 					</div>
@@ -64,7 +64,7 @@
 			                    
 							</div>
 							<span ng-show="!q.answeredQuestion">
-								<em>You didn't submit an answer for this question</em>
+								<b><em>You didn't submit an answer for this question</em></b>
 							</span>
 
 							<br>

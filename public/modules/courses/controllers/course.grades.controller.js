@@ -87,7 +87,8 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
         			//if they didnt take this quiz, push that into the grades array
         			if(!taken){
         				var data = {
-        					taken: false
+        					taken: false,
+                            quiz: quiz
         				};
         				$scope.grades.push(data);
 
