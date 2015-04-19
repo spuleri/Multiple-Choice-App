@@ -4,7 +4,7 @@
 
 	<!--only students can see their list of released quizzes in the Grades tab 
 	ng-if="authentication.user.storedAnswers.length !== 0 && authentication.user.roles[0] === 'user'"-->
-	<div ng-if="authentication.user.roles[0] === 'user'" class="col-xs-8 col-xs-offset-2">
+	<div ng-if="authentication.user.roles[0] === 'user'" class="col-xs-8 col-xs-offset-2" ng-controller="GradesController as grades">
 		
 		<h4 class="text-center">Released Quiz Scores</h4>
 
