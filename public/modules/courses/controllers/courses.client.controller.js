@@ -82,6 +82,35 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 				$log.info('Modal dismissed at: ' + new Date());
 			});
 		};
+
+		$scope.openDelCourse = function (size) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/courses/views/delete-course.client.view.html',
+				controller: function ($scope, $modalInstance){
+
+					$scope.ok = function () {
+						//can only close if the form is valid!
+						//eg if the "required" field is filled
+
+						//if (createCustomerForm.$valid){
+							//$modalInstance.close($scope.insertedCCode);
+							$modalInstance.close();
+						//}
+					};
+
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				size: size
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+			}, function () {
+				$log.info('Modal dismissed at: ' + new Date());
+			});
+		};
 	
 
 		// Create new Course
