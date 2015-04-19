@@ -2,53 +2,6 @@
 
 	<h4 ng-show="authentication.user.storedAnswers.length === 0">Haha you have all F's</h4>
 
-    <div data-ng-if="(authentication.user.roles[0] === 'admin')">
-        <ul class="list-group">
-			<!--gonna need to find a better way to display this... maybe populate all of storedAnswers fields? -->
-                
-            <div class="list-group-item" ng-repeat="quiz in course.quizzes | filter: {released: true}" >
-                <h4>{{quiz.name}}</h4>
-                <accordion close-others="oneAtATime">
-                    <accordion-group>
-                        <div class="list-group-item" ng-repeat="student in course.roster">
-                            <div ng-repeat="answer in student.storedAnswers | filter: {quizId: quiz._id}">
-                                <accordion close-others="oneAtATime">
-                                    <accordion-group>
-
-                                        <accordion-heading>
-                                            <strong >{{student.displayName}}</strong>
-                                            <span class="pull-right">Score: {{answer.score}}/{{quiz.questions.length}} <span>
-
-                                        </accordion-heading>
-
-                                        <div ng-repeat="q in quiz.questions">
-                                            <strong>Question</strong> <br>
-                                            {{q.description}} <br>
-
-                                            <strong>Answers</strong>
-
-                                            <div ng-repeat="a in q.answers">
-                                                {{a.name}}
-                                                <span ng-show="a.valid === true">
-                                                    <i class="glyphicon glyphicon-ok" style="color:green"></i>
-                                                </span>
-                                                <span ng-show="!a.valid">
-                                                    <i class="glyphicon glyphicon-remove" style="color:red"></i>
-                                                </span>
-                                            </div>
-                                            <br>
-                                        </div>
-
-                                    </accordion-group>
-                                </accordion>
-                            </div>
-                        </div>
-                    </accordion-group>
-                </accordion>
-            </div>
-            
-		</ul>
-    </div>
     
     
 	<!--only students can see their list of released quizzes in the Grades tab 
