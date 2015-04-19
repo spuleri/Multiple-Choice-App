@@ -4,99 +4,76 @@
 
 	<!--only students can see their list of released quizzes in the Grades tab 
 	ng-if="authentication.user.storedAnswers.length !== 0 && authentication.user.roles[0] === 'user'"-->
-	<div ng-if="authentication.user.roles[0] === 'user'" class="col-xs-8 col-xs-offset-2" ng-controller="GradesController as grades">
+	<div ng-if="authentication.user.roles[0] === 'user'" class="col-xs-8 col-xs-offset-2" ng-controller="GradesController" ng-init="compileGrades()">
 		
 		<h4 class="text-center">Released Quiz Scores</h4>
 
 		<ul class="list-group grade-list">
 			
 			<!--gonna need to find a better way to display this... maybe populate all of storedAnswers fields? -->
-			<li class="list-group-item" ng-repeat="quiz in course.quizzes | filter: {released: true}" >
-				<!-- | filter: {quizId: quiz._id} -->
-				<div ng-repeat="answer in authentication.user.storedAnswers ">
-					<div ng-if="answer.quizId == quiz._id">
-						<div class="row">
-							<div class="col-xs-6 col-md-10">
-								<strong >{{quiz.name}}</strong>
-							</div>
-							<div class="col-xs-6 col-md-2">
-								<span tooltip-placement="top" tooltip="Curious about your shitty score? Click the arrow below">
-									Score: {{answer.score}}/{{quiz.questions.length}} 
-								</span>
-							</div>
-						</div>
-						
-									
-						<accordion close-others="oneAtATime">
-							<accordion-group>
-							<div class="col-xs-12">
-								<accordion-heading>
-									<div class="text-center" tooltip-placement="top" tooltip="View correct answers">
-										<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="font-size:2.0em"></span>
-									</div>
-								</accordion-heading>
-							</div>
-								<p>
-									<em>Your answer is shown with the left arrow</em>
-								</p>
-								<div class="col-md-6 col-xs-12" ng-repeat="q in quiz.questions">
+			<li class="list-group-item" ng-repeat="grade in grades" >
 
-									<strong>Question</strong> <br>
-	<!-- 									<i class="fa fa-long-arrow-right"></i>
-	-->									{{q.description}} <br>
-									
-									<strong>Answers</strong>
-
-									<div ng-repeat="a in q.answers">
-					                    <span ng-show="a.valid === true">
-					                        <i class="glyphicon glyphicon-ok" style="color:green; font-size:1.0em"></i>
-					                    </span>
-					                    <span ng-show="!a.valid">
-					                        <i class="glyphicon glyphicon-remove" style="color:red; font-size:1.0em"></i>
-					                    </span>
-					                    {{a.name}}
-										<span ng-repeat="userAnswer in answer.answers ">
-											<span ng-show="userAnswer == a._id">
-												<i class="fa fa-long-arrow-left"></i>
-											</span>
-										</span>
-
-					                    
-									</div>
-									<br>
-								</div>
-
-							</accordion-group>
-						</accordion>
+				<div class="row">
+					<div class="col-xs-6 col-md-10">
+						<strong >{{grade.quiz.name}}</strong>
 					</div>
-			<!-- Needa figure out how to tell if they didnt take the quiz -->
-			
-<!-- 					<div ng-if="answer.quizId != quiz._id">
-						<div class="row">
-							<div class="col-xs-6 col-md-10">
-								<strong >{{quiz.name}}</strong>
-							</div>
-							<div class="col-xs-6 col-md-2">
-								It doesnt seem like you took this quiz... o_O
-							</div>
-						</div>
-					</div> -->
-					
-
+					<div class="col-xs-6 col-md-2">
+						<span ng-if="grade.taken"tooltip-placement="top" tooltip="{{grade.score}}/{{grade.total}} correct">
+							Score: {{grade.percent}}%
+						</span>
+						<!--if they didnt take this quiz -->
+						<span ng-if="!grade.taken">
+							Score: 0%
+						</span>
+					</div>
 				</div>
+				
+							
+				<accordion close-others="oneAtATime">
+					<accordion-group>
+					<div class="col-xs-12">
+						<accordion-heading>
+							<div class="text-center" tooltip-placement="top" tooltip="View correct answers">
+								<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="font-size:2.0em"></span>
+							</div>
+						</accordion-heading>
+					</div>
+						<p>
+							<em>Your answer is shown with the left arrow</em>
+						</p>
+						<div class="col-md-6 col-xs-12" ng-repeat="q in grade.quiz.questions">
+
+							<strong>Question</strong> <br>
+<!-- 									<i class="fa fa-long-arrow-right"></i>
+-->									{{q.description}} <br>
+							
+							<strong>Answers</strong>
+
+							<div ng-repeat="a in q.answers">
+			                    <span ng-show="a.valid === true">
+			                        <i class="glyphicon glyphicon-ok" style="color:green; font-size:1.0em"></i>
+			                    </span>
+			                    <span ng-show="!a.valid">
+			                        <i class="glyphicon glyphicon-remove" style="color:red; font-size:1.0em"></i>
+			                    </span>
+			                    {{a.name}}
+							
+								<span ng-show="a.studentsChosenAnswer">
+									<i class="fa fa-long-arrow-left"></i>
+								</span>
+			                    
+							</div>
+							<span ng-show="!q.answeredQuestion">
+								<em>You didn't submit an answer for this question</em>
+							</span>
+
+							<br>
+						</div>
+
+					</accordion-group>
+				</accordion>
 			</li>
-
-
-
-
-
 		</ul>
-
-
-
-
-
-
 	</div>
 	
 

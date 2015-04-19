@@ -8,10 +8,13 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
         $scope.user = $scope.authentication.user;
 
        
-
+        /******************
+        compile grades all in one clean object and add that to an array
+        of grades that has only released quizzes,
+        their score, their score as percent, whether or not they took the quiz,
+        and whether or not they answered a question, and which question they answered
+        *******************/
         $scope.compileGrades = function(){
-
-
 
         	//promise containing only RELEASED quizzes in the class
 
@@ -76,7 +79,6 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
         					};
         					$scope.grades.push(data);
 
-
         				}
 
 
@@ -103,10 +105,10 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
 
         };
 
+        //loading ONLY released quizzes
         $scope.loadQuizzes = function(){
         	var deferred = $q.defer(); 
         	$scope.course.$promise.then(function(course){
-
 
         		$scope.quizzes = course.quizzes;
         		$scope.releasedQuizzes = [];
@@ -121,13 +123,10 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
 	        	deferred.resolve($scope.releasedQuizzes); 
 	        	
        		
-
         	});
         	return deferred.promise;
         	
         };
-
-        $scope.compileGrades();
 
 
 	}
