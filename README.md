@@ -1,5 +1,6 @@
-# Multiple-Choice-App
-CEN3031 (Intro to Software Engineering) Project - A web app to answer quizzes in real time in class.
+![alt tag](https://raw.githubusercontent.com/spuleri/Multiple-Choice-App/develop/public/modules/core/img/brand/logo.png)
+## A web app to answer quizzes in real time in class.
+A CEN3031 (Intro to Software Engineering) Project
 
 ###Group Members
 * **Sergio Puleri**: spuleri
