@@ -1,84 +1,28 @@
 <div>
 
-	<h4 ng-show="authentication.user.storedAnswers.length === 0">Haha you have all F's</h4>
     
-    <div data-ng-if="(authentication.user.roles[0] === 'admin')" ng-controller = "GradesController">
-        <!--
-        <div ng-repeat = "student in course.roster">
-            <div ng-init = "compileGradesForProf()"></div>
-        </div>
-        -->
+    <div ng-if="(authentication.user.roles[0] === 'admin')" ng-controller = "GradesController" class="col-xs-8 col-xs-offset-2">
         
-        <table class="table table-striped">
+        <h4 class="text-center">Released Quiz Scores</h4>
+        
+        <table class="table table-striped" ng-init="compileGradesForProf()">
             <tr>
                 <th>Name</th>
-                <td ng-repeat = "quiz in course.quizzes | filter: {released:true}">
+                <td ng-repeat = "quiz in releasedQuizzes">
                     {{quiz.name}}
                 </td>
             </tr>
-            <tr ng-repeat = "student in course.roster|limitTo:1">
-                <td ng-init="compileGradesForProf()">
-                    {{student.displayName}}
-                    <td ng-repeat = "grade in grades"> 
-                        {{grade.percent}}
+            <tr ng-repeat = "studentData in scores">
+                <td >
+                    {{studentData.student.displayName}}
+                    <td ng-repeat = "grade in studentData.grades"> 
+                        <span ng-show="grade.taken">{{grade.percent}}%</span>
+                        <span ng-show="!grade.taken">0%</span>
                     </td>
                 </td>
             </tr>
         </table>
-        <!--
-        <div ng-repeat = "student in course.roster">
-            <div ng-init = "compileGradesForProf(student)">
-                <div ng-repeat = "grade in grades">
-                    {{student.displayName}}: {{grade.quiz.name}}: {{grade.percent}}
-                </div>
-            </div>
-        </div>
-        -->
-			<!--gonna need to find a better way to display this... maybe populate all of storedAnswers fields? -->
-               <!-- 
-            <div class="list-group-item" ng-repeat="quiz in course.quizzes | filter: {released: true}" >
-                <h4>{{quiz.name}}</h4>
-                <accordion close-others="oneAtATime">
-                    <accordion-group>
-                        <div class="list-group-item" ng-repeat="student in course.roster">
-                            <div ng-repeat="answer in student.storedAnswers | filter: {quizId: quiz._id}">
-                                <accordion close-others="oneAtATime">
-                                    <accordion-group>
 
-                                        <accordion-heading>
-                                            <strong >{{student.displayName}}</strong>
-                                            <span class="pull-right">Score: {{answer.score}}/{{quiz.questions.length}} <span>
-
-                                        </accordion-heading>
-
-                                        <div ng-repeat="q in quiz.questions">
-                                            <strong>Question</strong> <br>
-                                            {{q.description}} <br>
-
-                                            <strong>Answers</strong>
-
-                                            <div ng-repeat="a in q.answers">
-                                                {{a.name}}
-                                                <span ng-show="a.valid === true">
-                                                    <i class="glyphicon glyphicon-ok" style="color:green"></i>
-                                                </span>
-                                                <span ng-show="!a.valid">
-                                                    <i class="glyphicon glyphicon-remove" style="color:red"></i>
-                                                </span>
-                                            </div>
-                                            <br>
-                                        </div>
-
-                                    </accordion-group>
-                                </accordion>
-                            </div>
-                        </div>
-                    </accordion-group>
-                </accordion>
-            </div>
-            
-		</ul>
-                -->
     </div>
     
     

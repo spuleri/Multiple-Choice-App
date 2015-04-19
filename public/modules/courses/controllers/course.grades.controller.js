@@ -21,9 +21,12 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
             if(!student){
                 student = $scope.user;
             }
-            var gradesArr = [[]];
+            var deferred = $q.defer();
+
         	var promise = $scope.loadQuizzes();
         	promise.then(function(quizzes){
+
+                $scope.releasedQuizzes = quizzes;
         		$scope.grades = [];
         		//only the released quizzes
         		quizzes.forEach(function(quiz){
@@ -97,120 +100,35 @@ angular.module('courses').controller('GradesController', ['$scope', '$stateParam
         			}
 
         		});
-				//console.log($scope.grades);
-                gradesArr.push($scope.grades);
+				deferred.resolve($scope.grades);
         	});
-            //gradesArr.shift();
-            //console.log($scope.gradesArr);
-            return gradesArr;
+
+            return deferred.promise;
         };
         
         
         $scope.compileGradesForProf = function(){
             $scope.scores = [];
-            var grades = [];
-            var test;
-            $scope.course.roster.forEach(function(student){   
-                test = $scope.compileGrades(student);
-                console.log(test);
-                //$scope.gradesArr.forEach(function(grade){
-                    //console.log(grade);
+            $scope.course.$promise.then(function(course){
+                course.roster.forEach(function(student){   
+                    var promise = $scope.compileGrades(student);
                     
-                    //grades.push($scope.grade.percent);
-                //});
-                var data = {
-                    studentName : student.displayName,
-                    grades : grades,
-                };
-                $scope.scores.push(data);
+
+                    promise.then(function(gradesForSpecificStudent){
+                        
+
+                        var data = {
+                            student: student,
+                            grades: gradesForSpecificStudent
+                        };
+                        $scope.scores.push(data);
+                        console.log($scope.scores);
+
+                    });
+
+                });
+
             });
-            //console.log($scope.scores);
-            /*
-        	//promise containing only RELEASED quizzes in the class
-
-        	var promise = $scope.loadQuizzes();
-        	promise.then(function(quizzes){
-        		$scope.grades = [];
-        		//only the released quizzes
-        		quizzes.forEach(function(quiz){
-
-        			//bool to see if taken quiz, if find quizID in users stored ansers
-        			//it will be true if not will be false
-        			var taken = false;
-
-        			//finding match, to see if student actually took quiz.
-        			student.storedAnswers.forEach(function(takenQuiz) {
-
-        				//if already found that took the quiz dont need to keep loopin
-        				// if(taken){
-        				// 	break;
-        				// }
-
-        				if(quiz._id.toString() === takenQuiz.quizId.toString()) {
-        					taken = true;
-        					//calculating users score for this quiz
-        					var score = takenQuiz.score;
-        					var total = quiz.questions.length;
-        					var percent = (score / total)*100;
-        					percent = Math.round(percent*10)/10;
-        					var questions = [];
-
-        					quiz.questions.forEach(function(question){
-        						//looping thru ansers to see if student answers each question
-        						//and then putting in what they answerd for the question.
-        						question.answeredQuestion = false;
-
-        						question.answers.forEach(function(ans){
-        							ans.studentsChosenAnswer = false;
-        							
-
-        							takenQuiz.answers.forEach(function(studentAns){
-
-        								if(ans._id.toString() === studentAns.toString()){
-        									question.answeredQuestion = true;
-        									ans.studentsChosenAnswer = true;
-
-        								}
-
-        							});
-
-        						});
-
-        					});
-
-        					//data for each quiz
-        					var data = {
-        						taken: taken,
-        						score: score,
-        						total: total,
-        						percent: percent,
-        						quiz: quiz,
-
-        					};
-        					$scope.grades.push(data);
-
-        				}
-
-
-        			});
-
-        			//if they didnt take this quiz, push that into the grades array
-        			if(!taken){
-        				var data = {
-        					taken: false
-        				};
-        				$scope.grades.push(data);
-
-        			}
-
-        		});
-				console.log($scope.grades);
-        		
-        	});
-			
-
-        	
-            */
 
 
         };
