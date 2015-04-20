@@ -8,6 +8,7 @@ var app = angular.module('courses');
 app.directive('studentQuestionView', function () {
     return {
         restrict: 'AE',
-        templateUrl: '/modules/courses/views/Quiz/student-quiz-question.html'
+        //eff u and ur capital Q's dilly
+        templateUrl: '/modules/courses/views/quiz/student-quiz-question.html'
     };
 });
