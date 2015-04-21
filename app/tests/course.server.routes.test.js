@@ -6,6 +6,7 @@ var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Course = mongoose.model('Course'),
+	_ = require('lodash'),
 	agent = request.agent(app);
 
 /**
@@ -36,7 +37,7 @@ describe('Course CRUD tests', function() {
 			lastName: 'Name',
 			displayName: 'Full Name',
 			email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
 			username: credentials_s.username,
 			password: credentials_s.password,
@@ -48,7 +49,7 @@ describe('Course CRUD tests', function() {
             lastName: 'Name',
             displayName: 'Full Name',
             email: 'test@test.com',
-            ufid: '8888-8888',
+            ufid: '88888888',
             gatorlink: 'crazyman',
             roles: 'admin',
             username: credentials_p.username,

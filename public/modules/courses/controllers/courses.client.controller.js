@@ -6,6 +6,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		$scope.authentication = Authentication;
         $scope.subFinder = SubFinder;
 
+
 		//gets a user's joined and owned courses.    
         $scope.init = function() {
         	$http.get('/users/courses').
@@ -65,6 +66,35 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 							setTimeout(function(){
 							    $modalInstance.close();
 							},1300);
+						//}
+					};
+
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				size: size
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+			}, function () {
+				$log.info('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openDelCourse = function (size) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/courses/views/delete-course.client.view.html',
+				controller: function ($scope, $modalInstance){
+
+					$scope.ok = function () {
+						//can only close if the form is valid!
+						//eg if the "required" field is filled
+
+						//if (createCustomerForm.$valid){
+							//$modalInstance.close($scope.insertedCCode);
+							$modalInstance.close();
 						//}
 					};
 
@@ -165,7 +195,7 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 	                course.quizzes.push(quiz);
 	            }
 	            //for deleting a quiz from a course
-	            if($scope.deleteMe){
+	            if($scope.deleteMe) {
 	        		for (var i in course.quizzes) {
 						if (course.quizzes[i] === quiz) {
 							course.quizzes.splice(i, 1);
@@ -207,20 +237,19 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		// Join a Course
 		$scope.joinCourse = function() {
 
+
 			$scope.course = $scope.selectedCourse;
-			var course = $scope.course;
 			$scope.user = Authentication.user;			
 			var flag = false;
-			if ($scope.insertedCCode === course.courseCode) {
+			if ($scope.insertedCCode === $scope.course.courseCode) {
 				for (var i in $scope.user.joinedCourses) {
-					if ($scope.user.joinedCourses[i] === course._id) {
+					if ($scope.user.joinedCourses[i] === $scope.course._id) {
 						flag = true;  // Already joined the course
 					}
 				}
 				if (!flag) {
-					$scope.user.joinedCourses.push(course._id);
+					$scope.user.joinedCourses.push($scope.course._id);
 					$scope.course.roster.push($scope.user._id);
-					$scope.alerts.push({type: 'success', msg: 'You are now enrolled in the course.'});
 
 					$scope.success = $scope.error = null;
 					var user = new Users($scope.user);
@@ -231,20 +260,20 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 						$scope.error = response.data.message;
 					});
 
-					course.$update(function () {
-						$location.path('courses/' + course._id);
-					}, function (errorResponse) {
-						$scope.error = errorResponse.data.message;
-					});
+                    var course = $scope.course;
+
+                    Socket.emit('join-course', course._id, user._id);
+                    //go to course page after joining
+                    $location.path('courses/' + course._id);
 				}
 				else {
-					$scope.alerts.push({type: 'warning', msg: 'You are already in this course!'});
+					$scope.alerts.push({type: 'warning', msg: 'You are currently enrolled in this course.'});
 				}
 
 
 			}
 			else {
-				$scope.alerts.push({type: 'danger', msg: 'Wrong course code, try again.'});
+				$scope.alerts.push({type: 'danger', msg: 'Invalid course code.'});
 			}
 		};
 
@@ -345,36 +374,8 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		                valid: false
 		              }]              
 		          });
-		          /*
-  	        		for (var j = 0; j < numA; ++j) {
-		            $scope.quiz.questions.answers.push({
-		                name: '',
-		                valid: false
-		            });
-	        	}
-*/
-
 		      	}
 		      }
         };
-
-/*
-        // DEBUG CODE~!@#
-        $scope.removeUserCourses = function() {
-        	$scope.user = Authentication.user;
-        	$scope.user.joinedCourses = [];
-
-			$scope.success = $scope.error = null;
-			var user = new Users($scope.user);
-			user.$update(function(response) {
-				$scope.success = true;
-				Authentication.user = response;
-			}, function(response) {
-				$scope.error = response.data.message;
-			});
-        };
-*/
-
-
 	}
 ]);

@@ -61,6 +61,10 @@ var questionSchema = new Schema({
         type: Number,
         default: 60
     },
+    imageSource: {
+        type: String,
+        trim: true
+    },
     answers: [ansSchema]
 });
 /**
@@ -77,7 +81,11 @@ var quizSchema = new Schema ({
         type: Date,
         default: Date.now
     },
-    questions: [questionSchema]
+    questions: [questionSchema],
+    released: {
+        type: Boolean,
+        default: false
+    }
 });
 
 /**

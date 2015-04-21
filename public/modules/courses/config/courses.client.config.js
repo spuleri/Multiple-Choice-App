@@ -9,3 +9,7 @@ angular.module('courses').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'courses', 'New Course', 'courses/create');
 	}
 ]);
+
+angular.module('courses').run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});

@@ -25,8 +25,12 @@ var validateLocalStrategyPassword = function(password) {
  * User Schema
  */
 var QuizAnswers = new Schema({
-    quizId: {type: Schema.Types.ObjectId, ref: 'Course'}, // Quiz ID
-    answers: [{type: Schema.Types.ObjectId, ref: 'Course'}] // Corresponding answer IDs
+    quizId: {type: Schema.Types.ObjectId, ref: 'Course'},   // Quiz ID
+    answers: [{type: Schema.Types.ObjectId, ref: 'Course'}], // Corresponding answer IDs
+    score: { //the user's score for this quiz. (how many questions they got correct)
+    	type: Number,
+    	default: 0
+    }
 });
 var UserSchema = new Schema({
 	firstName: {
@@ -91,7 +95,7 @@ var UserSchema = new Schema({
 		trim: true,
 		default: '',
 		validate: [validateLocalStrategyProperty, 'Please fill in your UFID'],
-		match: [/^[0-9]{4}?-[0-9]{4}$/, 'UFID should have 8 numbers']
+		match: [/^[0-9]{8}$/, 'UFID should have 8 numbers']
 	},
 	gatorlink: {
 		type: String,
@@ -108,8 +112,8 @@ var UserSchema = new Schema({
 	},
     ownedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     joinedCourses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
-    storedAnswers: [QuizAnswers]
-});
+    storedAnswers: [QuizAnswers] //array of quiz answers (these are quizzes that the student has taken)
+},{ versionKey: 'customVersionKey' });
 
 /**
  * Hook a pre save method to hash the password

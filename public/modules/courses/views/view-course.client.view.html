@@ -1,6 +1,6 @@
 <section data-ng-controller="CoursesController" data-ng-init="findOne()" >
 	<div class="page-header course-header">
-		<h2 data-ng-bind="course.name"></h2>
+		<h3 data-ng-bind="course.name"></h3>
         
         <p>Instructor: {{course.owner.displayName}}
         <span data-ng-show="authentication.user.roles[0] === 'admin'">
@@ -8,9 +8,9 @@
                 <a class="btn btn-primary" href="/#!/courses/{{course._id}}/edit"tooltip-placement="top" tooltip="Edit this course">
                     <i class="glyphicon glyphicon-edit" id="editCourse"></i>
                 </a>
-                <a class="btn btn-primary" data-ng-click="remove();"tooltip-placement="top" tooltip="Delete this course">
+                <button class="btn btn-primary" ng-click="openDelCourse('md');"tooltip-placement="top" tooltip="Delete this course">
                     <i class="glyphicon glyphicon-trash" id="removeCourse"></i>
-                </a>
+                </button>
             </span>
         </span>
 

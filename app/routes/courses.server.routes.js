@@ -4,6 +4,7 @@ module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
 	var courses = require('../../app/controllers/courses.server.controller');
 	var singleUser = require('../../app/controllers/users.populate.server.controller');
+	var quizzes = require('../../app/controllers/quiz.server.controller');
 
 	// Courses Routes
 	app.route('/courses')
@@ -24,6 +25,10 @@ module.exports = function(app) {
     //route for method of populating users courses
     app.route('/users/courses')
     	.get(users.requiresLogin, singleUser.populateUser);
+
+    	
+	app.route('/courses/quizzes')
+		.post(quizzes.releaseQuiz);
 
 	// Finish by binding the Course middleware
 	app.param('courseId', courses.courseByID);

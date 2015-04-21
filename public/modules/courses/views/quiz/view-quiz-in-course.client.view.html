@@ -1,0 +1,120 @@
+<section data-ng-controller="CoursesController" data-ng-init="findOneQuiz()" xmlns="http://www.w3.org/1999/html">
+    <div class="page-header">
+        <h2 data-ng-bind="quiz.name"></h2>
+        <div class="quiz-options" ng-if="authentication.user.roles[0] === 'admin'" >
+            <div class="pull-right">
+                <a class="btn btn-primary" href="/#!/courses/{{course._id}}/{{quiz._id}}/edit" tooltip-placement="top" tooltip="Edit this quiz real quick">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-primary" data-ng-click="removeQuiz(quiz);" tooltip-placement="top" tooltip="Delete this quiz">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </div>
+        </div>
+        <small>
+            <em class="text-muted">
+                Created on
+                <span data-ng-bind="quiz.created | date:'mediumDate'"></span>
+                by
+                <span data-ng-bind="course.owner.displayName"></span>
+            </em>
+        </small>
+    </div>
+
+    <div data-ng-controller="QuizController">
+        <!--Professor's question controls -->
+        <div class="prof-controls" ng-if="authentication.user.roles[0] === 'admin'" >
+            <div class="container">
+                <button type="submit" id="release" class="btn btn-normal" ng-click="releaseAndGrade()">
+                    Release and Grade
+                </button>
+
+                <button  id="release" class="btn btn-normal" ng-click="toggleAnswers()">
+                    <span ng-show="!showAnswers">Show correct answers</span>
+                    <span ng-show="showAnswers">Hide correct answers</span>
+                </button>                
+            </div>
+            <div class="container" ng-show="alerts.length">
+                <br>
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
+
+            <br>
+
+            <ul class="list-group quiz-list">
+                <li class="list-group-item even" ng-repeat="question in quiz.questions track by $index">                    
+                    <div ng-class="{row: !showQuestion}">
+                        <label>Question{{$index + 1}}</label>
+                        <i class="glyphicon glyphicon-minus question-display pull-right" id="hide" ng-show="showQuestion" ng-click="showQuestion = false"></i>
+                        <i class="glyphicon glyphicon-plus question-display pull-right" id="show" ng-show="!showQuestion" ng-click="showQuestion = true"></i>
+                    </div>
+
+
+                    <div ng-show="showQuestion">
+                    <p><strong>{{$index + 1}}.</strong> {{question.description}}</p>
+                    <img ng-src="{{question.imageSource}}" ng-if="question.imageSource" class="questImg"/>
+                    <ul>
+                        <li ng-repeat="answer in question.answers" ng-class="{highlight: showAnswers && answer.valid}">
+
+                            <span >
+                                {{answer.name}}
+
+                            </span>                            
+                        </li>
+                    </ul>
+
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label for="questionTime">Time (in seconds)</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Subtract 15 seconds"type="button" ng-click="subtractTime(question)">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>                                
+                            </span>
+                            <input type="text" class="form-control" id="questionTime" ng-model="question.time" placeholder="Time in seconds" size="1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" tooltip="Add 15 seconds" type="button" ng-click="addTime(question)">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                      </div>
+                      <button type="submit" id="broadcast" class="btn btn-primary" ng-click="sendQuestion(question, $index)">
+                        Broadcast to students
+                      </button>
+                      <button class="btn btn-danger pull-right" id="endQuiz" ng-click="endTime(question, $index)">
+                        End
+                        </button>
+                    </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Questions will appear here -->
+        <div class="container well" ng-if="authentication.user.roles[0] !== 'admin'">
+            <div class="col-xs-12">
+                <p>Questions will be appear in this well<p>
+                <div student-question-view></div>
+            </div>
+        </div>
+        <!--TODO: Figure out how to properly hide graph btwn questions / whenever-->
+        <!--<div class="col-md-offset-2">-->
+            <!--Show Distribution Graph <br/>-->
+            <!--<input type="checkbox" ng-model="showGraph"> <br/>-->
+        <!--</div>-->
+        <div class="col-lg-6 col-sm-12" id="bar-chart" ng-controller="QuizGraphCtrl" ng-if="authentication.user.roles[0] === 'admin'">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Answer Distribution</div>
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar" data="data" labels="labels" series="series"
+                            options="options"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</section>

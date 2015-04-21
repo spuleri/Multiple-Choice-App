@@ -11,10 +11,24 @@
 
 }
 
+li.even:nth-child(even) { background: #DADADA; }
+
+p.ex {
+    width: 120px;
+}
+
+.hundred-padding {
+    padding: 100px 100px 100px 100px;
+}
+
 /*.header {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 }*/
+
+.margin{
+    margin: 0 5px 0 5px;
+}
 
 .some-margin{
 	margin-top: 30px;
@@ -25,6 +39,10 @@
 	margin-bottom: 15px;
 }
 
+.top-margin{
+    margin-top: 10px;
+}
+
 .input-xs {
     height: 22px;
     padding: 5px 5px;
@@ -33,7 +51,7 @@
     border-radius: 3px;
 }
 
-span.highlight {
+.highlight {
     background-color: yellow;
 }
 
@@ -59,4 +77,40 @@ input[type=checkbox]
 
 div.well{
     background-color: rgb(211, 211, 211);
+}
+
+.grey{
+    background-color: rgb(231, 231, 231);
+}
+
+.blue{
+    background-color: #0021A5;
+}
+
+.editable-wrap {
+    position:relative;
+    left:100px;
+    width: 60%;
+}
+
+.question-display{
+    font-size: 1.8em;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.grade-list .panel-heading {
+    background-color: transparent;
+    border-color: transparent;
+}
+.grade-list .panel-group {
+    margin: 0;
+}
+.questImg {
+    max-width: 75%;
+    margin:10px 5px;
+}
+
+.quiz-list .row {
+    margin-right: 0; 
 }
