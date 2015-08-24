@@ -38,9 +38,9 @@ $ protractor tests/conf.js
 * Remove the course
 
 ###Screenshots
-![joining a course](https://gyazo.com/c939f55051824b3ff76d3dccd4f1f92d)
-![course homepage from a professor's view](https://gyazo.com/a5103d5f58fa0db8fd5fdd5ca1159673)
-![professor broadcasting a question](https://gyazo.com/295be8207550c2cab7e2c443c199e8da)
-![student answering a question](https://gyazo.com/c9910d2beafa782b4f0d8b90b0edd9c7)
-![student checking grades](https://gyazo.com/58919d37641317a1863c5a8a72a31e4c)
+![joining a course](https://gyazo.com/c939f55051824b3ff76d3dccd4f1f92d.gif)
+![course homepage from a professor's view](https://gyazo.com/a5103d5f58fa0db8fd5fdd5ca1159673.png)
+![professor broadcasting a question](https://gyazo.com/295be8207550c2cab7e2c443c199e8da.gif)
+![student answering a question](https://gyazo.com/c9910d2beafa782b4f0d8b90b0edd9c7.gif)
+![student checking grades](https://gyazo.com/58919d37641317a1863c5a8a72a31e4c.gif)
 
